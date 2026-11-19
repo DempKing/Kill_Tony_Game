@@ -1,0 +1,20 @@
+{
+  "_comment": "Configurable blockout for the Kill Tony stage scene. Coordinates are in stage-scene pixels (1600x900 design). Replace once partner-approved reference layouts are supplied. NOT architecturally accurate.",
+  "approved": false,
+  "size": [1600, 900],
+  "backdrop": {"rect": [80, 60, 1440, 520], "color": "#141430", "trim": "#b88cff"},
+  "signage": {"pos": [800, 130], "text_key": "logo_placeholder_text", "color": "#d8c2ff"},
+  "stage_floor": {"rect": [40, 520, 1520, 120], "color": "#2a2440"},
+  "mic": {"pos": [800, 500]},
+  "panel": {"desk_rect": [130, 410, 430, 90], "seats": [[200, 395], [345, 395], [490, 395]], "members": ["panel_guest_a", "partner_host", "panel_guest_b"]},
+  "band": {"riser_rect": [1080, 380, 420, 140], "players": [[1150, 380], [1290, 370], [1430, 380]]},
+  "audience": {"rows": 4, "row_y": [690, 750, 810, 870], "count_per_row": [18, 20, 22, 24], "color": "#1c1a2a"},
+  "cameras": {
+    "arrival": {"center": [800, 450], "zoom": 1.0},
+    "set": {"center": [800, 420], "zoom": 1.35},
+    "panel": {"center": [360, 400], "zoom": 1.6},
+    "interview": {"center": [600, 420], "zoom": 1.2},
+    "reward": {"center": [800, 450], "zoom": 1.0},
+    "band": {"center": [1290, 420], "zoom": 1.6}
+  }
+}

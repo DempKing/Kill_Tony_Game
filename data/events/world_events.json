@@ -1,0 +1,52 @@
+{
+  "_comment": "Short world events. trigger: day_start | enter:<location_id>. Conditions: weekdays, blocks, min_day, max_day, job, no_job, min_rep, min_sets, flag, not_flag, housing, min_cash, max_cash. once: fires at most once. chance rolled on the world RNG stream.",
+  "events": [
+    {"id": "ev_parents_call", "trigger": "day_start", "chance": 0.5, "once": true, "conditions": {"min_day": 2}, "text": "Your phone buzzes. It's Dad. 'So is this comedy thing a job, or a phase?'", "choices": [
+      {"text": "Explain it honestly.", "effects": {"stress": -3, "unlock": ["comp_parents_p", "comp_parents_s"]}},
+      {"text": "Say it's going great. (It is not.)", "effects": {"stress": 4, "confidence": 2, "unlock": ["comp_parents_p"]}}
+    ]},
+    {"id": "ev_found_twenty", "trigger": "day_start", "chance": 0.08, "once": true, "conditions": {}, "text": "There's a crumpled twenty in the pocket of your other jeans.", "choices": [{"text": "Thank past you.", "effects": {"cash": 20}}]},
+    {"id": "ev_heat_wave", "trigger": "day_start", "chance": 0.15, "once": false, "conditions": {"min_day": 3}, "text": "Heat advisory. Even the pigeons are walking in the shade.", "choices": [
+      {"text": "Buy a cold drink.", "effects": {"cash": -3, "energy": 5}},
+      {"text": "Tough it out.", "effects": {"energy": -6}}
+    ]},
+    {"id": "ev_mari_rent_reminder", "trigger": "enter:hostel", "chance": 1.0, "once": true, "conditions": {"min_day": 5, "housing": "bunkhouse"}, "text": "Mari taps the rent calendar. 'Week's almost up. I'm not a bank, but I'm also not a monster.'", "choices": [{"text": "'I'll have it.'", "effects": {"rel": {"mari": {"trust": 2}}}}]},
+    {"id": "ev_bunkmate", "trigger": "enter:hostel", "chance": 0.3, "once": true, "conditions": {"blocks": [3]}, "text": "The top-bunk guy is watering his plant at midnight and humming. He waves. He has a mail slot.", "choices": [
+      {"text": "Ask how long he's lived here.", "effects": {"unlock": ["comp_hostel_p", "comp_hostel_s"]}},
+      {"text": "Pretend to be asleep.", "effects": {"energy": 2}}
+    ]},
+    {"id": "ev_deshawn_bucket", "trigger": "enter:mothership", "chance": 0.6, "once": true, "conditions": {"weekdays": [0]}, "text": "Deshawn is in the bucket line, rehearsing his minute under his breath. 'Twentieth time,' he says. 'Feels lucky.'", "choices": [
+      {"text": "Run lines with him.", "effects": {"rel": {"deshawn": {"chemistry": 3, "familiarity": 3}}}},
+      {"text": "Wish him luck.", "effects": {"rel": {"deshawn": {"familiarity": 2}}}}
+    ]},
+    {"id": "ev_spur_heckler", "trigger": "enter:rusty_spur", "chance": 0.25, "once": false, "conditions": {"blocks": [2, 3]}, "text": "A regular at the bar keeps yelling 'Do the one about airplanes!' at every comic.", "choices": [
+      {"text": "Watch how the host handles him.", "effects": {"skill": {"crowd_work": 0.5}}},
+      {"text": "Buy him a drink to shut him up.", "effects": {"cash": -5, "rel": {"dusty": {"chemistry": 2}}}}
+    ]},
+    {"id": "ev_scooter_crash", "trigger": "day_start", "chance": 0.12, "once": true, "conditions": {"min_day": 1}, "text": "A tourist on a scooter takes out a trash can and three pigeons. Nobody is hurt. The pigeons are furious.", "choices": [{"text": "Write it down.", "effects": {"unlock": ["comp_scooter_p", "comp_scooter_s"]}}]},
+    {"id": "ev_priya_premise", "trigger": "enter:coffee", "chance": 0.35, "once": true, "conditions": {"min_day": 2}, "text": "Priya slides you a napkin: 'Guy at table four is writing a screenplay called AUSTIN. Just Austin.'", "choices": [
+      {"text": "Pocket the napkin.", "effects": {"unlock": ["comp_coffee_p"], "rel": {"priya": {"chemistry": 3}}}},
+      {"text": "Tell her she should do standup.", "effects": {"rel": {"priya": {"familiarity": 3}}}}
+    ]},
+    {"id": "ev_lonnie_advice", "trigger": "enter:lantern", "chance": 0.4, "once": true, "conditions": {"weekdays": [3, 4, 5], "blocks": [2, 3]}, "text": "Lonnie Szabo is at the bar after his set. 'You're the kid from the open mic. Short setups. Get to the funny.'", "choices": [
+      {"text": "Ask him about the road.", "effects": {"rel": {"lonnie": {"familiarity": 4, "trust": 2}}, "skill": {"writing": 0.5}}},
+      {"text": "Thank him and leave him alone.", "effects": {"rel": {"lonnie": {"respect": 2}}}}
+    ]},
+    {"id": "ev_bea_watching", "trigger": "enter:rusty_spur", "chance": 0.2, "once": true, "conditions": {"min_sets": 2}, "text": "Bea Calloway, the Lantern Room booker, is in the back of the Spur with a notebook.", "choices": [
+      {"text": "Introduce yourself.", "effects": {"rel": {"bea": {"familiarity": 5}}}},
+      {"text": "Let your set do the talking.", "effects": {"rel": {"bea": {"respect": 2}}}}
+    ]},
+    {"id": "ev_rideshare_fare", "trigger": "enter:transit_stop", "chance": 0.15, "once": false, "conditions": {"job": "delivery"}, "text": "A surge alert pings: double pay for the next hour.", "choices": [{"text": "Nice.", "effects": {"flag": {"delivery_surge": true}}}]},
+    {"id": "ev_lost_wallet", "trigger": "day_start", "chance": 0.05, "once": true, "conditions": {"min_cash": 60}, "text": "You can't find your wallet. It turns up in the hostel fridge, minus fifteen dollars and plus a note: 'sorry'.", "choices": [{"text": "Sigh.", "effects": {"cash": -15, "stress": 4, "unlock": ["comp_hostel_p"]}}]},
+    {"id": "ev_broke_kindness", "trigger": "day_start", "chance": 0.6, "once": false, "conditions": {"max_cash": 15, "min_day": 3}, "text": "Mari leaves a plate of leftover tamales on your bunk with a sticky note: 'Eat. Then go earn rent.'", "choices": [{"text": "Eat every single one.", "effects": {"energy": 10, "stress": -4, "rel": {"mari": {"chemistry": 2}}}}]},
+    {"id": "ev_mart_clerk", "trigger": "enter:mart", "chance": 0.2, "once": true, "conditions": {"blocks": [3]}, "text": "The night clerk tells you he's seen four comics quit this month. 'You've got the look of a fifth.'", "choices": [
+      {"text": "'Watch me.'", "effects": {"confidence": 2}},
+      {"text": "Buy a coffee in silence.", "effects": {"cash": -3, "energy": 8}}
+    ]},
+    {"id": "ev_kt_poster_rush", "trigger": "day_start", "chance": 1.0, "once": false, "conditions": {"weekdays": [0]}, "text": "It's Monday. The line for the Mothership is already forming around the block.", "choices": [{"text": "Check your minute.", "effects": {}}]},
+    {"id": "ev_rhonda_short_staffed", "trigger": "day_start", "chance": 0.15, "once": false, "conditions": {"job": "doorman"}, "text": "Rhonda texts: 'Short-staffed tonight. If you can pick up the door, I'll remember it.'", "choices": [{"text": "Noted.", "effects": {"flag": {"rhonda_needs_cover": true}}}]},
+    {"id": "ev_open_mic_bump", "trigger": "enter:rusty_spur", "chance": 0.15, "once": false, "conditions": {"min_sets": 3, "blocks": [2]}, "text": "Dusty waves you over. 'Got a guy who flaked. Want to go up early? Real crowd still here.'", "choices": [{"text": "'Put me up.'", "effects": {"flag": {"spur_early_slot": true}, "rel": {"dusty": {"trust": 2}}}}]},
+    {"id": "ev_rain", "trigger": "day_start", "chance": 0.1, "once": false, "conditions": {}, "text": "Sudden downpour. Sixth-floor gutters empty onto the sidewalk like a waterfall.", "choices": [{"text": "Wait it out under an awning.", "effects": {"stress": -2}}]},
+    {"id": "ev_kt_dream", "trigger": "day_start", "chance": 0.1, "once": true, "conditions": {"min_day": 4}, "text": "You dreamed your name got pulled and you forgot every word. You woke up mouthing your minute.", "choices": [{"text": "Rehearse in the shower.", "effects": {"confidence": 1, "stress": 2}}]}
+  ]
+}

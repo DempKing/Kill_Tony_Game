@@ -1,0 +1,74 @@
+{
+  "_comment": "Jobs and their shift event layers. Shift blocks: [start_block, length]. effects keys: pay, tips, energy, stress, confidence, reliability, rel{npc:{field:delta}}, unlock[comp ids], skill{name:delta}. A choice may have chance + fail_effects (rolled on the world RNG stream).",
+  "jobs": [
+    {"id": "server", "name": "Server at Big Sky Diner", "location": "diner", "boss": "gus", "hire_text": "Gus looks you up and down. 'Can you carry four plates? Doesn't matter, you'll learn. Lunch or dinner shifts, every day.'", "base_pay": 30, "tips": [15, 50], "energy": -24, "stress": 8, "shifts": [{"id": "lunch", "name": "Lunch shift", "start": 0, "length": 2}, {"id": "dinner", "name": "Dinner shift", "start": 1, "length": 2}], "events": ["srv_brunch_order", "srv_big_table", "srv_comic_customer", "srv_spill", "srv_cover_request"], "first_shift_unlock": ["comp_diner_p"]},
+    {"id": "doorman", "name": "Doorman at The Cellar", "location": "cellar", "boss": "rhonda", "hire_text": "Rhonda doesn't look up from the guest list. 'You check IDs, you count heads, you don't let anybody in with a laser pointer. Door's from evening till close.'", "base_pay": 55, "tips": [0, 10], "energy": -22, "stress": 5, "shifts": [{"id": "door", "name": "Door shift", "start": 2, "length": 2}], "events": ["door_old_id", "door_drunk", "door_headliner", "door_watch_set", "door_cover_request"], "first_shift_unlock": ["comp_door_p"], "perks": "Watching sets from the door teaches delivery. Builds trust with club staff."},
+    {"id": "delivery", "name": "Food delivery (app)", "location": "transit_stop", "boss": "", "hire_text": "You download the app, upload a blurry selfie, and you're approved in four minutes. Any block, as many as you can stand.", "base_pay": 12, "tips": [6, 22], "energy": -16, "stress": 4, "costs": 4, "shifts": [{"id": "run", "name": "Delivery run", "start": -1, "length": 1}], "max_per_day": 3, "events": ["del_queso", "del_wrong_door", "del_flat", "del_rating"], "first_shift_unlock": ["comp_delivery_p"]},
+    {"id": "day_labor", "name": "Day labor (notice board)", "location": "job_board", "boss": "", "emergency": true, "hire_text": "Tear-off tab: 'MOVERS NEEDED. Cash same day. Show up at 7.' Always available when you're desperate.", "base_pay": 55, "tips": [0, 0], "energy": -34, "stress": 6, "shifts": [{"id": "move", "name": "Moving crew", "start": 0, "length": 2}], "events": ["lab_couch"]}
+  ],
+  "shift_events": [
+    {"id": "srv_brunch_order", "text": "A woman orders eggs with 'no yolk, no white.' She is completely serious.", "choices": [
+      {"text": "Play it straight and bring her an empty plate.", "effects": {"tips": 8, "unlock": ["comp_diner_s"]}, "chance": 0.6, "fail_effects": {"tips": -5, "stress": 4}},
+      {"text": "Patiently explain eggs.", "effects": {"tips": 3, "stress": 3}},
+      {"text": "Get Gus to handle it.", "effects": {"reliability": -2, "rel": {"gus": {"respect": -2}}}}
+    ]},
+    {"id": "srv_big_table", "text": "A party of fourteen sits down twenty minutes before close.", "choices": [
+      {"text": "Take them. Hustle.", "effects": {"tips": 25, "energy": -8, "reliability": 3, "rel": {"gus": {"respect": 3}}}},
+      {"text": "Ask a coworker to split it.", "effects": {"tips": 10, "reliability": 1}},
+      {"text": "Pretend you didn't see them.", "effects": {"reliability": -4, "rel": {"gus": {"trust": -3}}}}
+    ]},
+    {"id": "srv_comic_customer", "text": "Deshawn from the open mic sits in your section and orders only water.", "choices": [
+      {"text": "Sneak him a plate of fries and swap notes about last night's mic.", "effects": {"tips": -3, "rel": {"deshawn": {"chemistry": 4, "trust": 3}}}},
+      {"text": "Treat him like any customer.", "effects": {"rel": {"deshawn": {"familiarity": 2}}}}
+    ]},
+    {"id": "srv_spill", "text": "You trip and send a tray of iced tea into a man's lap.", "choices": [
+      {"text": "Apologize, comp his meal, laugh it off.", "effects": {"tips": -6, "confidence": 1}},
+      {"text": "'At least it's not coffee.' Make it a bit.", "effects": {"tips": 5, "confidence": 2}, "chance": 0.5, "fail_effects": {"tips": -10, "stress": 6, "rel": {"gus": {"respect": -2}}}}
+    ]},
+    {"id": "srv_cover_request", "text": "Gus asks if you can stay an extra hour because someone called out.", "choices": [
+      {"text": "Stay. Gus owes you one.", "effects": {"pay": 12, "energy": -6, "reliability": 4, "rel": {"gus": {"trust": 5, "reliability": 4}}}},
+      {"text": "Say you've got a set to prepare for.", "effects": {"rel": {"gus": {"respect": 1}}}}
+    ]},
+    {"id": "door_old_id", "text": "A man hands you an ID so faded the photo looks like a painting.", "choices": [
+      {"text": "Study it seriously. Ask him to squint like the photo.", "effects": {"unlock": ["comp_door_s"], "tips": 2}},
+      {"text": "Wave him in.", "effects": {}}
+    ]},
+    {"id": "door_drunk", "text": "A loud drunk insists he's 'with the comic.'", "choices": [
+      {"text": "Calmly turn him away.", "effects": {"reliability": 3, "stress": 3, "rel": {"rhonda": {"respect": 3}}}},
+      {"text": "Let him in to avoid a scene.", "effects": {"reliability": -3, "rel": {"rhonda": {"trust": -4}}}},
+      {"text": "Crowd-work him into leaving.", "effects": {"skill": {"crowd_work": 1.0}, "rel": {"rhonda": {"respect": 2}}}, "chance": 0.55, "fail_effects": {"stress": 6}}
+    ]},
+    {"id": "door_headliner", "text": "Lonnie Szabo, tonight's headliner, steps out for air and asks how long you've been doing comedy.", "choices": [
+      {"text": "Be honest: a few weeks, and you're terrified.", "effects": {"rel": {"lonnie": {"familiarity": 4, "trust": 3}}}},
+      {"text": "Pitch your best joke at him.", "effects": {"rel": {"lonnie": {"familiarity": 3, "respect": 2}}}, "chance": 0.4, "fail_effects": {"rel": {"lonnie": {"respect": -2}}}}
+    ]},
+    {"id": "door_watch_set", "text": "It's slow. You can watch the late show from the back.", "choices": [
+      {"text": "Watch closely and take notes on timing.", "effects": {"skill": {"delivery": 0.8}}},
+      {"text": "Keep your eyes on the door.", "effects": {"reliability": 2}}
+    ]},
+    {"id": "door_cover_request", "text": "Rhonda asks if you'll cover the coat check too tonight.", "choices": [
+      {"text": "Cover it.", "effects": {"pay": 10, "energy": -5, "reliability": 4, "rel": {"rhonda": {"trust": 5, "reliability": 4}}}},
+      {"text": "Decline politely.", "effects": {}}
+    ]},
+    {"id": "del_queso", "text": "Your queso delivery has been sitting in your bag for twenty minutes because the apartment buzzer doesn't work.", "choices": [
+      {"text": "Climb the stairs and hand it over with a story.", "effects": {"tips": 4, "energy": -3, "unlock": ["comp_delivery_s"]}},
+      {"text": "Leave it at the gate.", "effects": {"tips": -2}}
+    ]},
+    {"id": "del_wrong_door", "text": "A man opens the door in a full astronaut costume. He did not order food.", "choices": [
+      {"text": "Ask what's going on.", "effects": {"stress": -2, "confidence": 1}},
+      {"text": "Back away slowly.", "effects": {}}
+    ]},
+    {"id": "del_flat", "text": "Your bike tire goes flat halfway through a run.", "choices": [
+      {"text": "Pay for a quick patch.", "effects": {"pay": -8}},
+      {"text": "Walk it. Lose the next order.", "effects": {"tips": -6, "energy": -4}}
+    ]},
+    {"id": "del_rating", "text": "A customer rates you one star with the note: 'he looked like he needed it more.'", "choices": [
+      {"text": "Write that down immediately.", "effects": {"stress": 2, "unlock": ["comp_delivery_u2"]}},
+      {"text": "Dispute the rating.", "effects": {"stress": 4}}
+    ]},
+    {"id": "lab_couch", "text": "You and a stranger carry a sleeper sofa up four flights of stairs.", "choices": [
+      {"text": "Lift with your legs.", "effects": {}},
+      {"text": "Lift with your back and complain the whole way.", "effects": {"energy": -4, "confidence": 1}}
+    ]}
+  ]
+}
