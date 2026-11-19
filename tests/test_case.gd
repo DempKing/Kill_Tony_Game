@@ -14,7 +14,7 @@ static func db() -> ContentDB:
 
 
 func new_state(seed_value: int = 12345, background: String = "server_vet", style: String = "observational") -> GameState:
-	return GameSim.new_game(db(), {"name": "Test", "stage_name": "Testy", "pronouns": "they", "background": background, "style": style}, seed_value)
+	return GameSim.new_game(db(), {"name": "Test", "stage_name": "Testy", "gender": "male", "background": background, "style": style}, seed_value)
 
 
 func check(cond: bool, msg: String) -> void:

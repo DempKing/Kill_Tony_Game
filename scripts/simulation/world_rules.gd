@@ -95,6 +95,10 @@ static func event_conditions_ok(s: GameState, db: ContentDB, ev: Dictionary) -> 
 		return false
 	if c.has("flag") and not bool(s.flags.get(str(c["flag"]), false)):
 		return false
+	if c.has("rel") and not Relationships.meets(s, c["rel"]):
+		return false
+	if ev.has("cooldown_days") and s.day - int(s.flags.get("ev_last_" + str(ev["id"]), -999)) < int(ev["cooldown_days"]):
+		return false
 	# Only one roll per event per block, so re-entering a door can't farm it.
 	if s.flags.has("ev_roll_%s_%d" % [ev["id"], CalendarRules.slot(s.day, s.block)]):
 		return false
@@ -115,6 +119,7 @@ static func roll_events(s: GameState, db: ContentDB, trigger: String) -> String:
 		s.flags["ev_roll_%s_%d" % [ev["id"], CalendarRules.slot(s.day, s.block)]] = true
 		if r.randf() < float(ev.get("chance", 0.2)):
 			s.pending_events.append(str(ev["id"]))
+			s.flags["ev_last_" + str(ev["id"])] = s.day
 			if bool(ev.get("once", false)):
 				s.flags["ev_done_" + str(ev["id"])] = true
 			return str(ev["id"])
@@ -156,6 +161,9 @@ static func start_day(s: GameState, db: ContentDB) -> Array:
 	if rn != "":
 		notes.append(rn)
 	OpportunityRules.daily_update(s, db)
+	var reg := KillTonyRules.schedule_regular(s, db)
+	if reg != "":
+		notes.append(reg)
 	roll_events(s, db, "day_start")
 	# Clean up old per-block roll flags to keep saves small.
 	var cutoff := CalendarRules.slot(s.day - 2, 0)

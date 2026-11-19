@@ -136,6 +136,9 @@ static func finish_shift(s: GameState, db: ContentDB, choices: Array) -> Diction
 			if JokeRules.unlock_component(s, db, str(cid)):
 				notes.append("New premise from work: \"%s\"" % db.component(str(cid)).get("text", ""))
 	s.claimed[claim] = s.day
+	var promise_id: String = str(shift.get("promise_id", ""))
+	if promise_id != "":
+		notes.append_array(PromiseRules.keep(s, db, promise_id))
 	s.flags.erase("active_shift")
 	var length := 1
 	for sh in job.get("shifts", []):

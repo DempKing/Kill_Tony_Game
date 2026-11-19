@@ -1,18 +1,256 @@
 {
   "_comment": "Performance venues and audience profiles. Weekdays: 0=Monday..6=Sunday. Blocks: 0 Morning,1 Afternoon,2 Evening,3 Late Night.",
   "audiences": [
-    {"id": "open_mic_regulars", "name": "Open-mic regulars", "desc": "Mostly other comics waiting their turn. They've heard everything twice.", "size": 25, "warmth": 34, "regulars": true, "crowdwork": 0.25, "topic_prefs": {"comedy": 4, "self": 3, "tech": -2}, "style_prefs": {"absurdist": 3}, "originality_weight": 0.8},
-    {"id": "bar_crowd", "name": "Bar crowd", "desc": "Drinkers who didn't come for comedy but might stay for it.", "size": 40, "warmth": 42, "regulars": false, "crowdwork": 0.7, "topic_prefs": {"nightlife": 5, "dating": 4, "work": 2, "tech": -4, "comedy": -3}, "style_prefs": {"high_energy": 4, "storytelling": -2}, "originality_weight": 0.0},
-    {"id": "showcase_crowd", "name": "Showcase crowd", "desc": "Paying customers on a date night. Patient and generous.", "size": 80, "warmth": 52, "regulars": false, "crowdwork": 0.45, "topic_prefs": {"people": 4, "family": 4, "dating": 3, "comedy": -2}, "style_prefs": {"storytelling": 3}, "originality_weight": 0.3},
-    {"id": "late_night_cellar", "name": "Late-night basement crowd", "desc": "Loud, loose, and up for anything after midnight.", "size": 60, "warmth": 40, "regulars": false, "crowdwork": 0.8, "topic_prefs": {"nightlife": 5, "money": 3, "work": 3, "family": -3}, "style_prefs": {"high_energy": 3, "absurdist": 2}, "originality_weight": 0.2},
-    {"id": "kt_crowd", "name": "Kill Tony live audience", "desc": "A packed house that came for chaos and rewards a tight minute.", "size": 600, "warmth": 58, "regulars": false, "crowdwork": 0.3, "topic_prefs": {"austin": 4, "comedy": 3, "self": 3, "weather": -1}, "style_prefs": {"absurdist": 3, "deadpan": 2}, "originality_weight": 0.6},
-    {"id": "secret_show_crowd", "name": "Secret show crowd", "desc": "Industry-heavy and sharp. Originality matters most here.", "size": 150, "warmth": 56, "regulars": false, "crowdwork": 0.4, "topic_prefs": {"comedy": 2, "people": 2}, "style_prefs": {"absurdist": 3, "storytelling": 2}, "originality_weight": 1.2}
+    {
+      "id": "open_mic_regulars",
+      "name": "Open-mic regulars",
+      "desc": "Mostly other comics waiting their turn. They've heard everything twice.",
+      "size": 25,
+      "warmth": 34,
+      "regulars": true,
+      "crowdwork": 0.25,
+      "topic_prefs": {
+        "comedy": 4,
+        "self": 3,
+        "tech": -2
+      },
+      "style_prefs": {
+        "absurdist": 3
+      },
+      "originality_weight": 0.8
+    },
+    {
+      "id": "bar_crowd",
+      "name": "Bar crowd",
+      "desc": "Drinkers who didn't come for comedy but might stay for it.",
+      "size": 40,
+      "warmth": 42,
+      "regulars": false,
+      "crowdwork": 0.7,
+      "topic_prefs": {
+        "nightlife": 5,
+        "dating": 4,
+        "work": 2,
+        "tech": -4,
+        "comedy": -3
+      },
+      "style_prefs": {
+        "high_energy": 4,
+        "storytelling": -2
+      },
+      "originality_weight": 0.0
+    },
+    {
+      "id": "showcase_crowd",
+      "name": "Showcase crowd",
+      "desc": "Paying customers on a date night. Patient and generous.",
+      "size": 80,
+      "warmth": 52,
+      "regulars": false,
+      "crowdwork": 0.45,
+      "topic_prefs": {
+        "people": 4,
+        "family": 4,
+        "dating": 3,
+        "comedy": -2
+      },
+      "style_prefs": {
+        "storytelling": 3
+      },
+      "originality_weight": 0.3
+    },
+    {
+      "id": "late_night_cellar",
+      "name": "Late-night basement crowd",
+      "desc": "Loud, loose, and up for anything after midnight.",
+      "size": 60,
+      "warmth": 40,
+      "regulars": false,
+      "crowdwork": 0.8,
+      "topic_prefs": {
+        "nightlife": 5,
+        "money": 3,
+        "work": 3,
+        "family": -3
+      },
+      "style_prefs": {
+        "high_energy": 3,
+        "absurdist": 2
+      },
+      "originality_weight": 0.2
+    },
+    {
+      "id": "kt_crowd",
+      "name": "Kill Tony live audience",
+      "desc": "A packed house that came for chaos and rewards a tight minute.",
+      "size": 600,
+      "warmth": 58,
+      "regulars": false,
+      "crowdwork": 0.3,
+      "topic_prefs": {
+        "austin": 4,
+        "comedy": 3,
+        "self": 3,
+        "weather": -1
+      },
+      "style_prefs": {
+        "absurdist": 3,
+        "deadpan": 2
+      },
+      "originality_weight": 0.6
+    },
+    {
+      "id": "secret_show_crowd",
+      "name": "Secret show crowd",
+      "desc": "Industry-heavy and sharp. Originality matters most here.",
+      "size": 150,
+      "warmth": 56,
+      "regulars": false,
+      "crowdwork": 0.4,
+      "topic_prefs": {
+        "comedy": 2,
+        "people": 2
+      },
+      "style_prefs": {
+        "absurdist": 3,
+        "storytelling": 2
+      },
+      "originality_weight": 1.2
+    }
   ],
   "venues": [
-    {"id": "spur_open_mic", "name": "Rusty Spur Open Mic", "location": "rusty_spur", "kind": "open_mic", "audience": "open_mic_regulars", "late_audience": "bar_crowd", "slot_seconds": 180, "fee": 5, "pay": 0, "weekdays": [1, 2, 3, 4, 5, 6], "blocks": [2, 3], "host_npc": "dusty", "stage": {"backdrop": "#4a2a16", "light": "#ffcf8a", "floor": "#2a1a10", "sign": "OPEN MIC"}},
-    {"id": "lantern_showcase", "name": "Lantern Room Showcase", "location": "lantern", "kind": "showcase", "audience": "showcase_crowd", "slot_seconds": 300, "fee": 0, "pay": 25, "weekdays": [], "blocks": [2], "host_npc": "bea", "booking_only": true, "stage": {"backdrop": "#2a2418", "light": "#fff2b0", "floor": "#3a2c18", "sign": "THE LANTERN ROOM"}},
-    {"id": "cellar_late", "name": "Cellar Late Show", "location": "cellar", "kind": "late_show", "audience": "late_night_cellar", "slot_seconds": 300, "fee": 0, "pay": 40, "weekdays": [], "blocks": [3], "host_npc": "rhonda", "booking_only": true, "stage": {"backdrop": "#1a1a1a", "light": "#ff8fd0", "floor": "#2a1a24", "sign": "THE CELLAR"}},
-    {"id": "kill_tony", "name": "Kill Tony", "location": "mothership", "kind": "kill_tony", "audience": "kt_crowd", "slot_seconds": 60, "fee": 0, "pay": 0, "weekdays": [0], "blocks": [2], "host_npc": "partner_host", "booking_only": true, "stage": {"backdrop": "#14142a", "light": "#d8c2ff", "floor": "#24203a", "sign": "KILL TONY"}},
-    {"id": "secret_show", "name": "The Secret Show", "location": "mothership", "kind": "secret_show", "audience": "secret_show_crowd", "slot_seconds": 300, "fee": 0, "pay": 100, "weekdays": [3], "blocks": [2], "host_npc": "partner_redban", "booking_only": true, "_note": "Venue and presentation are configurable pending approved project details.", "stage": {"backdrop": "#101018", "light": "#a0c0ff", "floor": "#1c1c28", "sign": "THE SECRET SHOW"}}
+    {
+      "id": "spur_open_mic",
+      "name": "Rusty Spur Open Mic",
+      "location": "rusty_spur",
+      "kind": "open_mic",
+      "audience": "open_mic_regulars",
+      "late_audience": "bar_crowd",
+      "slot_seconds": 180,
+      "fee": 5,
+      "pay": 0,
+      "weekdays": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "blocks": [
+        2,
+        3
+      ],
+      "host_npc": "dusty",
+      "stage": {
+        "backdrop": "#4a2a16",
+        "light": "#ffcf8a",
+        "floor": "#2a1a10",
+        "sign": "OPEN MIC",
+        "style": "dive"
+      },
+      "host_intro": "Dusty: \"Next up, a brand-new face. {He} just moved here, so be nice. Ish. Give it up for {stage}!\""
+    },
+    {
+      "id": "lantern_showcase",
+      "name": "Lantern Room Showcase",
+      "location": "lantern",
+      "kind": "showcase",
+      "audience": "showcase_crowd",
+      "slot_seconds": 300,
+      "fee": 0,
+      "pay": 25,
+      "weekdays": [],
+      "blocks": [
+        2
+      ],
+      "host_npc": "bea",
+      "booking_only": true,
+      "stage": {
+        "backdrop": "#2a2418",
+        "light": "#fff2b0",
+        "floor": "#3a2c18",
+        "sign": "THE LANTERN ROOM",
+        "style": "lantern"
+      },
+      "host_intro": "Bea: \"Our next comic is one of the new voices in town. Please welcome {stage}!\""
+    },
+    {
+      "id": "cellar_late",
+      "name": "Cellar Late Show",
+      "location": "cellar",
+      "kind": "late_show",
+      "audience": "late_night_cellar",
+      "slot_seconds": 300,
+      "fee": 0,
+      "pay": 40,
+      "weekdays": [],
+      "blocks": [
+        3
+      ],
+      "host_npc": "rhonda",
+      "booking_only": true,
+      "stage": {
+        "backdrop": "#1a1a1a",
+        "light": "#ff8fd0",
+        "floor": "#2a1a24",
+        "sign": "THE CELLAR",
+        "style": "cellar"
+      },
+      "host_intro": "Rhonda, flatly: \"You know {him} from the door. Now {he} talks. {stage}, everybody.\""
+    },
+    {
+      "id": "kill_tony",
+      "name": "Kill Tony",
+      "location": "mothership",
+      "kind": "kill_tony",
+      "audience": "kt_crowd",
+      "slot_seconds": 60,
+      "fee": 0,
+      "pay": 0,
+      "weekdays": [
+        0
+      ],
+      "blocks": [
+        2
+      ],
+      "host_npc": "partner_host",
+      "booking_only": true,
+      "stage": {
+        "backdrop": "#14142a",
+        "light": "#d8c2ff",
+        "floor": "#24203a",
+        "sign": "KILL TONY",
+        "style": "kt"
+      },
+      "host_intro": ""
+    },
+    {
+      "id": "secret_show",
+      "name": "The Secret Show",
+      "location": "mothership",
+      "kind": "secret_show",
+      "audience": "secret_show_crowd",
+      "slot_seconds": 300,
+      "fee": 0,
+      "pay": 100,
+      "weekdays": [
+        3
+      ],
+      "blocks": [
+        2
+      ],
+      "host_npc": "partner_redban",
+      "booking_only": true,
+      "_note": "Venue and presentation are configurable pending approved project details.",
+      "stage": {
+        "backdrop": "#101018",
+        "light": "#a0c0ff",
+        "floor": "#1c1c28",
+        "sign": "THE SECRET SHOW",
+        "style": "secret"
+      },
+      "host_intro": "Redban: \"This next {guy} got pulled from the bucket and didn't die. Here's {stage}!\""
+    }
   ]
 }

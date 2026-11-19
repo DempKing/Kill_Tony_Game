@@ -18,6 +18,8 @@ var _target: Dictionary = {}
 var _location_panel: LocationPanel
 var _last_saved_slot: int = -1
 var _event_open: bool = false
+var street_npcs: Dictionary = {}
+var _npc_slot: int = -1
 
 
 func _ready() -> void:
@@ -31,6 +33,11 @@ func _ready() -> void:
 	map = DistrictMap.new()
 	map.setup(db, s)
 	add_child(map)
+	for npc_id in db.npcs:
+		var sn := StreetNpc.new().setup(str(npc_id), db.npcs[npc_id])
+		add_child(sn)
+		street_npcs[str(npc_id)] = sn
+	_place_npcs(false)
 	player = PlayerActor.new()
 	player.configure(db, s)
 	player.position = s.player_pos
@@ -72,6 +79,7 @@ func _ready() -> void:
 	ui.modal_closed.connect(_on_modal_closed)
 	Game.message.connect(func(t: String): ui.toast(t))
 	Game.state_changed.connect(_apply_time_tint)
+	Game.state_changed.connect(func(): _place_npcs(true))
 	_apply_time_tint()
 	Sfx.play_music("street_loop")
 	_last_saved_slot = CalendarRules.slot(s.day, s.block)
@@ -95,6 +103,51 @@ func _apply_time_tint() -> void:
 	var c := [Color("#fff4e0"), Color("#ffffff"), Color("#b7a8e8"), Color("#8078c0")][clampi(s.block, 0, 3)] as Color
 	tint.color = c
 	map.queue_redraw()
+
+
+## Recurring NPCs stand outside wherever their schedule puts them this block.
+## When the block changes they walk there; people with nowhere to be are off-map.
+func _place_npcs(animate: bool) -> void:
+	var now := CalendarRules.slot(s.day, s.block)
+	if animate and now == _npc_slot:
+		return
+	_npc_slot = now
+	var counts: Dictionary = {}
+	for npc_id in street_npcs:
+		var sn: StreetNpc = street_npcs[npc_id]
+		var loc := WorldRules.npc_location(db, npc_id, s.day, s.block)
+		sn.location_id = loc
+		if loc == "" or not db.locations.has(loc):
+			sn.visible = false
+			continue
+		var idx: int = int(counts.get(loc, 0))
+		counts[loc] = idx + 1
+		var d := map.door_of(db.locations[loc])
+		var north := d.y < 650.0
+		var target := Vector2(d.x + 46.0 + idx * 34.0, d.y + (22.0 if north else -22.0))
+		var was_hidden := not sn.visible
+		sn.visible = true
+		if was_hidden:
+			sn.position = target
+		sn.walk_to(target, animate and not GameSettings.reduced_motion())
+
+
+func show_day_summary(sm: Dictionary, msg: String) -> void:
+	var lines: Array = ["%s recap" % CalendarRules.day_name(int(sm["day"])), ""]
+	lines.append("Earned %s · Spent %s · Cash now %s" % [UiKit.money(int(sm["earned"])), UiKit.money(int(sm["spent"])), UiKit.money(int(sm["cash"]))])
+	if (sm["sets"] as Array).is_empty():
+		lines.append("No stage time today.")
+	else:
+		lines.append("Sets: " + ", ".join(PackedStringArray(sm["sets"])))
+	if int(sm["found"]) > 0:
+		lines.append("New material found: %d piece%s." % [int(sm["found"]), "" if int(sm["found"]) == 1 else "s"])
+	if int(sm["rent_in"]) >= 0:
+		lines.append("Rent due in %d day%s." % [int(sm["rent_in"]), "" if int(sm["rent_in"]) == 1 else "s"])
+	if not (sm["next"] as Array).is_empty():
+		lines.append("Coming up: " + "; ".join(PackedStringArray(sm["next"])))
+	lines.append("")
+	lines.append(msg)
+	ui.info("Good night", "\n".join(PackedStringArray(lines)))
 
 
 func _process(_delta: float) -> void:
@@ -140,6 +193,14 @@ func _update_target() -> void:
 			if d2 < best_d:
 				best_d = d2
 				best = {"kind": "observe", "id": oid, "label": "Look: " + str(o["label"])}
+	for npc_id in street_npcs:
+		var sn: StreetNpc = street_npcs[npc_id]
+		if not sn.visible:
+			continue
+		var dn := p.distance_to(sn.position)
+		if dn < best_d:
+			best_d = dn
+			best = {"kind": "npc", "id": npc_id, "label": "Talk to " + str(db.npcs[npc_id]["name"])}
 	for po in db.posters:
 		var d3 := p.distance_to(Vector2(float(po["pos"][0]), float(po["pos"][1])))
 		if d3 < best_d:
@@ -176,6 +237,12 @@ func _interact(tg: Dictionary) -> void:
 			Game.notify()
 		"poster":
 			ui.info("Poster", map.poster_text(str(tg["id"])))
+		"npc":
+			var nid: String = str(tg["id"])
+			var line := WorldRules.talk(s, db, nid)
+			var loc_name: String = str(db.locations.get(street_npcs[nid].location_id, {}).get("name", ""))
+			ui.info(str(db.npcs[nid]["name"]), "\"%s\"\n\n(%s · hanging around %s)" % [GameSim.fmt(s, db, line), db.npcs[nid]["role"], loc_name])
+			Game.notify()
 
 
 func open_location(id: String) -> void:

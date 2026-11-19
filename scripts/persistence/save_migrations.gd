@@ -8,7 +8,8 @@ static func migrate(d: Dictionary) -> Dictionary:
 	var v: int = int(d.get("version", 0))
 	if v < 1:
 		d = _v0_to_v1(d)
-	# Future: if v < 2: d = _v1_to_v2(d)
+	if v < 2:
+		d = _v1_to_v2(d)
 	return d
 
 
@@ -21,4 +22,15 @@ static func _v0_to_v1(d: Dictionary) -> Dictionary:
 	if not d.has("books"):
 		d["books"] = ["starter_journal"]
 	d["version"] = 1
+	return d
+
+
+## Version 2 replaces player.pronouns with player.gender (male/female).
+static func _v1_to_v2(d: Dictionary) -> Dictionary:
+	var p: Dictionary = d.get("player", {})
+	if not p.has("gender"):
+		p["gender"] = "female" if str(p.get("pronouns", "")) == "she" else "male"
+	p.erase("pronouns")
+	d["player"] = p
+	d["version"] = 2
 	return d

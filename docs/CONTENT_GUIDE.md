@@ -45,6 +45,8 @@ at load time; problems appear on the title screen and in the developer panel.
 ## NPCs (`data/npcs/npcs.json`)
 - `schedule`: the first matching `{days, blocks, location}` wins.
 - `lines`: keyed by relationship tier (`stranger`, `known`, `close`).
+- `gender` (male/female) affects only the drawn silhouette. `workshop: true` plus
+  `workshop_gives` (`tag`/`punchline`) makes an NPC a workshop partner.
 - Fictional characters only. Real or partner figures go in `data/partner/`.
 
 ## Events
@@ -54,6 +56,13 @@ at load time; problems appear on the title screen and in the developer panel.
   `chance` with `fail_effects`.
 - Effect keys: cash, pay, tips, energy, stress, confidence, rep, fame,
   reliability, skill{}, rel{npc:{field:delta}}, unlock[], flag{}.
+
+Extra event features:
+- `conditions.rel {npc:{field:min}}` and a top-level `cooldown_days`.
+- The **`promise`** effect: `{npc, title, location, days_ahead, block, length,
+  reward{effects incl. pay}, job_shift?{job, shift}}`.
+- Text in host intros, partner lines and NPC lines may use `{he} {He} {him} {his}
+  {His} {guy} {name} {stage}`.
 
 ## Interviews (`data/interviews/interviews.json`)
 - Each prompt has `conditions` (background, job, hook, min/max_appearances,

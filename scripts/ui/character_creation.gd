@@ -1,5 +1,5 @@
 extends Control
-## Character creation: name, stage name, pronouns, appearance, background,
+## Character creation: name, stage name, gender, appearance, background,
 ## starting style. Backgrounds give hooks, a small skill edge and a little
 ## starting material; they never lock any career path.
 
@@ -10,10 +10,13 @@ class Preview extends Control:
 		draw_rect(Rect2(c.x - 40, c.y - 20, 80, 120), colors.get("outfit", Color.SLATE_BLUE))
 		draw_circle(Vector2(c.x, c.y - 55), 38, colors.get("skin", Color.TAN))
 		draw_arc(Vector2(c.x, c.y - 60), 38, PI, TAU, 16, colors.get("hair", Color.BLACK), 16)
+		if bool(colors.get("long_hair", false)):
+			draw_rect(Rect2(c.x - 46, c.y - 64, 12, 56), colors.get("hair", Color.BLACK))
+			draw_rect(Rect2(c.x + 34, c.y - 64, 12, 56), colors.get("hair", Color.BLACK))
 		draw_rect(Rect2(c.x + 36, c.y, 26, 40), Color("#6b4a2a"))
 
 
-var setup: Dictionary = {"name": "", "stage_name": "", "pronouns": "they", "appearance": {"skin": 1, "hair": 0, "outfit": 0}, "background": "server_vet", "style": "observational"}
+var setup: Dictionary = {"name": "", "stage_name": "", "gender": "male", "appearance": {"skin": 1, "hair": 0, "outfit": 0}, "background": "server_vet", "style": "observational"}
 var _box: VBoxContainer
 var _preview: Preview
 var _name_edit: LineEdit
@@ -51,7 +54,7 @@ func _ready() -> void:
 func _colors() -> Dictionary:
 	var ap: Dictionary = Game.db.appearance
 	var a: Dictionary = setup["appearance"]
-	return {"skin": Color(str(ap["skin"][int(a["skin"])])), "hair": Color(str(ap["hair"][int(a["hair"])])), "outfit": Color(str(ap["outfit"][int(a["outfit"])]))}
+	return {"skin": Color(str(ap["skin"][int(a["skin"])])), "hair": Color(str(ap["hair"][int(a["hair"])])), "outfit": Color(str(ap["outfit"][int(a["outfit"])])), "long_hair": setup["gender"] == "female"}
 
 
 func _build() -> void:
@@ -77,10 +80,11 @@ func _build() -> void:
 	r1.add_child(_stage_edit)
 	_box.add_child(r1)
 	var r2 := UiKit.hbox(6)
-	r2.add_child(UiKit.label("Pronouns", 19, UiKit.C_TEXT, false))
-	for p in db.pronouns:
-		var pid: String = str(p["id"])
-		r2.add_child(UiKit.button(("● " if setup["pronouns"] == pid else "○ ") + str(p["label"]), func(): _pick("pronouns", pid)))
+	r2.add_child(UiKit.label("Gender", 19, UiKit.C_TEXT, false))
+	for gid in ["male", "female"]:
+		var g: Dictionary = db.genders.get(gid, {"label": gid.capitalize()})
+		var gid_c: String = gid
+		r2.add_child(UiKit.button(("● " if setup["gender"] == gid else "○ ") + str(g["label"]), func(): _pick("gender", gid_c)))
 	_box.add_child(r2)
 	for part in ["skin", "hair", "outfit"]:
 		var pr := UiKit.hbox(6)

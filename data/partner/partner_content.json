@@ -1,26 +1,69 @@
 {
   "_comment": "PARTNER CONTENT PACKAGE. Everything referring to real people, the show's identity, and partner-specific rules lives here so it can be reviewed and replaced as a unit. Nothing in this file is approved yet. Display names are placeholders; no likenesses, logos, recordings, or music are used.",
   "approval_status": "pending_partner_review",
-  "show": {"name": "Kill Tony", "venue_location": "mothership", "night_weekday": 0, "logo_asset": "", "logo_placeholder_text": "KILL TONY  ·  placeholder signage"},
+  "show": {
+    "name": "Kill Tony",
+    "venue_location": "mothership",
+    "night_weekday": 0,
+    "logo_asset": "",
+    "logo_placeholder_text": "KILL TONY  ·  placeholder signage"
+  },
   "characters": {
-    "partner_host": {"display_name": "The Host", "role": "Kill Tony host", "approved": false, "color": "#e0d0ff"},
-    "partner_redban": {"display_name": "Redban", "role": "Producer; runs The Secret Show", "approved": false, "color": "#ff7a7a"},
-    "panel_guest_a": {"display_name": "Panel Guest (placeholder)", "role": "Guest comic", "approved": false, "color": "#ffd27a", "style": "storytelling"},
-    "panel_guest_b": {"display_name": "Panel Guest (placeholder)", "role": "Guest comic", "approved": false, "color": "#7affd2", "style": "absurdist"},
-    "band_leader": {"display_name": "House Band (placeholder)", "role": "Band", "approved": false, "color": "#aac8ff"}
+    "partner_host": {
+      "display_name": "The Host",
+      "role": "Kill Tony host",
+      "approved": false,
+      "color": "#e0d0ff"
+    },
+    "partner_redban": {
+      "display_name": "Redban",
+      "role": "Producer; runs The Secret Show",
+      "approved": false,
+      "color": "#ff7a7a"
+    },
+    "panel_guest_a": {
+      "display_name": "Panel Guest (placeholder)",
+      "role": "Guest comic",
+      "approved": false,
+      "color": "#ffd27a",
+      "style": "storytelling"
+    },
+    "panel_guest_b": {
+      "display_name": "Panel Guest (placeholder)",
+      "role": "Guest comic",
+      "approved": false,
+      "color": "#7affd2",
+      "style": "absurdist"
+    },
+    "band_leader": {
+      "display_name": "House Band (placeholder)",
+      "role": "Band",
+      "approved": false,
+      "color": "#aac8ff"
+    }
   },
   "lines": {
     "bucket_intro": "The bucket comes out. The room gets loud. Names start getting pulled.",
-    "called_up": "Your name is called. The crowd turns to look. You have one minute.",
+    "called_up": "The host squints at the slip. \"{stage}! Get up here!\" The crowd turns to look at you. Somebody yells, \"Look at {him}, {he}'s shaking!\" You have one minute.",
     "not_called": "The last name is pulled. It isn't yours. The show goes on, and you watch every set like homework.",
     "panel_reactions": {
-      "low": ["The panel exchanges a long look.", "Someone on the panel is quietly writing nothing down."],
-      "mid": ["The panel nods. A couple of real laughs in there.", "The host leans into the mic: 'Okay. Okay. There's something there.'"],
-      "high": ["The panel is laughing. The host slaps the desk.", "Big applause. The band hits a sting on its own."]
+      "low": [
+        "The panel exchanges a long look.",
+        "Someone on the panel is quietly writing nothing down."
+      ],
+      "mid": [
+        "The panel nods. A couple of real laughs in there.",
+        "The host leans into the mic: 'Okay. Okay. There's something there.'"
+      ],
+      "high": [
+        "The panel is laughing. The host slaps the desk.",
+        "Big applause. The band hits a sting on its own."
+      ]
     },
     "redban_invite": "Redban leans over after the interview: 'You should come do The Secret Show on Thursday.'",
     "golden_ticket": "The host holds up a golden ticket. The room explodes.",
     "joke_book": "The host hands you a joke book. 'Fill this up.'",
-    "opening_offer": "A panel guest catches you backstage: 'I've got a weekend at the Lantern. Want to open?'"
+    "opening_offer": "A panel guest catches you backstage: 'I've got a weekend at the Lantern. Want to open?'",
+    "regular_intro": "No bucket for you tonight. The host reads the lineup: \"...and one of our regulars, {stage}!\" The band kicks in. Remember: the panel expects new material."
   }
 }

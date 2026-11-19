@@ -18,7 +18,8 @@ godot --headless --path . -s res://tests/run_tests.gd
 | `test_kill_tony` | draw without replacement, fair odds, fame not affecting the draw, signup rules, reload not rerolling, forced draws and golden tickets, reward idempotency, non-ladder outcomes, contextual interview tones, Secret Show conflict check |
 | `test_save_load` | lossless round trip, RNG stream persistence, stream independence, migration, malformed-JSON detection, int normalization |
 | `test_progression` | career without a bucket pull, opportunity generation and expiry, tutorial completion through normal actions, every door reachable on foot, NPC schedules |
-| `test_content` | validation, content targets, every family can form a coherent joke, partner separation |
+| `test_life` | gender and text tokens, v1→v2 migration, keeping and breaking promises, promises never replacing bookings, shift promises, Priya workshops, regular-status flow and strikes, day summary |
+| `test_content` | validation, content targets, every family can form a coherent joke, every family obtainable in play, partner separation |
 
 `test_tour_cash_flow` is reported as SKIP because touring isn't implemented.
 

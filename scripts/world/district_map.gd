@@ -101,14 +101,6 @@ func _draw() -> void:
 				draw_string(font, Vector2(r.position.x + 12, sign_y), str(loc["name"]).to_upper(), HORIZONTAL_ALIGNMENT_LEFT, r.size.x - 20, 20, Color(sign_c, glow))
 			if not open:
 				draw_string(font, Vector2(d.x - 30, sign_y + 22), "CLOSED", HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("#ff8a8a"))
-		# Who's inside (recurring NPCs keep schedules).
-		var here := WorldRules.npcs_at(state, db, id)
-		if not here.is_empty():
-			var names: Array = []
-			for n in here:
-				names.append(str(db.npcs[n]["name"]).split(" ")[0])
-			var dp := door_of(loc)
-			draw_string(font, dp + Vector2(-60, -60 if dp.y < 600 else 70), "Inside: " + ", ".join(PackedStringArray(names)), HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("#cfe8ff"))
 	# Street lamps.
 	for x in range(150, int(W), 300):
 		for y in [st + 6, sb - 6]:
@@ -131,6 +123,13 @@ func _draw() -> void:
 	for i in range(mini(shown, pedestrians.size())):
 		var p: Dictionary = pedestrians[i]
 		draw_circle(Vector2(float(p["x"]), float(p["y"])), 8, p["c"])
+	# Ambulance taco truck (decorative).
+	draw_rect(Rect2(1352, 756, 120, 44), Color("#e8e8e8"))
+	draw_rect(Rect2(1352, 772, 120, 6), Color("#d03030"))
+	draw_rect(Rect2(1440, 760, 26, 16), Color("#80b0d0"))
+	draw_circle(Vector2(1375, 802), 8, Color("#202020"))
+	draw_circle(Vector2(1450, 802), 8, Color("#202020"))
+	draw_string(font, Vector2(1356, 770), "TACO EMS", HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color("#d03030"))
 	# Posters.
 	for po in db.posters:
 		var pp: Array = po["pos"]

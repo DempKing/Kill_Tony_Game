@@ -1,6 +1,8 @@
 # Implementation Status
 
-_Last updated: first pass._
+_Last updated: second pass. That pass replaced pronouns with gender, added 59
+joke pieces, and added promises, street NPCs, venue stages, the day summary and
+regular status._
 
 ## Critical limitation
 The build environment had no Godot binary, and running a downloaded one was not
@@ -9,6 +11,10 @@ allowed. So:
 - There may be GDScript parse or type errors. Static cross-reference checks were
   done by script; real compilation was not.
 - Nothing has been exported.
+
+Second pass: every `.gd` file was parsed with `gdtoolkit` (a GDScript 4 parser),
+and they all parse. Parsing checks syntax only, not types or runtime behavior.
+Data cross-references were checked by script.
 
 First step on a machine with Godot 4.3: open the project, fix any parse errors the
 editor reports, then run the tests (TESTING.md).
@@ -22,7 +28,7 @@ README, exports).
 
 ### Phase 1: Austin arrival slice
 - Godot 4.3 desktop project with autoloads and export presets.
-- Character creation: name, stage name, pronouns, appearance, 5 backgrounds,
+- Character creation: name, stage name, gender, appearance, 5 backgrounds,
   6 styles.
 - Arrival tutorial driven by actions, with a goal tracker.
 - Compressed fictional district: a main street, an alley, and 11 locations
@@ -67,28 +73,35 @@ README, exports).
 - Housing upgrade.
 - Posters and marquee change with progress.
 
+### Second pass
+- Gender (male/female) replaces pronouns, with save migration v1→v2.
+- 10 new joke families plus extra pieces for existing ones. Each has a real
+  in-play source, checked by a test.
+- NPC promises/favors, including job-shift promises.
+- Street NPCs that walk between scheduled spots.
+- Priya as a second workshop partner.
+- Four distinct venue stages and host intros.
+- End-of-day summary.
+- Kill Tony regular status (offer, biweekly spot, new-material strikes).
+- 12 more world events and 3 more interview prompts.
+
 ### Content counts
-- 12 families
-- 65 components
+- 22 families
+- 124 components
 - 8 NPCs
 - 6 audiences
-- 15 interview prompts
-- 20 world events
+- 18 interview prompts
+- 32 world events
 - 10 opportunities
 - 4 jobs
 - 5 venues (open mic, showcase, late show, Kill Tony, Secret Show)
 
 ## Not done / known gaps
 - **Untested and uncompiled** (see above).
-- World events: 20 of the 25 target.
-- Performance interiors use the shared club stage art with per-venue colors and
-  signs, not distinct layouts.
 - Interiors are vignette panels, not walkable side-view rooms.
 - Audio is procedural beeps and noise. There's no ambience bus content yet.
 - Partway-through performances restart from the same seed on reload; your
   choices made before quitting aren't replayed.
-- Regular status: only a progress counter. The authored career event and
-  recurring obligations aren't built.
 - No NPC dialogue trees beyond tiered lines, shift/world event choices, and
   workshopping.
 - Housing has no visual room or memorabilia display beyond the journal's shelf

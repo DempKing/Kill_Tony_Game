@@ -13,6 +13,7 @@ const SUITES: Array = [
 	"res://tests/unit/test_save_load.gd",
 	"res://tests/unit/test_progression.gd",
 	"res://tests/unit/test_content.gd",
+	"res://tests/unit/test_life.gd",
 ]
 
 

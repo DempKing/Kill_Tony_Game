@@ -7,7 +7,8 @@ architectural drawing or third-party asset is used.
 |---|---|---|
 | District art (buildings, street, people) | Placeholder | Drawn in code (`DistrictMap`) |
 | Interiors | Placeholder | Drawn in code (`LocationPanel.InteriorArt`) |
-| Club stages | Placeholder | Drawn in code (`StageArt`) |
+| Club stages (dive, lantern, cellar, secret variants) | Placeholder | Drawn in code (`StageArt`) |
+| Street NPC figures | Placeholder | Drawn in code (`StreetNpc`) |
 | Kill Tony stage | Placeholder blockout, **not architecturally accurate** | `KtStageArt` + `data/partner/kill_tony_stage_layout.json` |
 | Show logo / signage | Placeholder text only (`logo_asset` empty) | `data/partner/partner_content.json` |
 | Panel members, host, band | Placeholder figures and names | `data/partner/partner_content.json` |

@@ -3,6 +3,9 @@
 This file covers only what exists in code. Planned work is listed in
 IMPLEMENTATION_STATUS.md. Numbers come from `data/balancing/balancing.json`.
 
+_See the sections at the end for character creation, street life, promises,
+workshops, venue stages, the day summary and Kill Tony regular status._
+
 ## Opening sequence
 1. A short intro dialog at the bus stop (day 0 is a Wednesday afternoon).
 2. **Pick up your bag** at the curb (interact).
@@ -176,3 +179,58 @@ weekday, the Monday bucket line, Thursday buzz, more pedestrians in the evening,
 Home is where you sleep, rest, write and rehearse; the phone covers finances and
 week planning. The journal's shelf tab shows your books and souvenirs. There's no
 visual room decoration yet.
+
+## Character creation
+Name, stage name, **gender (male or female)**, skin/hair/outfit colors, background
+and starting style. Gender sets the player's pronouns in authored text: host
+intros, the Kill Tony call-up and NPC lines use `{he}/{him}/{his}/{guy}` tokens,
+filled in by `GameSim.fmt()`. It also changes the hair silhouette on every
+character drawing. It has no effect on any gameplay number.
+
+## Street life
+The 8 recurring NPCs stand outside wherever their schedule puts them. When the
+block changes they walk to their next spot (instantly with reduced motion), and
+people with nowhere to be leave the map. You can talk to them on the street
+with E, which works the same as talking indoors (familiarity once a day).
+
+## Promises
+NPCs ask for favors through world events. Each favor is a dated commitment:
+- watch Deshawn's new set
+- cover Gus's dinner shift or Rhonda's door
+- read Priya's script pages
+- help Mari paint (−$20 rent)
+- get notes from Lonnie
+
+A promise never replaces an existing booking. If you're already booked, you
+turn it down. To keep a promise, be at the right place at the right block and
+pick "Keep your promise". Promises tied to a job open the normal shift, plus
+bonus pay. Keeping one applies its reward exactly once. Breaking one costs
+reliability, trust and respect with that person, but not professional
+reputation.
+
+## Workshops
+Deshawn (coffee shop / Rusty Spur) can surface tags. Priya (coffee shop) can
+surface punchlines. The chance is 50% + chemistry/200, and workshops ignore the
+writing-skill gate.
+
+## Venue stages
+Each venue has its own stage art:
+- **Rusty Spur:** brick, bar counter, beer sign, string bulbs.
+- **Lantern Room:** velvet curtain, sconces, candlelit tables.
+- **The Cellar:** low ceiling, pipes, pulsing neon, standing crowd.
+- **Secret Show:** industrial beams, string lights, a "NO PHONES" sign.
+
+Each venue's host introduces you before your set.
+
+## Day summary
+Sleeping shows a recap of the day: money earned and spent, cash, sets and their
+results, new material found, days until rent, and upcoming commitments.
+
+## Kill Tony regular status
+1. Every set of 80+ adds one regular-track point.
+2. At 3 points, Redban calls with an offer.
+3. If you accept, every other Monday has a "Kill Tony (regular spot)" booking.
+   There's no bucket: you're on the lineup.
+4. At least half the jokes in each regular set must be new to Kill Tony.
+   Otherwise you get a strike (a fresh set resets strikes).
+5. Three strikes and you're off the regular lineup. The bucket is still open to you.

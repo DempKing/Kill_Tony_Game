@@ -1,82 +1,509 @@
 {
   "_comment": "Authored interview prompts. Tones: self_deprecating, honest, confident, absurd, roast. Each prompt's tone_mods add to the set-result modifiers in balancing.interview.tone_by_set_result. Conditions: background, job, hook, min_appearances, max_appearances, housing, min_day.",
   "prompts": [
-    {"id": "iv_where_from", "text": "So where are you from, and why would you leave?", "conditions": {}, "tone_mods": {"honest": 4, "absurd": 3}, "responses": [
-      {"text": "Somewhere small enough that I'm already famous there for leaving.", "tone": "self_deprecating", "base": 4},
-      {"text": "I wanted to be a comedian, and my hometown has one stage. It's a tractor.", "tone": "absurd", "base": 5},
-      {"text": "Honestly? I needed to find out if I'm any good.", "tone": "honest", "base": 3},
-      {"text": "I'm from wherever you're about to roast me about.", "tone": "roast", "base": 2}
-    ]},
-    {"id": "iv_day_job", "text": "What do you do for money? Because it isn't this.", "conditions": {}, "tone_mods": {"honest": 3, "roast": 2}, "responses": [
-      {"text": "Whatever pays this week. Today it's that.", "tone": "honest", "base": 3},
-      {"text": "I'm basically a professional apologizer with a tray.", "tone": "self_deprecating", "base": 3},
-      {"text": "I'm between fortunes.", "tone": "confident", "base": 2},
-      {"text": "More than your band, judging by their shoes.", "tone": "roast", "base": 4}
-    ]},
-    {"id": "iv_server", "text": "You wait tables? What's the worst order you've ever taken?", "conditions": {"job": "server"}, "tone_mods": {"absurd": 4, "honest": 2}, "responses": [
-      {"text": "Eggs with no yolk and no white. I brought her a plate. She loved it.", "tone": "absurd", "base": 6},
-      {"text": "Anything ordered by a man in a visor.", "tone": "roast", "base": 3},
-      {"text": "I'm the worst order. They keep sending me back.", "tone": "self_deprecating", "base": 3}
-    ]},
-    {"id": "iv_doorman", "text": "You work a door? So you're the guy who decides who gets in.", "conditions": {"job": "doorman"}, "tone_mods": {"confident": 3, "roast": 3}, "responses": [
-      {"text": "Yeah. And none of the panel would make it past me.", "tone": "roast", "base": 5},
-      {"text": "I check IDs. One guy's photo was an oil painting.", "tone": "absurd", "base": 4},
-      {"text": "It's mostly counting. I'm decent at counting.", "tone": "self_deprecating", "base": 2}
-    ]},
-    {"id": "iv_delivery", "text": "Delivery guy, huh? Ever eat someone's order?", "conditions": {"job": "delivery"}, "tone_mods": {"honest": 4, "self_deprecating": 2}, "responses": [
-      {"text": "Once. They rated me one star and said I needed it more. They were right.", "tone": "honest", "base": 6},
-      {"text": "Never. I'm a professional.", "tone": "confident", "base": -1},
-      {"text": "Only the fries. Fries are a tax.", "tone": "absurd", "base": 4}
-    ]},
-    {"id": "iv_how_long", "text": "How long have you been doing comedy?", "conditions": {"max_appearances": 0}, "tone_mods": {"honest": 5, "confident": -3}, "responses": [
-      {"text": "A few weeks. You could probably tell.", "tone": "self_deprecating", "base": 3},
-      {"text": "A few weeks, but I've been funny my whole life.", "tone": "confident", "base": 1},
-      {"text": "Since the bus dropped me off. I counted.", "tone": "honest", "base": 4}
-    ]},
-    {"id": "iv_back_again", "text": "You're back! What's changed since last time?", "conditions": {"min_appearances": 1}, "tone_mods": {"confident": 4, "honest": 2}, "responses": [
-      {"text": "I wrote new jokes. Most of them are still in the notebook, scared.", "tone": "self_deprecating", "base": 3},
-      {"text": "Everything. I've been writing every day.", "tone": "confident", "base": 4},
-      {"text": "I moved from the top bunk to the bottom bunk. Huge.", "tone": "absurd", "base": 5}
-    ]},
-    {"id": "iv_housing", "text": "Where are you living right now?", "conditions": {}, "tone_mods": {"absurd": 3, "honest": 2}, "responses": [
-      {"text": "A hostel with eleven strangers and one guy who's legally part of the building.", "tone": "absurd", "base": 5},
-      {"text": "Somewhere I can afford, which is nowhere.", "tone": "self_deprecating", "base": 3},
-      {"text": "With a roommate. You'd hate him. He's your biggest fan.", "tone": "roast", "base": 3}
-    ]},
-    {"id": "iv_theater", "text": "You've got a real stage presence. Theater kid?", "conditions": {"background": "theater_kid"}, "tone_mods": {"honest": 3, "absurd": 3}, "responses": [
-      {"text": "I played a teapot for eleven performances. I still pour when I'm nervous.", "tone": "absurd", "base": 6},
-      {"text": "Guilty. Community theater. It shows.", "tone": "honest", "base": 3},
-      {"text": "Yes, and I'm the best actor on this stage. Low bar.", "tone": "roast", "base": 3}
-    ]},
-    {"id": "iv_bouncer", "text": "You look like you could throw somebody out. You a bouncer?", "conditions": {"background": "ex_bouncer"}, "tone_mods": {"confident": 4, "roast": 2}, "responses": [
-      {"text": "Used to be. Hecklers here are nothing compared to a bachelorette party.", "tone": "confident", "base": 5},
-      {"text": "I'm actually very gentle. Ask anyone I carried out.", "tone": "absurd", "base": 4},
-      {"text": "Don't make me prove it on the band.", "tone": "roast", "base": 3}
-    ]},
-    {"id": "iv_small_town", "text": "Do your parents know you're up here tonight?", "conditions": {"hook": "family"}, "tone_mods": {"honest": 4, "self_deprecating": 2}, "responses": [
-      {"text": "My dad thinks I'm in the standing industry.", "tone": "absurd", "base": 6},
-      {"text": "They're watching. Hi Mom. Sorry.", "tone": "honest", "base": 4},
-      {"text": "They're more nervous than I am.", "tone": "self_deprecating", "base": 2}
-    ]},
-    {"id": "iv_tech", "text": "What did you do before comedy?", "conditions": {"background": "tech_dropout"}, "tone_mods": {"honest": 3, "absurd": 3}, "responses": [
-      {"text": "Software QA. I found bugs. Now I am one.", "tone": "self_deprecating", "base": 4},
-      {"text": "I tested apps. I gave your favorite one a two-star review.", "tone": "roast", "base": 4},
-      {"text": "I got laid off by an algorithm. It said I wasn't funny enough.", "tone": "absurd", "base": 5}
-    ]},
-    {"id": "iv_dream", "text": "What's the dream? Where do you want to be in five years?", "conditions": {}, "tone_mods": {"confident": 3, "honest": 3}, "responses": [
-      {"text": "Selling out arenas. And choosing my own openers.", "tone": "confident", "base": 4},
-      {"text": "Anywhere with a door that locks.", "tone": "self_deprecating", "base": 3},
-      {"text": "Sitting where you are, being mean to someone like me.", "tone": "roast", "base": 4}
-    ]},
-    {"id": "iv_bombed", "text": "That was rough. You okay?", "conditions": {"set_band": "low"}, "tone_mods": {"honest": 4, "absurd": 2}, "responses": [
-      {"text": "I'm great. That was my plan. Lower expectations.", "tone": "absurd", "base": 4},
-      {"text": "Honestly, I froze. I'll be back.", "tone": "honest", "base": 5},
-      {"text": "The crowd was off tonight.", "tone": "confident", "base": -4}
-    ]},
-    {"id": "iv_killed", "text": "Okay, that was actually really good. Where did that come from?", "conditions": {"set_band": "high"}, "tone_mods": {"confident": 2, "honest": 3}, "responses": [
-      {"text": "From bombing at the Rusty Spur about forty times.", "tone": "honest", "base": 6},
-      {"text": "I know. I've been waiting for you to notice.", "tone": "confident", "base": 3},
-      {"text": "I stole it from the band.", "tone": "roast", "base": 4}
-    ]}
+    {
+      "id": "iv_where_from",
+      "text": "So where are you from, and why would you leave?",
+      "conditions": {},
+      "tone_mods": {
+        "honest": 4,
+        "absurd": 3
+      },
+      "responses": [
+        {
+          "text": "Somewhere small enough that I'm already famous there for leaving.",
+          "tone": "self_deprecating",
+          "base": 4
+        },
+        {
+          "text": "I wanted to be a comedian, and my hometown has one stage. It's a tractor.",
+          "tone": "absurd",
+          "base": 5
+        },
+        {
+          "text": "Honestly? I needed to find out if I'm any good.",
+          "tone": "honest",
+          "base": 3
+        },
+        {
+          "text": "I'm from wherever you're about to roast me about.",
+          "tone": "roast",
+          "base": 2
+        }
+      ]
+    },
+    {
+      "id": "iv_day_job",
+      "text": "What do you do for money? Because it isn't this.",
+      "conditions": {},
+      "tone_mods": {
+        "honest": 3,
+        "roast": 2
+      },
+      "responses": [
+        {
+          "text": "Whatever pays this week. Today it's that.",
+          "tone": "honest",
+          "base": 3
+        },
+        {
+          "text": "I'm basically a professional apologizer with a tray.",
+          "tone": "self_deprecating",
+          "base": 3
+        },
+        {
+          "text": "I'm between fortunes.",
+          "tone": "confident",
+          "base": 2
+        },
+        {
+          "text": "More than your band, judging by their shoes.",
+          "tone": "roast",
+          "base": 4
+        }
+      ]
+    },
+    {
+      "id": "iv_server",
+      "text": "You wait tables? What's the worst order you've ever taken?",
+      "conditions": {
+        "job": "server"
+      },
+      "tone_mods": {
+        "absurd": 4,
+        "honest": 2
+      },
+      "responses": [
+        {
+          "text": "Eggs with no yolk and no white. I brought her a plate. She loved it.",
+          "tone": "absurd",
+          "base": 6
+        },
+        {
+          "text": "Anything ordered by a man in a visor.",
+          "tone": "roast",
+          "base": 3
+        },
+        {
+          "text": "I'm the worst order. They keep sending me back.",
+          "tone": "self_deprecating",
+          "base": 3
+        }
+      ]
+    },
+    {
+      "id": "iv_doorman",
+      "text": "You work a door? So you're the guy who decides who gets in.",
+      "conditions": {
+        "job": "doorman"
+      },
+      "tone_mods": {
+        "confident": 3,
+        "roast": 3
+      },
+      "responses": [
+        {
+          "text": "Yeah. And none of the panel would make it past me.",
+          "tone": "roast",
+          "base": 5
+        },
+        {
+          "text": "I check IDs. One guy's photo was an oil painting.",
+          "tone": "absurd",
+          "base": 4
+        },
+        {
+          "text": "It's mostly counting. I'm decent at counting.",
+          "tone": "self_deprecating",
+          "base": 2
+        }
+      ]
+    },
+    {
+      "id": "iv_delivery",
+      "text": "Delivery guy, huh? Ever eat someone's order?",
+      "conditions": {
+        "job": "delivery"
+      },
+      "tone_mods": {
+        "honest": 4,
+        "self_deprecating": 2
+      },
+      "responses": [
+        {
+          "text": "Once. They rated me one star and said I needed it more. They were right.",
+          "tone": "honest",
+          "base": 6
+        },
+        {
+          "text": "Never. I'm a professional.",
+          "tone": "confident",
+          "base": -1
+        },
+        {
+          "text": "Only the fries. Fries are a tax.",
+          "tone": "absurd",
+          "base": 4
+        }
+      ]
+    },
+    {
+      "id": "iv_how_long",
+      "text": "How long have you been doing comedy?",
+      "conditions": {
+        "max_appearances": 0
+      },
+      "tone_mods": {
+        "honest": 5,
+        "confident": -3
+      },
+      "responses": [
+        {
+          "text": "A few weeks. You could probably tell.",
+          "tone": "self_deprecating",
+          "base": 3
+        },
+        {
+          "text": "A few weeks, but I've been funny my whole life.",
+          "tone": "confident",
+          "base": 1
+        },
+        {
+          "text": "Since the bus dropped me off. I counted.",
+          "tone": "honest",
+          "base": 4
+        }
+      ]
+    },
+    {
+      "id": "iv_back_again",
+      "text": "You're back! What's changed since last time?",
+      "conditions": {
+        "min_appearances": 1
+      },
+      "tone_mods": {
+        "confident": 4,
+        "honest": 2
+      },
+      "responses": [
+        {
+          "text": "I wrote new jokes. Most of them are still in the notebook, scared.",
+          "tone": "self_deprecating",
+          "base": 3
+        },
+        {
+          "text": "Everything. I've been writing every day.",
+          "tone": "confident",
+          "base": 4
+        },
+        {
+          "text": "I moved from the top bunk to the bottom bunk. Huge.",
+          "tone": "absurd",
+          "base": 5
+        }
+      ]
+    },
+    {
+      "id": "iv_housing",
+      "text": "Where are you living right now?",
+      "conditions": {},
+      "tone_mods": {
+        "absurd": 3,
+        "honest": 2
+      },
+      "responses": [
+        {
+          "text": "A hostel with eleven strangers and one guy who's legally part of the building.",
+          "tone": "absurd",
+          "base": 5
+        },
+        {
+          "text": "Somewhere I can afford, which is nowhere.",
+          "tone": "self_deprecating",
+          "base": 3
+        },
+        {
+          "text": "With a roommate. You'd hate him. He's your biggest fan.",
+          "tone": "roast",
+          "base": 3
+        }
+      ]
+    },
+    {
+      "id": "iv_theater",
+      "text": "You've got a real stage presence. Theater kid?",
+      "conditions": {
+        "background": "theater_kid"
+      },
+      "tone_mods": {
+        "honest": 3,
+        "absurd": 3
+      },
+      "responses": [
+        {
+          "text": "I played a teapot for eleven performances. I still pour when I'm nervous.",
+          "tone": "absurd",
+          "base": 6
+        },
+        {
+          "text": "Guilty. Community theater. It shows.",
+          "tone": "honest",
+          "base": 3
+        },
+        {
+          "text": "Yes, and I'm the best actor on this stage. Low bar.",
+          "tone": "roast",
+          "base": 3
+        }
+      ]
+    },
+    {
+      "id": "iv_bouncer",
+      "text": "You look like you could throw somebody out. You a bouncer?",
+      "conditions": {
+        "background": "ex_bouncer"
+      },
+      "tone_mods": {
+        "confident": 4,
+        "roast": 2
+      },
+      "responses": [
+        {
+          "text": "Used to be. Hecklers here are nothing compared to a bachelorette party.",
+          "tone": "confident",
+          "base": 5
+        },
+        {
+          "text": "I'm actually very gentle. Ask anyone I carried out.",
+          "tone": "absurd",
+          "base": 4
+        },
+        {
+          "text": "Don't make me prove it on the band.",
+          "tone": "roast",
+          "base": 3
+        }
+      ]
+    },
+    {
+      "id": "iv_small_town",
+      "text": "Do your parents know you're up here tonight?",
+      "conditions": {
+        "hook": "family"
+      },
+      "tone_mods": {
+        "honest": 4,
+        "self_deprecating": 2
+      },
+      "responses": [
+        {
+          "text": "My dad thinks I'm in the standing industry.",
+          "tone": "absurd",
+          "base": 6
+        },
+        {
+          "text": "They're watching. Hi Mom. Sorry.",
+          "tone": "honest",
+          "base": 4
+        },
+        {
+          "text": "They're more nervous than I am.",
+          "tone": "self_deprecating",
+          "base": 2
+        }
+      ]
+    },
+    {
+      "id": "iv_tech",
+      "text": "What did you do before comedy?",
+      "conditions": {
+        "background": "tech_dropout"
+      },
+      "tone_mods": {
+        "honest": 3,
+        "absurd": 3
+      },
+      "responses": [
+        {
+          "text": "Software QA. I found bugs. Now I am one.",
+          "tone": "self_deprecating",
+          "base": 4
+        },
+        {
+          "text": "I tested apps. I gave your favorite one a two-star review.",
+          "tone": "roast",
+          "base": 4
+        },
+        {
+          "text": "I got laid off by an algorithm. It said I wasn't funny enough.",
+          "tone": "absurd",
+          "base": 5
+        }
+      ]
+    },
+    {
+      "id": "iv_dream",
+      "text": "What's the dream? Where do you want to be in five years?",
+      "conditions": {},
+      "tone_mods": {
+        "confident": 3,
+        "honest": 3
+      },
+      "responses": [
+        {
+          "text": "Selling out arenas. And choosing my own openers.",
+          "tone": "confident",
+          "base": 4
+        },
+        {
+          "text": "Anywhere with a door that locks.",
+          "tone": "self_deprecating",
+          "base": 3
+        },
+        {
+          "text": "Sitting where you are, being mean to someone like me.",
+          "tone": "roast",
+          "base": 4
+        }
+      ]
+    },
+    {
+      "id": "iv_bombed",
+      "text": "That was rough. You okay?",
+      "conditions": {
+        "set_band": "low"
+      },
+      "tone_mods": {
+        "honest": 4,
+        "absurd": 2
+      },
+      "responses": [
+        {
+          "text": "I'm great. That was my plan. Lower expectations.",
+          "tone": "absurd",
+          "base": 4
+        },
+        {
+          "text": "Honestly, I froze. I'll be back.",
+          "tone": "honest",
+          "base": 5
+        },
+        {
+          "text": "The crowd was off tonight.",
+          "tone": "confident",
+          "base": -4
+        }
+      ]
+    },
+    {
+      "id": "iv_killed",
+      "text": "Okay, that was actually really good. Where did that come from?",
+      "conditions": {
+        "set_band": "high"
+      },
+      "tone_mods": {
+        "confident": 2,
+        "honest": 3
+      },
+      "responses": [
+        {
+          "text": "From bombing at the Rusty Spur about forty times.",
+          "tone": "honest",
+          "base": 6
+        },
+        {
+          "text": "I know. I've been waiting for you to notice.",
+          "tone": "confident",
+          "base": 3
+        },
+        {
+          "text": "I stole it from the band.",
+          "tone": "roast",
+          "base": 4
+        }
+      ]
+    },
+    {
+      "id": "iv_austin_weird",
+      "text": "What's the weirdest thing you've seen since you got to Austin?",
+      "conditions": {},
+      "tone_mods": {
+        "absurd": 4,
+        "honest": 2
+      },
+      "responses": [
+        {
+          "text": "A food truck in an ambulance. The siren means your tacos are ready.",
+          "tone": "absurd",
+          "base": 5
+        },
+        {
+          "text": "People applauding bats. I'd kill for that reception.",
+          "tone": "self_deprecating",
+          "base": 4
+        },
+        {
+          "text": "Honestly? This show.",
+          "tone": "roast",
+          "base": 3
+        }
+      ]
+    },
+    {
+      "id": "iv_regular",
+      "text": "You keep coming back. Are you trying to become a regular?",
+      "conditions": {
+        "min_appearances": 2
+      },
+      "tone_mods": {
+        "confident": 4,
+        "honest": 2
+      },
+      "responses": [
+        {
+          "text": "I'm trying to become furniture. Just leave me here.",
+          "tone": "absurd",
+          "base": 5
+        },
+        {
+          "text": "Yes. That's the whole plan.",
+          "tone": "confident",
+          "base": 4
+        },
+        {
+          "text": "I'm trying to become a person who doesn't have to put my name in a bucket.",
+          "tone": "honest",
+          "base": 4
+        }
+      ]
+    },
+    {
+      "id": "iv_worst_gig",
+      "text": "What's the worst gig you've ever done?",
+      "conditions": {
+        "min_day": 10
+      },
+      "tone_mods": {
+        "honest": 3,
+        "self_deprecating": 3
+      },
+      "responses": [
+        {
+          "text": "A Tuesday open mic where the only audience was a man asleep with his eyes open.",
+          "tone": "self_deprecating",
+          "base": 5
+        },
+        {
+          "text": "I don't have bad gigs. I have learning experiences.",
+          "tone": "confident",
+          "base": -1
+        },
+        {
+          "text": "This one, so far. No offense to the band.",
+          "tone": "roast",
+          "base": 4
+        }
+      ]
+    }
   ]
 }

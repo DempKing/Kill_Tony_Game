@@ -23,6 +23,7 @@ func configure(db: ContentDB, s: GameState) -> void:
 		"hair": Color(str(ap.get("hair", ["#222222"])[int(appearance.get("hair", 0)) % ap.get("hair", ["#222222"]).size()])),
 		"outfit": Color(str(ap.get("outfit", ["#3a5f8f"])[int(appearance.get("outfit", 0)) % ap.get("outfit", ["#3a5f8f"]).size()])),
 	}
+	colors["long_hair"] = str(s.player.get("gender", "male")) == "female"
 	has_bag = s.flags.has("has_bag")
 	queue_redraw()
 
@@ -58,6 +59,9 @@ func _draw() -> void:
 	draw_rect(Rect2(-12, -30 + bob, 24, 34), colors.get("outfit", Color.SLATE_BLUE))
 	draw_circle(Vector2(0, -42 + bob), 13, colors.get("skin", Color.TAN))
 	draw_arc(Vector2(0, -44 + bob), 13, PI, TAU, 12, colors.get("hair", Color.BLACK), 7)
+	if bool(colors.get("long_hair", false)):
+		draw_rect(Rect2(-15, -46 + bob, 5, 22), colors.get("hair", Color.BLACK))
+		draw_rect(Rect2(10, -46 + bob, 5, 22), colors.get("hair", Color.BLACK))
 	if has_bag:
 		draw_rect(Rect2(10, -22 + bob, 12, 18), Color("#6b4a2a"))
 	draw_colored_polygon(PackedVector2Array([Vector2(-6, -70), Vector2(6, -70), Vector2(0, -62)]), Color("#ffe27a"))

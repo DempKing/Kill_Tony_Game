@@ -8,13 +8,13 @@ func test_content_validates() -> void:
 
 func test_content_targets() -> void:
 	var d := db()
-	eq(d.families.size(), 12, "twelve joke families")
-	check(d.components.size() >= 60, "at least sixty component records (%d)" % d.components.size())
+	eq(d.families.size(), 22, "twenty-two joke families")
+	check(d.components.size() >= 120, "at least 120 component records (%d)" % d.components.size())
 	eq(d.npcs.size(), 8, "eight recurring fictional NPCs")
 	eq(d.audiences.size(), 6, "six audience profiles")
-	check(d.interviews.size() >= 15, "fifteen interview prompts (%d)" % d.interviews.size())
+	check(d.interviews.size() >= 18, "eighteen interview prompts (%d)" % d.interviews.size())
 	check(d.opportunities.size() >= 10, "ten career opportunities (%d)" % d.opportunities.size())
-	check(d.world_events.size() >= 20, "world events (%d of the 25 target)" % d.world_events.size())
+	check(d.world_events.size() >= 25, "at least 25 world events (%d)" % d.world_events.size())
 	eq(d.jobs.size(), 4, "three job types plus emergency day labor")
 
 
@@ -34,3 +34,40 @@ func test_partner_content_is_separate() -> void:
 	eq(str(d.partner.get("approval_status", "")), "pending_partner_review", "partner package is flagged as unapproved")
 	for id in d.npcs:
 		check(not str(id).begins_with("partner_"), "real/partner figures are not mixed into fictional NPC data")
+
+
+func test_every_family_is_reachable_in_play() -> void:
+	## Each family's premise must have a real source: start, a background, an
+	## observation, a job, an event, a shift event, or bombing.
+	var d := db()
+	var sources: Dictionary = {}
+	for cid in d.bal("start.starting_components", []):
+		sources[str(cid)] = true
+	for bg in d.backgrounds.values():
+		for cid in bg.get("starting_components", []):
+			sources[str(cid)] = true
+	for o in d.observations.values():
+		for cid in o.get("unlock", []):
+			sources[str(cid)] = true
+	for j in d.jobs.values():
+		for cid in j.get("first_shift_unlock", []):
+			sources[str(cid)] = true
+	var effect_lists: Array = []
+	for ev in d.world_events:
+		effect_lists.append(ev.get("choices", []))
+	for ev in d.shift_events.values():
+		effect_lists.append(ev.get("choices", []))
+	for choices in effect_lists:
+		for ch in choices:
+			for key in ["effects", "fail_effects"]:
+				for cid in ch.get(key, {}).get("unlock", []):
+					sources[str(cid)] = true
+	for c in d.components.values():
+		if str(c.get("unlock", "")) == "bomb":
+			sources[str(c["id"])] = true
+	for fam in d.families:
+		var ok := false
+		for c in d.family_components(fam):
+			if str(c["type"]) == "premise" and sources.has(str(c["id"])):
+				ok = true
+		check(ok, "%s premise can be obtained in play" % fam)

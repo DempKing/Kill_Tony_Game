@@ -4,7 +4,7 @@ extends RefCounted
 ## lives here and round-trips through to_dict()/from_dict(). Versioned; see
 ## scripts/persistence/save_migrations.gd.
 
-const SAVE_VERSION: int = 1
+const SAVE_VERSION: int = 2
 const RNG_STREAMS: Array = ["bucket", "performance", "world"]
 
 var version: int = SAVE_VERSION

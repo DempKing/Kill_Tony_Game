@@ -109,7 +109,11 @@ func _draw() -> void:
 	draw_circle(mic_pos + Vector2(0, -74), 9, Color("#404048"))
 	if player_at_mic:
 		var bob2 := 0.0 if reduced else sin(t * 2.2) * 2.0
-		_figure(mic_pos + Vector2(40, -10 + bob2), player_colors.get("outfit", Color.SLATE_BLUE), player_colors.get("skin", Color.TAN), player_colors.get("hair", Color.BLACK), 1.3)
+		var fp := mic_pos + Vector2(40, -10 + bob2)
+		_figure(fp, player_colors.get("outfit", Color.SLATE_BLUE), player_colors.get("skin", Color.TAN), player_colors.get("hair", Color.BLACK), 1.3)
+		if bool(player_colors.get("long_hair", false)):
+			draw_rect(Rect2(fp.x - 26, fp.y - 80, 7, 30), player_colors.get("hair", Color.BLACK))
+			draw_rect(Rect2(fp.x + 19, fp.y - 80, 7, 30), player_colors.get("hair", Color.BLACK))
 	# Audience rows facing the stage.
 	var aud: Dictionary = layout.get("audience", {})
 	var row_y: Array = aud.get("row_y", [700, 760, 820])

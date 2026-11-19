@@ -43,6 +43,14 @@ func _ready() -> void:
 	var top := UiKit.label("%s · %s" % [venue.get("name", ""), CalendarRules.describe(s.day, s.block)], 22, UiKit.C_ACCENT, false)
 	top.position = Vector2(20, 14)
 	ui.root.add_child(top)
+	var intro: String = str(venue.get("host_intro", ""))
+	if intro != "":
+		var il := UiKit.label(GameSim.fmt(s, db, intro), 20, UiKit.C_WARN)
+		il.position = Vector2(20, 52)
+		il.custom_minimum_size = Vector2(1100, 0)
+		il.add_theme_color_override("font_outline_color", Color.BLACK)
+		il.add_theme_constant_override("outline_size", 5)
+		ui.root.add_child(il)
 	runner = PerformanceRunner.new().setup(sim)
 	runner.anchor_left = 0.5
 	runner.anchor_right = 0.5

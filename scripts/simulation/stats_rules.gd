@@ -77,4 +77,6 @@ static func apply_effects(s: GameState, db: ContentDB, fx: Dictionary, job_id: S
 			notes.append("New material: \"%s\"" % str(db.component(str(cid)).get("text", cid)))
 	for k in fx.get("flag", {}):
 		s.flags[str(k)] = fx["flag"][k]
+	if fx.has("promise"):
+		notes.append(PromiseRules.create(s, db, fx["promise"]))
 	return notes

@@ -163,3 +163,5 @@ func _run(a: Dictionary, force: bool) -> void:
 		msg = "[color=#ff8a8a]%s[/color]" % msg
 	host.after_action()
 	refresh(msg)
+	if res.has("summary"):
+		host.show_day_summary(res["summary"], str(res.get("message", "")))

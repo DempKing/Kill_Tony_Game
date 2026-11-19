@@ -1,95 +1,2000 @@
 {
   "_comment": "All joke text is original placeholder material written for this project. Compatibility tags are derived from family+type by ContentDB unless 'requires'/'provides' are given explicitly. unlock: start | start_bg:<id> | observe:<id> | job:<id> | event:<id> | writing | bomb | npc:<id>.",
   "families": [
-    {"id": "fam_arrival", "title": "Moving to Austin broke", "topics": ["money", "austin", "self"]},
-    {"id": "fam_hostel", "title": "Hostel roommates", "topics": ["living", "people"]},
-    {"id": "fam_diner", "title": "Serving brunch people", "topics": ["work", "people", "food"]},
-    {"id": "fam_door", "title": "Working the door", "topics": ["work", "nightlife"]},
-    {"id": "fam_delivery", "title": "Delivery app life", "topics": ["work", "tech", "money"]},
-    {"id": "fam_heat", "title": "Texas heat", "topics": ["austin", "weather"]},
-    {"id": "fam_scooter", "title": "Electric scooters", "topics": ["austin", "tech"]},
-    {"id": "fam_parents", "title": "Telling my parents", "topics": ["family", "self"]},
-    {"id": "fam_dating", "title": "Dating apps", "topics": ["dating", "tech"]},
-    {"id": "fam_bombing", "title": "Bombing", "topics": ["comedy", "self"]},
-    {"id": "fam_coffee", "title": "Coffee shop writers", "topics": ["austin", "people"]},
-    {"id": "fam_bucket", "title": "The bucket line", "topics": ["comedy", "austin"]}
+    {
+      "id": "fam_arrival",
+      "title": "Moving to Austin broke",
+      "topics": [
+        "money",
+        "austin",
+        "self"
+      ]
+    },
+    {
+      "id": "fam_hostel",
+      "title": "Hostel roommates",
+      "topics": [
+        "living",
+        "people"
+      ]
+    },
+    {
+      "id": "fam_diner",
+      "title": "Serving brunch people",
+      "topics": [
+        "work",
+        "people",
+        "food"
+      ]
+    },
+    {
+      "id": "fam_door",
+      "title": "Working the door",
+      "topics": [
+        "work",
+        "nightlife"
+      ]
+    },
+    {
+      "id": "fam_delivery",
+      "title": "Delivery app life",
+      "topics": [
+        "work",
+        "tech",
+        "money"
+      ]
+    },
+    {
+      "id": "fam_heat",
+      "title": "Texas heat",
+      "topics": [
+        "austin",
+        "weather"
+      ]
+    },
+    {
+      "id": "fam_scooter",
+      "title": "Electric scooters",
+      "topics": [
+        "austin",
+        "tech"
+      ]
+    },
+    {
+      "id": "fam_parents",
+      "title": "Telling my parents",
+      "topics": [
+        "family",
+        "self"
+      ]
+    },
+    {
+      "id": "fam_dating",
+      "title": "Dating apps",
+      "topics": [
+        "dating",
+        "tech"
+      ]
+    },
+    {
+      "id": "fam_bombing",
+      "title": "Bombing",
+      "topics": [
+        "comedy",
+        "self"
+      ]
+    },
+    {
+      "id": "fam_coffee",
+      "title": "Coffee shop writers",
+      "topics": [
+        "austin",
+        "people"
+      ]
+    },
+    {
+      "id": "fam_bucket",
+      "title": "The bucket line",
+      "topics": [
+        "comedy",
+        "austin"
+      ]
+    },
+    {
+      "id": "fam_bats",
+      "title": "The bridge bats",
+      "topics": [
+        "austin",
+        "nature"
+      ]
+    },
+    {
+      "id": "fam_foodtruck",
+      "title": "Food truck culture",
+      "topics": [
+        "food",
+        "austin"
+      ]
+    },
+    {
+      "id": "fam_fitness",
+      "title": "Austin fitness people",
+      "topics": [
+        "people",
+        "health"
+      ]
+    },
+    {
+      "id": "fam_landlord",
+      "title": "Landlords and leases",
+      "topics": [
+        "money",
+        "living"
+      ]
+    },
+    {
+      "id": "fam_thelight",
+      "title": "Open mic hosts and the light",
+      "topics": [
+        "comedy",
+        "work"
+      ]
+    },
+    {
+      "id": "fam_techbros",
+      "title": "Tech bros moving in",
+      "topics": [
+        "tech",
+        "austin"
+      ]
+    },
+    {
+      "id": "fam_bbq",
+      "title": "Waiting in a BBQ line",
+      "topics": [
+        "food",
+        "austin"
+      ]
+    },
+    {
+      "id": "fam_grandma",
+      "title": "Grandma on speakerphone",
+      "topics": [
+        "family",
+        "tech"
+      ]
+    },
+    {
+      "id": "fam_bachelorette",
+      "title": "Bachelorette parties",
+      "topics": [
+        "nightlife",
+        "people"
+      ]
+    },
+    {
+      "id": "fam_cowboy",
+      "title": "Weekend cowboys",
+      "topics": [
+        "austin",
+        "people"
+      ]
+    }
   ],
   "components": [
-    {"id": "comp_arrival_p", "family": "fam_arrival", "type": "premise", "text": "I moved to Austin with $180 and a dream.", "styles": ["self_deprecating", "storytelling"], "quality": 3, "originality": 3, "difficulty": 2, "seconds": 5, "unlock": "start"},
-    {"id": "comp_arrival_s", "family": "fam_arrival", "type": "setup", "text": "Everybody here says 'Keep Austin weird.' I took that as a housing plan.", "styles": ["self_deprecating"], "quality": 3, "originality": 3, "difficulty": 2, "seconds": 12, "unlock": "start"},
-    {"id": "comp_arrival_u1", "family": "fam_arrival", "type": "punchline", "text": "Turns out weird costs nineteen hundred a month plus utilities.", "styles": ["observational"], "quality": 3, "originality": 2, "difficulty": 2, "seconds": 6, "unlock": "start"},
-    {"id": "comp_arrival_u2", "family": "fam_arrival", "type": "punchline", "text": "My budget's so tight the hostel listed me as a fixture.", "styles": ["self_deprecating"], "quality": 7, "originality": 6, "difficulty": 4, "seconds": 6, "unlock": "writing", "min_skill": 12},
-    {"id": "comp_arrival_t", "family": "fam_arrival", "type": "tag", "text": "Even the bats under the bridge have roommates.", "styles": ["absurdist"], "quality": 6, "originality": 6, "difficulty": 4, "seconds": 5, "unlock": "writing"},
-
-    {"id": "comp_hostel_p", "family": "fam_hostel", "type": "premise", "text": "Sharing a hostel room with eleven strangers.", "styles": ["storytelling"], "quality": 4, "originality": 4, "difficulty": 2, "seconds": 5, "unlock": "observe:hostel_bunks"},
-    {"id": "comp_hostel_s", "family": "fam_hostel", "type": "setup", "text": "There's a guy in the top bunk who's been 'between apartments' since two presidents ago.", "styles": ["storytelling", "observational"], "quality": 5, "originality": 5, "difficulty": 3, "seconds": 14, "unlock": "writing"},
-    {"id": "comp_hostel_u1", "family": "fam_hostel", "type": "punchline", "text": "He calls it a gap year. It's a gap decade.", "styles": ["observational"], "quality": 4, "originality": 4, "difficulty": 2, "seconds": 5, "unlock": "writing"},
-    {"id": "comp_hostel_u2", "family": "fam_hostel", "type": "punchline", "text": "He's not a guest anymore. Legally, he's load-bearing.", "styles": ["absurdist", "deadpan"], "quality": 8, "originality": 7, "difficulty": 4, "seconds": 5, "unlock": "writing", "min_skill": 15},
-    {"id": "comp_hostel_t", "family": "fam_hostel", "type": "tag", "text": "If he ever checks out, the whole building comes down with him.", "styles": ["absurdist"], "quality": 6, "originality": 6, "difficulty": 3, "seconds": 6, "unlock": "writing"},
-    {"id": "comp_hostel_cb", "family": "fam_hostel", "type": "callback", "callback_ref": "fam_hostel", "text": "Anyway, my bunkmate says hi. He can't come. He's holding up the second floor.", "styles": ["absurdist"], "quality": 7, "originality": 7, "difficulty": 5, "seconds": 6, "unlock": "writing", "requires": ["fam_arrival_punch", "fam_parents_punch", "fam_dating_punch", "fam_bombing_punch"]},
-
-    {"id": "comp_diner_p", "family": "fam_diner", "type": "premise", "text": "Waiting tables at brunch.", "styles": ["observational"], "quality": 4, "originality": 3, "difficulty": 2, "seconds": 4, "unlock": "job:server"},
-    {"id": "comp_diner_s", "family": "fam_diner", "type": "setup", "text": "Brunch people order like it's a hostage negotiation: 'Eggs. No yolk. No white. And I'll know if you hesitate.'", "styles": ["observational", "high_energy"], "quality": 6, "originality": 5, "difficulty": 4, "seconds": 15, "unlock": "writing"},
-    {"id": "comp_diner_u1", "family": "fam_diner", "type": "punchline", "text": "Ma'am, that's just a plate.", "styles": ["deadpan"], "quality": 4, "originality": 4, "difficulty": 2, "seconds": 4, "unlock": "writing"},
-    {"id": "comp_diner_u2", "family": "fam_diner", "type": "punchline", "text": "So I brought her an empty plate. She tipped thirty percent and called it 'honest.'", "styles": ["storytelling"], "quality": 8, "originality": 7, "difficulty": 4, "seconds": 7, "unlock": "writing", "min_skill": 14},
-    {"id": "comp_diner_t", "family": "fam_diner", "type": "tag", "text": "The chef framed it. Only dish we've never gotten a complaint about.", "styles": ["observational"], "quality": 6, "originality": 6, "difficulty": 3, "seconds": 6, "unlock": "writing"},
-
-    {"id": "comp_door_p", "family": "fam_door", "type": "premise", "text": "Checking IDs at a comedy club door.", "styles": ["observational"], "quality": 4, "originality": 3, "difficulty": 2, "seconds": 4, "unlock": "job:doorman"},
-    {"id": "comp_door_s", "family": "fam_door", "type": "setup", "text": "Forty-year-old men hand me their ID like it's a confession. 'It's an old picture. I had hair.'", "styles": ["observational", "storytelling"], "quality": 5, "originality": 5, "difficulty": 3, "seconds": 13, "unlock": "writing"},
-    {"id": "comp_door_u1", "family": "fam_door", "type": "punchline", "text": "Sir, it's a driver's license, not a before-and-after.", "styles": ["deadpan"], "quality": 4, "originality": 4, "difficulty": 2, "seconds": 5, "unlock": "writing"},
-    {"id": "comp_door_u2", "family": "fam_door", "type": "punchline", "text": "One guy's ID was so old the photo was a painting.", "styles": ["absurdist"], "quality": 7, "originality": 7, "difficulty": 3, "seconds": 5, "unlock": "writing", "min_skill": 12},
-    {"id": "comp_door_t", "family": "fam_door", "type": "tag", "text": "Oil on canvas. He was squinting at a horse.", "styles": ["absurdist"], "quality": 6, "originality": 7, "difficulty": 3, "seconds": 5, "unlock": "writing"},
-    {"id": "comp_door_ao", "family": "fam_door", "type": "act_out", "text": "[Act it out: the man in the painting, squinting nobly at a distant horse.]", "styles": ["high_energy"], "quality": 6, "originality": 6, "difficulty": 5, "seconds": 8, "unlock": "writing"},
-
-    {"id": "comp_delivery_p", "family": "fam_delivery", "type": "premise", "text": "Doing food delivery on a bike in Austin.", "styles": ["self_deprecating"], "quality": 4, "originality": 4, "difficulty": 2, "seconds": 4, "unlock": "job:delivery"},
-    {"id": "comp_delivery_s", "family": "fam_delivery", "type": "setup", "text": "The app rates me out of five stars, like I'm a hotel and not a sweaty guy holding your queso.", "styles": ["self_deprecating", "observational"], "quality": 6, "originality": 5, "difficulty": 3, "seconds": 13, "unlock": "writing"},
-    {"id": "comp_delivery_u1", "family": "fam_delivery", "type": "punchline", "text": "I got three stars because the queso was 'emotionally cold.'", "styles": ["observational"], "quality": 5, "originality": 5, "difficulty": 3, "seconds": 5, "unlock": "writing"},
-    {"id": "comp_delivery_u2", "family": "fam_delivery", "type": "punchline", "text": "One guy gave me one star and wrote 'he looked like he needed it more.' He was right. I ate it at a red light.", "styles": ["self_deprecating", "storytelling"], "quality": 8, "originality": 7, "difficulty": 4, "seconds": 9, "unlock": "writing", "min_skill": 15},
-    {"id": "comp_delivery_t", "family": "fam_delivery", "type": "tag", "text": "Best review I ever got was from me.", "styles": ["self_deprecating"], "quality": 5, "originality": 5, "difficulty": 2, "seconds": 4, "unlock": "writing"},
-
-    {"id": "comp_heat_p", "family": "fam_heat", "type": "premise", "text": "Austin summer heat.", "styles": ["observational"], "quality": 3, "originality": 2, "difficulty": 1, "seconds": 3, "unlock": "observe:bank_thermometer"},
-    {"id": "comp_heat_s", "family": "fam_heat", "type": "setup", "text": "It was a hundred and eight today. The weatherman just showed a picture of a skillet and went home.", "styles": ["observational"], "quality": 5, "originality": 5, "difficulty": 2, "seconds": 11, "unlock": "writing"},
-    {"id": "comp_heat_u1", "family": "fam_heat", "type": "punchline", "text": "Even my sweat was sweating.", "styles": ["observational"], "quality": 3, "originality": 2, "difficulty": 1, "seconds": 3, "unlock": "writing"},
-    {"id": "comp_heat_u2", "family": "fam_heat", "type": "punchline", "text": "I watched a lizard cross the sidewalk at a full sprint, screaming. Lizards can't scream. This one learned.", "styles": ["absurdist", "storytelling"], "quality": 8, "originality": 8, "difficulty": 4, "seconds": 8, "unlock": "writing", "min_skill": 14},
-    {"id": "comp_heat_t", "family": "fam_heat", "type": "tag", "text": "He's doing open mics now. Better closer than me.", "styles": ["self_deprecating"], "quality": 7, "originality": 6, "difficulty": 3, "seconds": 5, "unlock": "writing"},
-    {"id": "comp_heat_ao", "family": "fam_heat", "type": "act_out", "text": "[Act it out: the lizard's sprint, arms pinwheeling, silent scream.]", "styles": ["high_energy"], "quality": 7, "originality": 7, "difficulty": 6, "seconds": 9, "unlock": "start_bg:theater_kid"},
-    {"id": "comp_heat_cb", "family": "fam_heat", "type": "callback", "callback_ref": "fam_heat", "text": "Which is how I feel about my career. Like that lizard. Sprinting. Screaming. Technically unable to.", "styles": ["absurdist", "self_deprecating"], "quality": 7, "originality": 7, "difficulty": 5, "seconds": 7, "unlock": "writing", "requires": ["fam_bucket_punch", "fam_arrival_punch", "fam_bombing_punch", "fam_parents_punch"]},
-
-    {"id": "comp_scooter_p", "family": "fam_scooter", "type": "premise", "text": "Electric scooters everywhere.", "styles": ["observational"], "quality": 3, "originality": 3, "difficulty": 1, "seconds": 3, "unlock": "observe:scooter_pile"},
-    {"id": "comp_scooter_s", "family": "fam_scooter", "type": "setup", "text": "Austin has more scooters than people, and they're all face-down on the sidewalk like a crime scene.", "styles": ["observational"], "quality": 5, "originality": 5, "difficulty": 2, "seconds": 10, "unlock": "writing"},
-    {"id": "comp_scooter_u1", "family": "fam_scooter", "type": "punchline", "text": "Nobody rides them. They just faint from the heat.", "styles": ["observational"], "quality": 4, "originality": 4, "difficulty": 2, "seconds": 4, "unlock": "writing"},
-    {"id": "comp_scooter_u2", "family": "fam_scooter", "type": "punchline", "text": "I don't think they're abandoned. I think they're praying.", "styles": ["absurdist", "deadpan"], "quality": 7, "originality": 7, "difficulty": 3, "seconds": 4, "unlock": "writing", "min_skill": 10},
-    {"id": "comp_scooter_t", "family": "fam_scooter", "type": "tag", "text": "Toward the one charging station. Their holy site has a forty-minute wait.", "styles": ["absurdist"], "quality": 6, "originality": 6, "difficulty": 4, "seconds": 6, "unlock": "writing"},
-    {"id": "comp_scooter_ao", "family": "fam_scooter", "type": "act_out", "text": "[Act it out: a scooter slowly tipping over with a long, tired sigh.]", "styles": ["high_energy"], "quality": 6, "originality": 6, "difficulty": 5, "seconds": 7, "unlock": "writing"},
-
-    {"id": "comp_parents_p", "family": "fam_parents", "type": "premise", "text": "Telling my parents I'm doing comedy.", "styles": ["storytelling", "self_deprecating"], "quality": 4, "originality": 3, "difficulty": 2, "seconds": 4, "unlock": "start_bg:small_town"},
-    {"id": "comp_parents_s", "family": "fam_parents", "type": "setup", "text": "I told my dad I moved to Austin to do standup. He went quiet, then asked, 'Is that the one where you stand?'", "styles": ["storytelling"], "quality": 5, "originality": 5, "difficulty": 3, "seconds": 12, "unlock": "start_bg:small_town"},
-    {"id": "comp_parents_u1", "family": "fam_parents", "type": "punchline", "text": "Yes, Dad. That's most of it.", "styles": ["deadpan"], "quality": 5, "originality": 4, "difficulty": 2, "seconds": 4, "unlock": "writing"},
-    {"id": "comp_parents_u2", "family": "fam_parents", "type": "punchline", "text": "Now he tells his friends I'm 'in the standing industry.' Three of them asked if I can get them forklift certified.", "styles": ["storytelling", "absurdist"], "quality": 8, "originality": 7, "difficulty": 4, "seconds": 9, "unlock": "writing", "min_skill": 14},
-    {"id": "comp_parents_t", "family": "fam_parents", "type": "tag", "text": "I have a callback Tuesday.", "styles": ["deadpan"], "quality": 6, "originality": 6, "difficulty": 3, "seconds": 3, "unlock": "writing"},
-
-    {"id": "comp_dating_p", "family": "fam_dating", "type": "premise", "text": "Dating apps in a new city.", "styles": ["self_deprecating"], "quality": 3, "originality": 2, "difficulty": 2, "seconds": 3, "unlock": "observe:app_billboard"},
-    {"id": "comp_dating_s", "family": "fam_dating", "type": "setup", "text": "I updated my dating profile to say 'comedian.' My matches dropped eighty percent.", "styles": ["self_deprecating"], "quality": 5, "originality": 4, "difficulty": 2, "seconds": 9, "unlock": "writing"},
-    {"id": "comp_dating_u1", "family": "fam_dating", "type": "punchline", "text": "The other twenty percent were also comedians, asking for stage time.", "styles": ["observational"], "quality": 6, "originality": 5, "difficulty": 3, "seconds": 6, "unlock": "writing"},
-    {"id": "comp_dating_u2", "family": "fam_dating", "type": "punchline", "text": "So I changed it to 'unemployed' and matches went up. Women respect honesty. They do not respect open mics.", "styles": ["self_deprecating", "storytelling"], "quality": 7, "originality": 6, "difficulty": 4, "seconds": 9, "unlock": "writing", "min_skill": 12},
-    {"id": "comp_dating_t", "family": "fam_dating", "type": "tag", "text": "My mom liked my profile. Twice.", "styles": ["self_deprecating"], "quality": 5, "originality": 5, "difficulty": 2, "seconds": 3, "unlock": "writing"},
-
-    {"id": "comp_bombing_p", "family": "fam_bombing", "type": "premise", "text": "Bombing at an open mic.", "styles": ["self_deprecating"], "quality": 4, "originality": 4, "difficulty": 2, "seconds": 3, "unlock": "bomb"},
-    {"id": "comp_bombing_s", "family": "fam_bombing", "type": "setup", "text": "I bombed so hard last week the bartender gave me a free drink. Not as a kindness. As evidence.", "styles": ["self_deprecating", "storytelling"], "quality": 6, "originality": 6, "difficulty": 3, "seconds": 10, "unlock": "writing"},
-    {"id": "comp_bombing_u1", "family": "fam_bombing", "type": "punchline", "text": "Silence is golden. Mine was more of a copper.", "styles": ["deadpan"], "quality": 4, "originality": 4, "difficulty": 2, "seconds": 4, "unlock": "writing"},
-    {"id": "comp_bombing_u2", "family": "fam_bombing", "type": "punchline", "text": "Afterwards a guy walked up and said 'Brave.' That's what they say about people who run into burning buildings and don't come out.", "styles": ["self_deprecating", "deadpan"], "quality": 7, "originality": 6, "difficulty": 4, "seconds": 9, "unlock": "writing", "min_skill": 12},
-    {"id": "comp_bombing_t", "family": "fam_bombing", "type": "tag", "text": "He went up next. Also bombed. We're roommates now.", "styles": ["absurdist"], "quality": 6, "originality": 6, "difficulty": 3, "seconds": 5, "unlock": "writing"},
-
-    {"id": "comp_coffee_p", "family": "fam_coffee", "type": "premise", "text": "Every coffee shop is full of people writing screenplays.", "styles": ["observational"], "quality": 4, "originality": 3, "difficulty": 2, "seconds": 5, "unlock": "observe:coffee_laptops"},
-    {"id": "comp_coffee_s", "family": "fam_coffee", "type": "setup", "text": "Every table at Grounds for Concern has a laptop and a guy writing a screenplay about a guy writing a screenplay.", "styles": ["observational"], "quality": 5, "originality": 4, "difficulty": 3, "seconds": 11, "unlock": "writing"},
-    {"id": "comp_coffee_u1", "family": "fam_coffee", "type": "punchline", "text": "It's very meta. So is the coffee. It's mostly about coffee.", "styles": ["absurdist"], "quality": 4, "originality": 4, "difficulty": 3, "seconds": 5, "unlock": "writing"},
-    {"id": "comp_coffee_u2", "family": "fam_coffee", "type": "punchline", "text": "I asked one guy what his movie's about. He said 'Austin.' I said 'What happens?' He said 'Rent.'", "styles": ["observational", "deadpan"], "quality": 8, "originality": 7, "difficulty": 4, "seconds": 8, "unlock": "writing", "min_skill": 14},
-    {"id": "comp_coffee_t", "family": "fam_coffee", "type": "tag", "text": "It's a horror movie.", "styles": ["deadpan"], "quality": 7, "originality": 6, "difficulty": 2, "seconds": 2, "unlock": "writing"},
-
-    {"id": "comp_bucket_p", "family": "fam_bucket", "type": "premise", "text": "Standing in line to put my name in a bucket.", "styles": ["observational", "self_deprecating"], "quality": 4, "originality": 4, "difficulty": 2, "seconds": 4, "unlock": "observe:bucket_line"},
-    {"id": "comp_bucket_s", "family": "fam_bucket", "type": "setup", "text": "Every Monday a hundred comics line up to write their names on paper and drop them in a bucket. My whole career is a raffle.", "styles": ["observational"], "quality": 6, "originality": 5, "difficulty": 3, "seconds": 11, "unlock": "writing"},
-    {"id": "comp_bucket_u1", "family": "fam_bucket", "type": "punchline", "text": "My mom thinks I joined a cult. I said it's worse. It's a lottery with heckling.", "styles": ["self_deprecating"], "quality": 6, "originality": 6, "difficulty": 3, "seconds": 7, "unlock": "writing"},
-    {"id": "comp_bucket_u2", "family": "fam_bucket", "type": "punchline", "text": "Statistically, I've got a better chance of getting struck by lightning. Which, honestly, would also be a great minute.", "styles": ["absurdist", "self_deprecating"], "quality": 8, "originality": 8, "difficulty": 4, "seconds": 8, "unlock": "writing", "min_skill": 16},
-    {"id": "comp_bucket_t", "family": "fam_bucket", "type": "tag", "text": "Tight, too. Lightning does about four seconds.", "styles": ["deadpan"], "quality": 7, "originality": 7, "difficulty": 3, "seconds": 4, "unlock": "writing"}
+    {
+      "id": "comp_arrival_p",
+      "family": "fam_arrival",
+      "type": "premise",
+      "text": "I moved to Austin with $180 and a dream.",
+      "styles": [
+        "self_deprecating",
+        "storytelling"
+      ],
+      "quality": 3,
+      "originality": 3,
+      "difficulty": 2,
+      "seconds": 5,
+      "unlock": "start"
+    },
+    {
+      "id": "comp_arrival_s",
+      "family": "fam_arrival",
+      "type": "setup",
+      "text": "Everybody here says 'Keep Austin weird.' I took that as a housing plan.",
+      "styles": [
+        "self_deprecating"
+      ],
+      "quality": 3,
+      "originality": 3,
+      "difficulty": 2,
+      "seconds": 12,
+      "unlock": "start"
+    },
+    {
+      "id": "comp_arrival_u1",
+      "family": "fam_arrival",
+      "type": "punchline",
+      "text": "Turns out weird costs nineteen hundred a month plus utilities.",
+      "styles": [
+        "observational"
+      ],
+      "quality": 3,
+      "originality": 2,
+      "difficulty": 2,
+      "seconds": 6,
+      "unlock": "start"
+    },
+    {
+      "id": "comp_arrival_u2",
+      "family": "fam_arrival",
+      "type": "punchline",
+      "text": "My budget's so tight the hostel listed me as a fixture.",
+      "styles": [
+        "self_deprecating"
+      ],
+      "quality": 7,
+      "originality": 6,
+      "difficulty": 4,
+      "seconds": 6,
+      "unlock": "writing",
+      "min_skill": 12
+    },
+    {
+      "id": "comp_arrival_t",
+      "family": "fam_arrival",
+      "type": "tag",
+      "text": "Even the bats under the bridge have roommates.",
+      "styles": [
+        "absurdist"
+      ],
+      "quality": 6,
+      "originality": 6,
+      "difficulty": 4,
+      "seconds": 5,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_hostel_p",
+      "family": "fam_hostel",
+      "type": "premise",
+      "text": "Sharing a hostel room with eleven strangers.",
+      "styles": [
+        "storytelling"
+      ],
+      "quality": 4,
+      "originality": 4,
+      "difficulty": 2,
+      "seconds": 5,
+      "unlock": "observe:hostel_bunks"
+    },
+    {
+      "id": "comp_hostel_s",
+      "family": "fam_hostel",
+      "type": "setup",
+      "text": "There's a guy in the top bunk who's been 'between apartments' since two presidents ago.",
+      "styles": [
+        "storytelling",
+        "observational"
+      ],
+      "quality": 5,
+      "originality": 5,
+      "difficulty": 3,
+      "seconds": 14,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_hostel_u1",
+      "family": "fam_hostel",
+      "type": "punchline",
+      "text": "He calls it a gap year. It's a gap decade.",
+      "styles": [
+        "observational"
+      ],
+      "quality": 4,
+      "originality": 4,
+      "difficulty": 2,
+      "seconds": 5,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_hostel_u2",
+      "family": "fam_hostel",
+      "type": "punchline",
+      "text": "He's not a guest anymore. Legally, he's load-bearing.",
+      "styles": [
+        "absurdist",
+        "deadpan"
+      ],
+      "quality": 8,
+      "originality": 7,
+      "difficulty": 4,
+      "seconds": 5,
+      "unlock": "writing",
+      "min_skill": 15
+    },
+    {
+      "id": "comp_hostel_t",
+      "family": "fam_hostel",
+      "type": "tag",
+      "text": "If he ever checks out, the whole building comes down with him.",
+      "styles": [
+        "absurdist"
+      ],
+      "quality": 6,
+      "originality": 6,
+      "difficulty": 3,
+      "seconds": 6,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_hostel_cb",
+      "family": "fam_hostel",
+      "type": "callback",
+      "callback_ref": "fam_hostel",
+      "text": "Anyway, my bunkmate says hi. He can't come. He's holding up the second floor.",
+      "styles": [
+        "absurdist"
+      ],
+      "quality": 7,
+      "originality": 7,
+      "difficulty": 5,
+      "seconds": 6,
+      "unlock": "writing",
+      "requires": [
+        "fam_arrival_punch",
+        "fam_parents_punch",
+        "fam_dating_punch",
+        "fam_bombing_punch"
+      ]
+    },
+    {
+      "id": "comp_diner_p",
+      "family": "fam_diner",
+      "type": "premise",
+      "text": "Waiting tables at brunch.",
+      "styles": [
+        "observational"
+      ],
+      "quality": 4,
+      "originality": 3,
+      "difficulty": 2,
+      "seconds": 4,
+      "unlock": "job:server"
+    },
+    {
+      "id": "comp_diner_s",
+      "family": "fam_diner",
+      "type": "setup",
+      "text": "Brunch people order like it's a hostage negotiation: 'Eggs. No yolk. No white. And I'll know if you hesitate.'",
+      "styles": [
+        "observational",
+        "high_energy"
+      ],
+      "quality": 6,
+      "originality": 5,
+      "difficulty": 4,
+      "seconds": 15,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_diner_u1",
+      "family": "fam_diner",
+      "type": "punchline",
+      "text": "Ma'am, that's just a plate.",
+      "styles": [
+        "deadpan"
+      ],
+      "quality": 4,
+      "originality": 4,
+      "difficulty": 2,
+      "seconds": 4,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_diner_u2",
+      "family": "fam_diner",
+      "type": "punchline",
+      "text": "So I brought her an empty plate. She tipped thirty percent and called it 'honest.'",
+      "styles": [
+        "storytelling"
+      ],
+      "quality": 8,
+      "originality": 7,
+      "difficulty": 4,
+      "seconds": 7,
+      "unlock": "writing",
+      "min_skill": 14
+    },
+    {
+      "id": "comp_diner_t",
+      "family": "fam_diner",
+      "type": "tag",
+      "text": "The chef framed it. Only dish we've never gotten a complaint about.",
+      "styles": [
+        "observational"
+      ],
+      "quality": 6,
+      "originality": 6,
+      "difficulty": 3,
+      "seconds": 6,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_door_p",
+      "family": "fam_door",
+      "type": "premise",
+      "text": "Checking IDs at a comedy club door.",
+      "styles": [
+        "observational"
+      ],
+      "quality": 4,
+      "originality": 3,
+      "difficulty": 2,
+      "seconds": 4,
+      "unlock": "job:doorman"
+    },
+    {
+      "id": "comp_door_s",
+      "family": "fam_door",
+      "type": "setup",
+      "text": "Forty-year-old men hand me their ID like it's a confession. 'It's an old picture. I had hair.'",
+      "styles": [
+        "observational",
+        "storytelling"
+      ],
+      "quality": 5,
+      "originality": 5,
+      "difficulty": 3,
+      "seconds": 13,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_door_u1",
+      "family": "fam_door",
+      "type": "punchline",
+      "text": "Sir, it's a driver's license, not a before-and-after.",
+      "styles": [
+        "deadpan"
+      ],
+      "quality": 4,
+      "originality": 4,
+      "difficulty": 2,
+      "seconds": 5,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_door_u2",
+      "family": "fam_door",
+      "type": "punchline",
+      "text": "One guy's ID was so old the photo was a painting.",
+      "styles": [
+        "absurdist"
+      ],
+      "quality": 7,
+      "originality": 7,
+      "difficulty": 3,
+      "seconds": 5,
+      "unlock": "writing",
+      "min_skill": 12
+    },
+    {
+      "id": "comp_door_t",
+      "family": "fam_door",
+      "type": "tag",
+      "text": "Oil on canvas. He was squinting at a horse.",
+      "styles": [
+        "absurdist"
+      ],
+      "quality": 6,
+      "originality": 7,
+      "difficulty": 3,
+      "seconds": 5,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_door_ao",
+      "family": "fam_door",
+      "type": "act_out",
+      "text": "[Act it out: the man in the painting, squinting nobly at a distant horse.]",
+      "styles": [
+        "high_energy"
+      ],
+      "quality": 6,
+      "originality": 6,
+      "difficulty": 5,
+      "seconds": 8,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_delivery_p",
+      "family": "fam_delivery",
+      "type": "premise",
+      "text": "Doing food delivery on a bike in Austin.",
+      "styles": [
+        "self_deprecating"
+      ],
+      "quality": 4,
+      "originality": 4,
+      "difficulty": 2,
+      "seconds": 4,
+      "unlock": "job:delivery"
+    },
+    {
+      "id": "comp_delivery_s",
+      "family": "fam_delivery",
+      "type": "setup",
+      "text": "The app rates me out of five stars, like I'm a hotel and not a sweaty guy holding your queso.",
+      "styles": [
+        "self_deprecating",
+        "observational"
+      ],
+      "quality": 6,
+      "originality": 5,
+      "difficulty": 3,
+      "seconds": 13,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_delivery_u1",
+      "family": "fam_delivery",
+      "type": "punchline",
+      "text": "I got three stars because the queso was 'emotionally cold.'",
+      "styles": [
+        "observational"
+      ],
+      "quality": 5,
+      "originality": 5,
+      "difficulty": 3,
+      "seconds": 5,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_delivery_u2",
+      "family": "fam_delivery",
+      "type": "punchline",
+      "text": "One guy gave me one star and wrote 'he looked like he needed it more.' He was right. I ate it at a red light.",
+      "styles": [
+        "self_deprecating",
+        "storytelling"
+      ],
+      "quality": 8,
+      "originality": 7,
+      "difficulty": 4,
+      "seconds": 9,
+      "unlock": "writing",
+      "min_skill": 15
+    },
+    {
+      "id": "comp_delivery_t",
+      "family": "fam_delivery",
+      "type": "tag",
+      "text": "Best review I ever got was from me.",
+      "styles": [
+        "self_deprecating"
+      ],
+      "quality": 5,
+      "originality": 5,
+      "difficulty": 2,
+      "seconds": 4,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_heat_p",
+      "family": "fam_heat",
+      "type": "premise",
+      "text": "Austin summer heat.",
+      "styles": [
+        "observational"
+      ],
+      "quality": 3,
+      "originality": 2,
+      "difficulty": 1,
+      "seconds": 3,
+      "unlock": "observe:bank_thermometer"
+    },
+    {
+      "id": "comp_heat_s",
+      "family": "fam_heat",
+      "type": "setup",
+      "text": "It was a hundred and eight today. The weatherman just showed a picture of a skillet and went home.",
+      "styles": [
+        "observational"
+      ],
+      "quality": 5,
+      "originality": 5,
+      "difficulty": 2,
+      "seconds": 11,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_heat_u1",
+      "family": "fam_heat",
+      "type": "punchline",
+      "text": "Even my sweat was sweating.",
+      "styles": [
+        "observational"
+      ],
+      "quality": 3,
+      "originality": 2,
+      "difficulty": 1,
+      "seconds": 3,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_heat_u2",
+      "family": "fam_heat",
+      "type": "punchline",
+      "text": "I watched a lizard cross the sidewalk at a full sprint, screaming. Lizards can't scream. This one learned.",
+      "styles": [
+        "absurdist",
+        "storytelling"
+      ],
+      "quality": 8,
+      "originality": 8,
+      "difficulty": 4,
+      "seconds": 8,
+      "unlock": "writing",
+      "min_skill": 14
+    },
+    {
+      "id": "comp_heat_t",
+      "family": "fam_heat",
+      "type": "tag",
+      "text": "He's doing open mics now. Better closer than me.",
+      "styles": [
+        "self_deprecating"
+      ],
+      "quality": 7,
+      "originality": 6,
+      "difficulty": 3,
+      "seconds": 5,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_heat_ao",
+      "family": "fam_heat",
+      "type": "act_out",
+      "text": "[Act it out: the lizard's sprint, arms pinwheeling, silent scream.]",
+      "styles": [
+        "high_energy"
+      ],
+      "quality": 7,
+      "originality": 7,
+      "difficulty": 6,
+      "seconds": 9,
+      "unlock": "start_bg:theater_kid"
+    },
+    {
+      "id": "comp_heat_cb",
+      "family": "fam_heat",
+      "type": "callback",
+      "callback_ref": "fam_heat",
+      "text": "Which is how I feel about my career. Like that lizard. Sprinting. Screaming. Technically unable to.",
+      "styles": [
+        "absurdist",
+        "self_deprecating"
+      ],
+      "quality": 7,
+      "originality": 7,
+      "difficulty": 5,
+      "seconds": 7,
+      "unlock": "writing",
+      "requires": [
+        "fam_bucket_punch",
+        "fam_arrival_punch",
+        "fam_bombing_punch",
+        "fam_parents_punch"
+      ]
+    },
+    {
+      "id": "comp_scooter_p",
+      "family": "fam_scooter",
+      "type": "premise",
+      "text": "Electric scooters everywhere.",
+      "styles": [
+        "observational"
+      ],
+      "quality": 3,
+      "originality": 3,
+      "difficulty": 1,
+      "seconds": 3,
+      "unlock": "observe:scooter_pile"
+    },
+    {
+      "id": "comp_scooter_s",
+      "family": "fam_scooter",
+      "type": "setup",
+      "text": "Austin has more scooters than people, and they're all face-down on the sidewalk like a crime scene.",
+      "styles": [
+        "observational"
+      ],
+      "quality": 5,
+      "originality": 5,
+      "difficulty": 2,
+      "seconds": 10,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_scooter_u1",
+      "family": "fam_scooter",
+      "type": "punchline",
+      "text": "Nobody rides them. They just faint from the heat.",
+      "styles": [
+        "observational"
+      ],
+      "quality": 4,
+      "originality": 4,
+      "difficulty": 2,
+      "seconds": 4,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_scooter_u2",
+      "family": "fam_scooter",
+      "type": "punchline",
+      "text": "I don't think they're abandoned. I think they're praying.",
+      "styles": [
+        "absurdist",
+        "deadpan"
+      ],
+      "quality": 7,
+      "originality": 7,
+      "difficulty": 3,
+      "seconds": 4,
+      "unlock": "writing",
+      "min_skill": 10
+    },
+    {
+      "id": "comp_scooter_t",
+      "family": "fam_scooter",
+      "type": "tag",
+      "text": "Toward the one charging station. Their holy site has a forty-minute wait.",
+      "styles": [
+        "absurdist"
+      ],
+      "quality": 6,
+      "originality": 6,
+      "difficulty": 4,
+      "seconds": 6,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_scooter_ao",
+      "family": "fam_scooter",
+      "type": "act_out",
+      "text": "[Act it out: a scooter slowly tipping over with a long, tired sigh.]",
+      "styles": [
+        "high_energy"
+      ],
+      "quality": 6,
+      "originality": 6,
+      "difficulty": 5,
+      "seconds": 7,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_parents_p",
+      "family": "fam_parents",
+      "type": "premise",
+      "text": "Telling my parents I'm doing comedy.",
+      "styles": [
+        "storytelling",
+        "self_deprecating"
+      ],
+      "quality": 4,
+      "originality": 3,
+      "difficulty": 2,
+      "seconds": 4,
+      "unlock": "start_bg:small_town"
+    },
+    {
+      "id": "comp_parents_s",
+      "family": "fam_parents",
+      "type": "setup",
+      "text": "I told my dad I moved to Austin to do standup. He went quiet, then asked, 'Is that the one where you stand?'",
+      "styles": [
+        "storytelling"
+      ],
+      "quality": 5,
+      "originality": 5,
+      "difficulty": 3,
+      "seconds": 12,
+      "unlock": "start_bg:small_town"
+    },
+    {
+      "id": "comp_parents_u1",
+      "family": "fam_parents",
+      "type": "punchline",
+      "text": "Yes, Dad. That's most of it.",
+      "styles": [
+        "deadpan"
+      ],
+      "quality": 5,
+      "originality": 4,
+      "difficulty": 2,
+      "seconds": 4,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_parents_u2",
+      "family": "fam_parents",
+      "type": "punchline",
+      "text": "Now he tells his friends I'm 'in the standing industry.' Three of them asked if I can get them forklift certified.",
+      "styles": [
+        "storytelling",
+        "absurdist"
+      ],
+      "quality": 8,
+      "originality": 7,
+      "difficulty": 4,
+      "seconds": 9,
+      "unlock": "writing",
+      "min_skill": 14
+    },
+    {
+      "id": "comp_parents_t",
+      "family": "fam_parents",
+      "type": "tag",
+      "text": "I have a callback Tuesday.",
+      "styles": [
+        "deadpan"
+      ],
+      "quality": 6,
+      "originality": 6,
+      "difficulty": 3,
+      "seconds": 3,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_dating_p",
+      "family": "fam_dating",
+      "type": "premise",
+      "text": "Dating apps in a new city.",
+      "styles": [
+        "self_deprecating"
+      ],
+      "quality": 3,
+      "originality": 2,
+      "difficulty": 2,
+      "seconds": 3,
+      "unlock": "observe:app_billboard"
+    },
+    {
+      "id": "comp_dating_s",
+      "family": "fam_dating",
+      "type": "setup",
+      "text": "I updated my dating profile to say 'comedian.' My matches dropped eighty percent.",
+      "styles": [
+        "self_deprecating"
+      ],
+      "quality": 5,
+      "originality": 4,
+      "difficulty": 2,
+      "seconds": 9,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_dating_u1",
+      "family": "fam_dating",
+      "type": "punchline",
+      "text": "The other twenty percent were also comedians, asking for stage time.",
+      "styles": [
+        "observational"
+      ],
+      "quality": 6,
+      "originality": 5,
+      "difficulty": 3,
+      "seconds": 6,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_dating_u2",
+      "family": "fam_dating",
+      "type": "punchline",
+      "text": "So I changed it to 'unemployed' and matches went up. Women respect honesty. They do not respect open mics.",
+      "styles": [
+        "self_deprecating",
+        "storytelling"
+      ],
+      "quality": 7,
+      "originality": 6,
+      "difficulty": 4,
+      "seconds": 9,
+      "unlock": "writing",
+      "min_skill": 12
+    },
+    {
+      "id": "comp_dating_t",
+      "family": "fam_dating",
+      "type": "tag",
+      "text": "My mom liked my profile. Twice.",
+      "styles": [
+        "self_deprecating"
+      ],
+      "quality": 5,
+      "originality": 5,
+      "difficulty": 2,
+      "seconds": 3,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_bombing_p",
+      "family": "fam_bombing",
+      "type": "premise",
+      "text": "Bombing at an open mic.",
+      "styles": [
+        "self_deprecating"
+      ],
+      "quality": 4,
+      "originality": 4,
+      "difficulty": 2,
+      "seconds": 3,
+      "unlock": "bomb"
+    },
+    {
+      "id": "comp_bombing_s",
+      "family": "fam_bombing",
+      "type": "setup",
+      "text": "I bombed so hard last week the bartender gave me a free drink. Not as a kindness. As evidence.",
+      "styles": [
+        "self_deprecating",
+        "storytelling"
+      ],
+      "quality": 6,
+      "originality": 6,
+      "difficulty": 3,
+      "seconds": 10,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_bombing_u1",
+      "family": "fam_bombing",
+      "type": "punchline",
+      "text": "Silence is golden. Mine was more of a copper.",
+      "styles": [
+        "deadpan"
+      ],
+      "quality": 4,
+      "originality": 4,
+      "difficulty": 2,
+      "seconds": 4,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_bombing_u2",
+      "family": "fam_bombing",
+      "type": "punchline",
+      "text": "Afterwards a guy walked up and said 'Brave.' That's what they say about people who run into burning buildings and don't come out.",
+      "styles": [
+        "self_deprecating",
+        "deadpan"
+      ],
+      "quality": 7,
+      "originality": 6,
+      "difficulty": 4,
+      "seconds": 9,
+      "unlock": "writing",
+      "min_skill": 12
+    },
+    {
+      "id": "comp_bombing_t",
+      "family": "fam_bombing",
+      "type": "tag",
+      "text": "He went up next. Also bombed. We're roommates now.",
+      "styles": [
+        "absurdist"
+      ],
+      "quality": 6,
+      "originality": 6,
+      "difficulty": 3,
+      "seconds": 5,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_coffee_p",
+      "family": "fam_coffee",
+      "type": "premise",
+      "text": "Every coffee shop is full of people writing screenplays.",
+      "styles": [
+        "observational"
+      ],
+      "quality": 4,
+      "originality": 3,
+      "difficulty": 2,
+      "seconds": 5,
+      "unlock": "observe:coffee_laptops"
+    },
+    {
+      "id": "comp_coffee_s",
+      "family": "fam_coffee",
+      "type": "setup",
+      "text": "Every table at Grounds for Concern has a laptop and a guy writing a screenplay about a guy writing a screenplay.",
+      "styles": [
+        "observational"
+      ],
+      "quality": 5,
+      "originality": 4,
+      "difficulty": 3,
+      "seconds": 11,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_coffee_u1",
+      "family": "fam_coffee",
+      "type": "punchline",
+      "text": "It's very meta. So is the coffee. It's mostly about coffee.",
+      "styles": [
+        "absurdist"
+      ],
+      "quality": 4,
+      "originality": 4,
+      "difficulty": 3,
+      "seconds": 5,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_coffee_u2",
+      "family": "fam_coffee",
+      "type": "punchline",
+      "text": "I asked one guy what his movie's about. He said 'Austin.' I said 'What happens?' He said 'Rent.'",
+      "styles": [
+        "observational",
+        "deadpan"
+      ],
+      "quality": 8,
+      "originality": 7,
+      "difficulty": 4,
+      "seconds": 8,
+      "unlock": "writing",
+      "min_skill": 14
+    },
+    {
+      "id": "comp_coffee_t",
+      "family": "fam_coffee",
+      "type": "tag",
+      "text": "It's a horror movie.",
+      "styles": [
+        "deadpan"
+      ],
+      "quality": 7,
+      "originality": 6,
+      "difficulty": 2,
+      "seconds": 2,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_bucket_p",
+      "family": "fam_bucket",
+      "type": "premise",
+      "text": "Standing in line to put my name in a bucket.",
+      "styles": [
+        "observational",
+        "self_deprecating"
+      ],
+      "quality": 4,
+      "originality": 4,
+      "difficulty": 2,
+      "seconds": 4,
+      "unlock": "observe:bucket_line"
+    },
+    {
+      "id": "comp_bucket_s",
+      "family": "fam_bucket",
+      "type": "setup",
+      "text": "Every Monday a hundred comics line up to write their names on paper and drop them in a bucket. My whole career is a raffle.",
+      "styles": [
+        "observational"
+      ],
+      "quality": 6,
+      "originality": 5,
+      "difficulty": 3,
+      "seconds": 11,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_bucket_u1",
+      "family": "fam_bucket",
+      "type": "punchline",
+      "text": "My mom thinks I joined a cult. I said it's worse. It's a lottery with heckling.",
+      "styles": [
+        "self_deprecating"
+      ],
+      "quality": 6,
+      "originality": 6,
+      "difficulty": 3,
+      "seconds": 7,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_bucket_u2",
+      "family": "fam_bucket",
+      "type": "punchline",
+      "text": "Statistically, I've got a better chance of getting struck by lightning. Which, honestly, would also be a great minute.",
+      "styles": [
+        "absurdist",
+        "self_deprecating"
+      ],
+      "quality": 8,
+      "originality": 8,
+      "difficulty": 4,
+      "seconds": 8,
+      "unlock": "writing",
+      "min_skill": 16
+    },
+    {
+      "id": "comp_bucket_t",
+      "family": "fam_bucket",
+      "type": "tag",
+      "text": "Tight, too. Lightning does about four seconds.",
+      "styles": [
+        "deadpan"
+      ],
+      "quality": 7,
+      "originality": 7,
+      "difficulty": 3,
+      "seconds": 4,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_bats_p",
+      "family": "fam_bats",
+      "type": "premise",
+      "text": "Austin's proudest tourist attraction is a million bats leaving a bridge.",
+      "styles": [
+        "observational"
+      ],
+      "quality": 4,
+      "originality": 4,
+      "difficulty": 2,
+      "seconds": 5,
+      "unlock": "observe:bat_flyer"
+    },
+    {
+      "id": "comp_bats_s",
+      "family": "fam_bats",
+      "type": "setup",
+      "text": "Every night at sunset, hundreds of people gather on a bridge to applaud bats for going to work.",
+      "styles": [
+        "observational"
+      ],
+      "quality": 5,
+      "originality": 5,
+      "difficulty": 2,
+      "seconds": 10,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_bats_u1",
+      "family": "fam_bats",
+      "type": "punchline",
+      "text": "Nobody claps when I leave for work.",
+      "styles": [
+        "self_deprecating"
+      ],
+      "quality": 5,
+      "originality": 4,
+      "difficulty": 2,
+      "seconds": 3,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_bats_u2",
+      "family": "fam_bats",
+      "type": "punchline",
+      "text": "A million bats fly out, and the crowd goes wild. I walk out of my hostel at 6 a.m. and a man throws a shoe at me.",
+      "styles": [
+        "self_deprecating",
+        "storytelling"
+      ],
+      "quality": 8,
+      "originality": 7,
+      "difficulty": 4,
+      "seconds": 9,
+      "unlock": "writing",
+      "min_skill": 14
+    },
+    {
+      "id": "comp_bats_t",
+      "family": "fam_bats",
+      "type": "tag",
+      "text": "Different shoe every day. He's got a system.",
+      "styles": [
+        "absurdist"
+      ],
+      "quality": 6,
+      "originality": 6,
+      "difficulty": 3,
+      "seconds": 4,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_bats_ao",
+      "family": "fam_bats",
+      "type": "act_out",
+      "text": "[Act it out: a tourist filming bats, narrating to their phone like a nature documentary.]",
+      "styles": [
+        "high_energy"
+      ],
+      "quality": 6,
+      "originality": 6,
+      "difficulty": 5,
+      "seconds": 8,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_foodtruck_p",
+      "family": "fam_foodtruck",
+      "type": "premise",
+      "text": "In Austin, every meal comes out of a truck.",
+      "styles": [
+        "observational"
+      ],
+      "quality": 4,
+      "originality": 3,
+      "difficulty": 2,
+      "seconds": 4,
+      "unlock": "observe:food_truck"
+    },
+    {
+      "id": "comp_foodtruck_s",
+      "family": "fam_foodtruck",
+      "type": "setup",
+      "text": "I ate at a food truck that only serves Korean-barbecue breakfast tacos. Out of a converted ambulance.",
+      "styles": [
+        "observational",
+        "storytelling"
+      ],
+      "quality": 5,
+      "originality": 6,
+      "difficulty": 3,
+      "seconds": 10,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_foodtruck_u1",
+      "family": "fam_foodtruck",
+      "type": "punchline",
+      "text": "Which is convenient, because that's where you end up after eating there.",
+      "styles": [
+        "deadpan"
+      ],
+      "quality": 6,
+      "originality": 5,
+      "difficulty": 2,
+      "seconds": 5,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_foodtruck_u2",
+      "family": "fam_foodtruck",
+      "type": "punchline",
+      "text": "The siren still works. They use it to announce your order. Three people dove out of the line.",
+      "styles": [
+        "absurdist"
+      ],
+      "quality": 8,
+      "originality": 8,
+      "difficulty": 4,
+      "seconds": 7,
+      "unlock": "writing",
+      "min_skill": 13
+    },
+    {
+      "id": "comp_foodtruck_t",
+      "family": "fam_foodtruck",
+      "type": "tag",
+      "text": "One of them was the chef.",
+      "styles": [
+        "deadpan"
+      ],
+      "quality": 6,
+      "originality": 6,
+      "difficulty": 2,
+      "seconds": 2,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_fitness_p",
+      "family": "fam_fitness",
+      "type": "premise",
+      "text": "Austin's morning running clubs.",
+      "styles": [
+        "observational"
+      ],
+      "quality": 3,
+      "originality": 3,
+      "difficulty": 2,
+      "seconds": 3,
+      "unlock": "observe:run_club"
+    },
+    {
+      "id": "comp_fitness_s",
+      "family": "fam_fitness",
+      "type": "setup",
+      "text": "At 7 a.m., forty people in matching neon run past my hostel chanting. I thought it was a cult.",
+      "styles": [
+        "observational",
+        "self_deprecating"
+      ],
+      "quality": 5,
+      "originality": 5,
+      "difficulty": 2,
+      "seconds": 9,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_fitness_u1",
+      "family": "fam_fitness",
+      "type": "punchline",
+      "text": "It is. But they get a T-shirt.",
+      "styles": [
+        "deadpan"
+      ],
+      "quality": 5,
+      "originality": 5,
+      "difficulty": 2,
+      "seconds": 3,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_fitness_u2",
+      "family": "fam_fitness",
+      "type": "punchline",
+      "text": "I joined for a week to be safe. Now I'm the slowest member of a cult. They don't even sacrifice me. They just wait.",
+      "styles": [
+        "self_deprecating",
+        "absurdist"
+      ],
+      "quality": 8,
+      "originality": 7,
+      "difficulty": 4,
+      "seconds": 9,
+      "unlock": "writing",
+      "min_skill": 14
+    },
+    {
+      "id": "comp_fitness_t",
+      "family": "fam_fitness",
+      "type": "tag",
+      "text": "Patiently. Hydrating.",
+      "styles": [
+        "deadpan"
+      ],
+      "quality": 6,
+      "originality": 6,
+      "difficulty": 2,
+      "seconds": 2,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_landlord_p",
+      "family": "fam_landlord",
+      "type": "premise",
+      "text": "Paying rent for a bunk bed.",
+      "styles": [
+        "self_deprecating"
+      ],
+      "quality": 4,
+      "originality": 3,
+      "difficulty": 2,
+      "seconds": 3,
+      "unlock": "event:ev_first_rent"
+    },
+    {
+      "id": "comp_landlord_s",
+      "family": "fam_landlord",
+      "type": "setup",
+      "text": "I pay a hundred and forty dollars a week for a bunk bed. The top bunk costs more, because of the view.",
+      "styles": [
+        "self_deprecating",
+        "observational"
+      ],
+      "quality": 5,
+      "originality": 5,
+      "difficulty": 2,
+      "seconds": 10,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_landlord_u1",
+      "family": "fam_landlord",
+      "type": "punchline",
+      "text": "The view is the ceiling.",
+      "styles": [
+        "deadpan"
+      ],
+      "quality": 5,
+      "originality": 4,
+      "difficulty": 2,
+      "seconds": 2,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_landlord_u2",
+      "family": "fam_landlord",
+      "type": "punchline",
+      "text": "The listing called it 'loft-style.' It's a ladder. I live up a ladder. Squirrels have better zoning.",
+      "styles": [
+        "observational",
+        "absurdist"
+      ],
+      "quality": 8,
+      "originality": 7,
+      "difficulty": 4,
+      "seconds": 8,
+      "unlock": "writing",
+      "min_skill": 13
+    },
+    {
+      "id": "comp_landlord_t",
+      "family": "fam_landlord",
+      "type": "tag",
+      "text": "And squirrels don't need two references.",
+      "styles": [
+        "observational"
+      ],
+      "quality": 6,
+      "originality": 5,
+      "difficulty": 2,
+      "seconds": 3,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_thelight_p",
+      "family": "fam_thelight",
+      "type": "premise",
+      "text": "Getting the light at an open mic.",
+      "styles": [
+        "self_deprecating"
+      ],
+      "quality": 4,
+      "originality": 4,
+      "difficulty": 2,
+      "seconds": 3,
+      "unlock": "event:ev_got_the_light"
+    },
+    {
+      "id": "comp_thelight_s",
+      "family": "fam_thelight",
+      "type": "setup",
+      "text": "At open mics, when your time is up, the host shines a little light at you. It's supposed to mean 'wrap it up.'",
+      "styles": [
+        "storytelling"
+      ],
+      "quality": 5,
+      "originality": 5,
+      "difficulty": 3,
+      "seconds": 10,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_thelight_u1",
+      "family": "fam_thelight",
+      "type": "punchline",
+      "text": "For me it's usually more of a mercy.",
+      "styles": [
+        "self_deprecating"
+      ],
+      "quality": 5,
+      "originality": 5,
+      "difficulty": 2,
+      "seconds": 3,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_thelight_u2",
+      "family": "fam_thelight",
+      "type": "punchline",
+      "text": "Last week the host gave me the light thirty seconds in. Not as a warning. As a search party.",
+      "styles": [
+        "absurdist",
+        "self_deprecating"
+      ],
+      "quality": 8,
+      "originality": 8,
+      "difficulty": 4,
+      "seconds": 6,
+      "unlock": "writing",
+      "min_skill": 15
+    },
+    {
+      "id": "comp_thelight_t",
+      "family": "fam_thelight",
+      "type": "tag",
+      "text": "They found nothing.",
+      "styles": [
+        "deadpan"
+      ],
+      "quality": 7,
+      "originality": 6,
+      "difficulty": 2,
+      "seconds": 2,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_techbros_p",
+      "family": "fam_techbros",
+      "type": "premise",
+      "text": "Tech people moving to Austin.",
+      "styles": [
+        "observational"
+      ],
+      "quality": 4,
+      "originality": 3,
+      "difficulty": 2,
+      "seconds": 3,
+      "unlock": "observe:coffee_techbros"
+    },
+    {
+      "id": "comp_techbros_s",
+      "family": "fam_techbros",
+      "type": "setup",
+      "text": "Every guy who moves here from California says the same thing: 'I came for the culture.' Then he buys a cowboy hat with a USB port.",
+      "styles": [
+        "observational"
+      ],
+      "quality": 6,
+      "originality": 6,
+      "difficulty": 3,
+      "seconds": 11,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_techbros_u1",
+      "family": "fam_techbros",
+      "type": "punchline",
+      "text": "So it can charge while he pretends to ride a horse.",
+      "styles": [
+        "observational"
+      ],
+      "quality": 5,
+      "originality": 5,
+      "difficulty": 2,
+      "seconds": 4,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_techbros_u2",
+      "family": "fam_techbros",
+      "type": "punchline",
+      "text": "He calls his apartment a 'ranch.' It's a studio. The only livestock is a smart fridge that judges him.",
+      "styles": [
+        "absurdist",
+        "observational"
+      ],
+      "quality": 8,
+      "originality": 7,
+      "difficulty": 4,
+      "seconds": 8,
+      "unlock": "writing",
+      "min_skill": 14
+    },
+    {
+      "id": "comp_techbros_t",
+      "family": "fam_techbros",
+      "type": "tag",
+      "text": "It ordered him a salad. He cried.",
+      "styles": [
+        "absurdist"
+      ],
+      "quality": 6,
+      "originality": 6,
+      "difficulty": 3,
+      "seconds": 3,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_techbros_alt",
+      "family": "fam_techbros",
+      "type": "punchline",
+      "text": "He's not here for the culture. He's here because Texas doesn't have a state income tax and he can't read a room.",
+      "styles": [
+        "observational",
+        "deadpan"
+      ],
+      "quality": 6,
+      "originality": 5,
+      "difficulty": 3,
+      "seconds": 7,
+      "unlock": "start_bg:tech_dropout"
+    },
+    {
+      "id": "comp_bbq_p",
+      "family": "fam_bbq",
+      "type": "premise",
+      "text": "Waiting four hours for barbecue.",
+      "styles": [
+        "observational"
+      ],
+      "quality": 4,
+      "originality": 3,
+      "difficulty": 2,
+      "seconds": 3,
+      "unlock": "event:ev_bbq_line"
+    },
+    {
+      "id": "comp_bbq_s",
+      "family": "fam_bbq",
+      "type": "setup",
+      "text": "People in Austin will wait four hours in line for brisket. Four hours. In July. Voluntarily.",
+      "styles": [
+        "observational"
+      ],
+      "quality": 5,
+      "originality": 5,
+      "difficulty": 2,
+      "seconds": 9,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_bbq_u1",
+      "family": "fam_bbq",
+      "type": "punchline",
+      "text": "I wouldn't wait four hours for my own birth. My mom says I came out early, annoyed.",
+      "styles": [
+        "self_deprecating"
+      ],
+      "quality": 6,
+      "originality": 6,
+      "difficulty": 3,
+      "seconds": 7,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_bbq_u2",
+      "family": "fam_bbq",
+      "type": "punchline",
+      "text": "Halfway through, the line becomes a community. Hour two, someone proposes. Hour three, a divorce. Hour four, the brisket's sold out and we're all in a support group.",
+      "styles": [
+        "storytelling",
+        "absurdist"
+      ],
+      "quality": 9,
+      "originality": 8,
+      "difficulty": 5,
+      "seconds": 12,
+      "unlock": "writing",
+      "min_skill": 16
+    },
+    {
+      "id": "comp_bbq_t",
+      "family": "fam_bbq",
+      "type": "tag",
+      "text": "We still meet Tuesdays. Nobody's eaten.",
+      "styles": [
+        "deadpan"
+      ],
+      "quality": 7,
+      "originality": 7,
+      "difficulty": 3,
+      "seconds": 3,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_grandma_p",
+      "family": "fam_grandma",
+      "type": "premise",
+      "text": "My grandma learning to video call.",
+      "styles": [
+        "storytelling"
+      ],
+      "quality": 4,
+      "originality": 3,
+      "difficulty": 2,
+      "seconds": 3,
+      "unlock": "event:ev_grandma_call"
+    },
+    {
+      "id": "comp_grandma_s",
+      "family": "fam_grandma",
+      "type": "setup",
+      "text": "My grandma FaceTimes me from directly under her chin. Every call is a documentary about her nostrils.",
+      "styles": [
+        "storytelling",
+        "observational"
+      ],
+      "quality": 5,
+      "originality": 5,
+      "difficulty": 2,
+      "seconds": 10,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_grandma_u1",
+      "family": "fam_grandma",
+      "type": "punchline",
+      "text": "Award-winning. Very cavernous.",
+      "styles": [
+        "deadpan"
+      ],
+      "quality": 5,
+      "originality": 5,
+      "difficulty": 2,
+      "seconds": 3,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_grandma_u2",
+      "family": "fam_grandma",
+      "type": "punchline",
+      "text": "She asked how comedy's going and I said 'great,' and she said 'Then why are you in a closet?' Grandma, it's a hostel. She said 'That's worse.'",
+      "styles": [
+        "storytelling",
+        "self_deprecating"
+      ],
+      "quality": 8,
+      "originality": 7,
+      "difficulty": 4,
+      "seconds": 11,
+      "unlock": "writing",
+      "min_skill": 14
+    },
+    {
+      "id": "comp_grandma_t",
+      "family": "fam_grandma",
+      "type": "tag",
+      "text": "Then she put me on speaker for her bridge club. Tough room.",
+      "styles": [
+        "self_deprecating"
+      ],
+      "quality": 7,
+      "originality": 6,
+      "difficulty": 3,
+      "seconds": 5,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_bachelorette_p",
+      "family": "fam_bachelorette",
+      "type": "premise",
+      "text": "Bachelorette parties on a Saturday night.",
+      "styles": [
+        "observational"
+      ],
+      "quality": 4,
+      "originality": 3,
+      "difficulty": 2,
+      "seconds": 3,
+      "unlock": "job:doorman"
+    },
+    {
+      "id": "comp_bachelorette_s",
+      "family": "fam_bachelorette",
+      "type": "setup",
+      "text": "Every Saturday, twelve women in matching sashes come to the comedy club and scream 'WOOO' at the exact moment a punchline should happen.",
+      "styles": [
+        "observational",
+        "high_energy"
+      ],
+      "quality": 5,
+      "originality": 5,
+      "difficulty": 3,
+      "seconds": 11,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_bachelorette_u1",
+      "family": "fam_bachelorette",
+      "type": "punchline",
+      "text": "It's not a laugh. It's an air raid.",
+      "styles": [
+        "deadpan"
+      ],
+      "quality": 6,
+      "originality": 5,
+      "difficulty": 2,
+      "seconds": 3,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_bachelorette_u2",
+      "family": "fam_bachelorette",
+      "type": "punchline",
+      "text": "I tried to do crowd work. I asked the bride what she does. She said 'I'm getting married!' That's not a job. That's a weekend plan with paperwork.",
+      "styles": [
+        "observational",
+        "storytelling"
+      ],
+      "quality": 8,
+      "originality": 7,
+      "difficulty": 4,
+      "seconds": 10,
+      "unlock": "writing",
+      "min_skill": 14
+    },
+    {
+      "id": "comp_bachelorette_t",
+      "family": "fam_bachelorette",
+      "type": "tag",
+      "text": "WOOO.",
+      "styles": [
+        "absurdist"
+      ],
+      "quality": 6,
+      "originality": 6,
+      "difficulty": 2,
+      "seconds": 1,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_bachelorette_ao",
+      "family": "fam_bachelorette",
+      "type": "act_out",
+      "text": "[Act it out: the maid of honor rising slowly, phone held high, for the 'WOOO.']",
+      "styles": [
+        "high_energy"
+      ],
+      "quality": 7,
+      "originality": 6,
+      "difficulty": 5,
+      "seconds": 7,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_cowboy_p",
+      "family": "fam_cowboy",
+      "type": "premise",
+      "text": "Tourists dressed as cowboys.",
+      "styles": [
+        "observational"
+      ],
+      "quality": 3,
+      "originality": 3,
+      "difficulty": 2,
+      "seconds": 3,
+      "unlock": "observe:tourist_boots"
+    },
+    {
+      "id": "comp_cowboy_s",
+      "family": "fam_cowboy",
+      "type": "setup",
+      "text": "Tourists come to Austin and immediately buy boots, a hat and a belt buckle the size of a hubcap.",
+      "styles": [
+        "observational"
+      ],
+      "quality": 5,
+      "originality": 4,
+      "difficulty": 2,
+      "seconds": 9,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_cowboy_u1",
+      "family": "fam_cowboy",
+      "type": "punchline",
+      "text": "Sir, you're from Ohio. The only horse you've ridden was on a carousel.",
+      "styles": [
+        "observational"
+      ],
+      "quality": 5,
+      "originality": 4,
+      "difficulty": 2,
+      "seconds": 5,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_cowboy_u2",
+      "family": "fam_cowboy",
+      "type": "punchline",
+      "text": "I watched one try to line dance. It looked like a man being lightly electrocuted by his own outfit.",
+      "styles": [
+        "absurdist",
+        "observational"
+      ],
+      "quality": 8,
+      "originality": 7,
+      "difficulty": 4,
+      "seconds": 7,
+      "unlock": "writing",
+      "min_skill": 13
+    },
+    {
+      "id": "comp_cowboy_t",
+      "family": "fam_cowboy",
+      "type": "tag",
+      "text": "Yeehaw is not a word you can whisper.",
+      "styles": [
+        "deadpan"
+      ],
+      "quality": 6,
+      "originality": 6,
+      "difficulty": 2,
+      "seconds": 3,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_cowboy_ao",
+      "family": "fam_cowboy",
+      "type": "act_out",
+      "text": "[Act it out: stiff-legged line dancing in brand-new boots.]",
+      "styles": [
+        "high_energy"
+      ],
+      "quality": 7,
+      "originality": 7,
+      "difficulty": 5,
+      "seconds": 8,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_arrival_t2",
+      "family": "fam_arrival",
+      "type": "tag",
+      "text": "I'm not homeless. I'm 'between leases' like a startup.",
+      "styles": [
+        "self_deprecating"
+      ],
+      "quality": 6,
+      "originality": 6,
+      "difficulty": 3,
+      "seconds": 5,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_diner_ao",
+      "family": "fam_diner",
+      "type": "act_out",
+      "text": "[Act it out: carrying the empty plate to her table with total reverence.]",
+      "styles": [
+        "high_energy"
+      ],
+      "quality": 6,
+      "originality": 6,
+      "difficulty": 5,
+      "seconds": 7,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_dating_u3",
+      "family": "fam_dating",
+      "type": "punchline",
+      "text": "My best match was a woman who wrote 'no comedians.' We talked for a week. Then she saw me perform. Now she writes 'no comedians, especially him.'",
+      "styles": [
+        "storytelling",
+        "self_deprecating"
+      ],
+      "quality": 8,
+      "originality": 7,
+      "difficulty": 4,
+      "seconds": 10,
+      "unlock": "writing",
+      "min_skill": 16
+    },
+    {
+      "id": "comp_parents_ao",
+      "family": "fam_parents",
+      "type": "act_out",
+      "text": "[Act it out: Dad standing very still, demonstrating 'the standing industry.']",
+      "styles": [
+        "high_energy"
+      ],
+      "quality": 6,
+      "originality": 6,
+      "difficulty": 5,
+      "seconds": 6,
+      "unlock": "writing"
+    },
+    {
+      "id": "comp_bucket_cb",
+      "family": "fam_bucket",
+      "type": "callback",
+      "text": "Still better odds than the bucket.",
+      "styles": [
+        "deadpan"
+      ],
+      "quality": 7,
+      "originality": 7,
+      "difficulty": 4,
+      "seconds": 3,
+      "unlock": "writing",
+      "callback_ref": "fam_bucket",
+      "requires": [
+        "fam_dating_punch",
+        "fam_landlord_punch",
+        "fam_bbq_punch",
+        "fam_arrival_punch"
+      ]
+    }
   ]
 }

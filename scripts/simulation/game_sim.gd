@@ -29,7 +29,7 @@ static func new_game(db: ContentDB, setup: Dictionary, seed_value: int) -> GameS
 	s.player = {
 		"name": str(setup.get("name", "Alex")),
 		"stage_name": str(setup.get("stage_name", setup.get("name", "Alex"))),
-		"pronouns": str(setup.get("pronouns", "they")),
+		"gender": str(setup.get("gender", "male")) if db.genders.has(str(setup.get("gender", "male"))) else "male",
 		"appearance": setup.get("appearance", {"skin": 0, "hair": 0, "outfit": 0}),
 		"background": bg_id,
 		"style": str(setup.get("style", "observational")),
@@ -55,9 +55,32 @@ static func new_game(db: ContentDB, setup: Dictionary, seed_value: int) -> GameS
 	s.player_pos = Vector2(float(ps[0]), float(ps[1]))
 	for stream in GameState.RNG_STREAMS:
 		s.rng(str(stream))
+	s.flags.erase("found_day_%d" % s.day)  # starting kit isn't "found" material
 	s.flags["tutorial_step"] = "bag"
 	s.add_message("You arrive in Austin with $%d, a bag, and a journal of bad jokes." % s.cash)
 	return s
+
+
+# --- Text ---------------------------------------------------------------
+
+## Pronoun for the player's gender: key is "subject", "object", "possessive" or "noun".
+static func pronoun(s: GameState, db: ContentDB, key: String) -> String:
+	var g: Dictionary = db.genders.get(str(s.player.get("gender", "male")), db.genders.get("male", {}))
+	return str(g.get(key, ""))
+
+
+## Replaces {he} {him} {his} {guy} {name} {stage} tokens in authored text.
+static func fmt(s: GameState, db: ContentDB, text: String) -> String:
+	var out := text
+	out = out.replace("{He}", pronoun(s, db, "subject").capitalize())
+	out = out.replace("{he}", pronoun(s, db, "subject"))
+	out = out.replace("{him}", pronoun(s, db, "object"))
+	out = out.replace("{His}", pronoun(s, db, "possessive").capitalize())
+	out = out.replace("{his}", pronoun(s, db, "possessive"))
+	out = out.replace("{guy}", pronoun(s, db, "noun"))
+	out = out.replace("{name}", str(s.player.get("name", "")))
+	out = out.replace("{stage}", str(s.player.get("stage_name", "")))
+	return out
 
 
 # --- Time ---------------------------------------------------------------
@@ -95,13 +118,38 @@ static func sleep(s: GameState, db: ContentDB) -> Dictionary:
 	if h.is_empty():
 		return {"ok": false, "message": "You don't have anywhere to sleep yet."}
 	var n := blocks_until_morning(s)
+	var summary := day_summary(s, db, s.day)
 	var notes := advance(s, db, n, true)
 	var gain: int = int(h.get("rest", 40)) + db.bali("time.sleep_bonus_per_extra_block", 6) * maxi(0, n - 1)
 	StatsRules.change_energy(s, gain)
 	StatsRules.change_stress(s, int(h.get("stress", -5)))
 	var msg := "You sleep at %s. Energy +%d." % [h.get("name", "home"), gain]
 	notes.push_front(msg)
-	return {"ok": true, "message": "\n".join(PackedStringArray(notes))}
+	return {"ok": true, "message": "\n".join(PackedStringArray(notes)), "summary": summary}
+
+
+## A short recap of a day: money in/out, sets, material found, what's next.
+static func day_summary(s: GameState, db: ContentDB, day: int) -> Dictionary:
+	var earned := 0
+	var spent := 0
+	for e in s.ledger:
+		if int(e["day"]) == day:
+			if int(e["amount"]) > 0:
+				earned += int(e["amount"])
+			else:
+				spent -= int(e["amount"])
+	var sets: Array = []
+	for p in s.performances:
+		if int(p["day"]) == day:
+			sets.append("%s: %s (%d)" % [db.venues.get(str(p["venue"]), {}).get("name", p["venue"]), str(p["tier"]), int(float(p["score"]))])
+	var found: int = int(s.flags.get("found_day_%d" % day, 0))
+	var next_items: Array = []
+	for c in Scheduler.upcoming(s, 3):
+		next_items.append("%s (%s)" % [c["title"], CalendarRules.describe_slot(int(c["day"]), int(c["block"]))])
+	var rent_in := -1
+	if s.housing_id != "" and int(db.housing.get(s.housing_id, {}).get("weekly", 0)) > 0:
+		rent_in = int(s.rent.get("next_due_day", 0)) - (day + 1)
+	return {"day": day, "earned": earned, "spent": spent, "cash": s.cash, "sets": sets, "found": found, "next": next_items, "rent_in": rent_in}
 
 
 # --- Actions ----------------------------------------------------------------
@@ -127,7 +175,15 @@ static func actions_for(s: GameState, db: ContentDB, location_id: String) -> Arr
 		if str(c.get("location_id", "")) != location_id:
 			continue
 		if str(c["kind"]) == "kill_tony":
-			out.append(_act("kt_attend", "Kill Tony: wait for the bucket", 1, "Tonight's draw. One block.", {"commitment_id": c["id"]}))
+			var regular := bool(c.get("regular", false))
+			out.append(_act("kt_attend", "Kill Tony: your regular spot" if regular else "Kill Tony: wait for the bucket", 1, "You're on the lineup tonight." if regular else "Tonight's draw. One block.", {"commitment_id": c["id"]}))
+		elif str(c["kind"]) == "promise":
+			var js: Dictionary = c.get("job_shift", {})
+			if not js.is_empty():
+				var length: int = int(c.get("length", 2))
+				out.append(_act("work", "Keep your promise: %s" % c["title"], length, "Work the shift you promised. Bonus pay and goodwill.", {"job_id": str(js["job"]), "shift_id": str(js["shift"]), "promise_id": str(c["id"]), "energy": int(db.jobs.get(str(js["job"]), {}).get("energy", -20)), "length": length}))
+			else:
+				out.append(_act("keep_promise", "Keep your promise: %s" % c["title"], 1, "%s is counting on you." % db.character_name(str(c.get("npc", ""))), {"commitment_id": c["id"]}))
 		else:
 			out.append(_act("perform_booking", "Perform: %s" % c["title"], 1, "%ds slot. Pay $%d." % [int(c["slot_seconds"]), int(c["pay"])], {"commitment_id": c["id"]}))
 	match location_id:
@@ -136,7 +192,6 @@ static func actions_for(s: GameState, db: ContentDB, location_id: String) -> Arr
 				out.append(_act("rent_bunk", "Ask Mari about a bunk", 0, "$%d/week, first payment due in a week." % int(db.housing["bunkhouse"]["weekly"])))
 			if int(s.rent.get("debt", 0)) > 0:
 				out.append(_act("pay_debt", "Pay rent debt ($%d)" % int(s.rent["debt"]), 0, "Clears what you owe Mari."))
-			out.append(_act("observe", "Survey the bunk room", 0, "Look for material.", {"obs": "hostel_bunks"}, WorldRules.observation_available(s, db.observations.get("hostel_bunks", {"id": "x"}))))
 		"apartments":
 			var oak: Dictionary = db.housing.get("oak_room", {})
 			if s.housing_id != "oak_room":
@@ -175,9 +230,6 @@ static func actions_for(s: GameState, db: ContentDB, location_id: String) -> Arr
 				out.append(_act("work", "Emergency: %s" % sh["label"], int(sh["length"]), "$55 cash, hard labor. Always available in the morning.", sh, bool(sh["enabled"]), str(sh["reason"])))
 		"coffee":
 			out.append(_act("buy", "Buy a coffee ($4)", 0, "Energy +8.", {"item": "coffee", "price": 4, "energy": 8, "stress": 0}, not s.flags.has("bought_%d" % CalendarRules.slot(s.day, s.block)), "You've had enough coffee this block."))
-			out.append(_act("observe", "Watch the laptop crowd", 0, "Look for material.", {"obs": "coffee_laptops"}, WorldRules.observation_available(s, db.observations.get("coffee_laptops", {"id": "x"}))))
-			if WorldRules.npcs_at(s, db, "coffee").has("deshawn"):
-				out.append(_act("workshop", "Workshop jokes with Deshawn", 1, "Trade notes. Builds chemistry; he may help you find a tag.", {"npc": "deshawn"}))
 		"mart":
 			var bought := s.flags.has("bought_%d" % CalendarRules.slot(s.day, s.block))
 			out.append(_act("buy", "Buy a cheap coffee ($3)", 0, "Energy +6.", {"item": "coffee", "price": 3, "energy": 6, "stress": 0}, not bought, "One purchase per block."))
@@ -209,6 +261,18 @@ static func actions_for(s: GameState, db: ContentDB, location_id: String) -> Arr
 		"lantern":
 			if [3, 4, 5].has(wd) and s.block == 2:
 				out.append(_act("watch", "Watch the headliner ($15)", 1, "Lonnie Szabo is in town. Good for your writing.", {"venue_id": "lantern_show", "price": 15}, s.cash >= 15, "Not enough cash."))
+	# Interior observations (one-time material).
+	for oid in db.observations:
+		var o: Dictionary = db.observations[oid]
+		if str(o.get("location", "")) == location_id and WorldRules.observation_available(s, o):
+			out.append(_act("observe", str(o["label"]), 0, "Look for material.", {"obs": oid}))
+	# Workshop partners present here (Deshawn trades tags, Priya punches up punchlines).
+	if location_id in ["coffee", "rusty_spur"]:
+		for npc_id in WorldRules.npcs_at(s, db, location_id):
+			var npc: Dictionary = db.npcs[npc_id]
+			if bool(npc.get("workshop", false)):
+				var first: String = str(npc["name"]).split(" ")[0]
+				out.append(_act("workshop", "Workshop jokes with %s" % first, 1, "Trade notes for an hour. Builds chemistry; %s may help you find a %s." % [first, str(npc.get("workshop_gives", "tag"))], {"npc": npc_id}))
 	# Home actions.
 	if home != "" and home == location_id:
 		var h: Dictionary = db.housing[s.housing_id]
@@ -310,7 +374,16 @@ static func run_action(s: GameState, db: ContentDB, a: Dictionary) -> Dictionary
 		"write":
 			return {"ok": true, "open": "writing"}
 		"work":
-			return {"ok": true, "open": "shift", "shift": JobRules.begin_shift(s, db, str(p["job_id"]), str(p["shift_id"]))}
+			var sh := JobRules.begin_shift(s, db, str(p["job_id"]), str(p["shift_id"]))
+			if str(p.get("promise_id", "")) != "":
+				sh["promise_id"] = str(p["promise_id"])
+				sh["length_override"] = int(p.get("length", 2))
+			return {"ok": true, "open": "shift", "shift": sh}
+		"keep_promise":
+			var notes := PromiseRules.keep(s, db, str(p["commitment_id"]))
+			StatsRules.change_stress(s, -2)
+			notes.append_array(advance(s, db, 1))
+			return {"ok": true, "message": "\n".join(PackedStringArray(notes))}
 		"open_mic":
 			return {"ok": true, "open": "set_builder", "venue_id": str(p["venue_id"]), "commitment_id": ""}
 		"perform_booking":
@@ -411,20 +484,23 @@ static func workshop(s: GameState, db: ContentDB, npc_id: String) -> Dictionary:
 	StatsRules.change_energy(s, -db.bali("writing.energy_cost", 8))
 	Relationships.change(s, npc_id, {"chemistry": 4, "familiarity": 2, "trust": 1})
 	StatsRules.add_skill(s, "writing", 0.6)
-	var msg := "You and Deshawn trade bits for an hour."
-	# Workshopping can surface a tag for one of your families.
+	var npc: Dictionary = db.npcs.get(npc_id, {})
+	var first: String = str(npc.get("name", npc_id)).split(" ")[0]
+	var gives: String = str(npc.get("workshop_gives", "tag"))
+	var msg := "You and %s trade bits for an hour." % first
+	# Workshopping can surface a piece for one of your families (no skill gate).
 	var r := s.rng("world")
-	if r.randf() < 0.5:
+	if r.randf() < 0.5 + float(s.rel(npc_id)["chemistry"]) / 200.0:
 		for cid in s.components:
 			var fam: String = str(db.component(str(cid)).get("family", ""))
 			for c in db.family_components(fam):
-				if str(c["type"]) == "tag" and not s.components.has(str(c["id"])):
+				if str(c["type"]) == gives and str(c.get("unlock", "")) == "writing" and not s.components.has(str(c["id"])):
 					JokeRules.unlock_component(s, db, str(c["id"]))
-					msg += " He pitches a tag you love: \"%s\"" % c["text"]
+					msg += " %s pitches a %s you love: \"%s\"" % [first, gives, c["text"]]
 					var n0 := advance(s, db, 1)
 					n0.push_front(msg)
 					return {"ok": true, "message": "\n".join(PackedStringArray(n0))}
-	msg += " Nothing new, but he laughed at your stuff and you laughed at his."
+	msg += " Nothing new today, but you both laughed."
 	var n := advance(s, db, 1)
 	n.push_front(msg)
 	return {"ok": true, "message": "\n".join(PackedStringArray(n))}
@@ -565,6 +641,7 @@ static func apply_performance(s: GameState, db: ContentDB, ctx: Dictionary, summ
 	s.stats["sets"] = int(s.stats.get("sets", 0)) + 1
 	if score < 30.0:
 		s.stats["bombs"] = int(s.stats.get("bombs", 0)) + 1
+		s.flags["bombed_once"] = true
 		for comp in db.components.values():
 			if str(comp.get("unlock", "")) == "bomb" and JokeRules.unlock_component(s, db, str(comp["id"])):
 				notes.append("Bombing gave you something: new premise \"%s\"." % comp["text"])

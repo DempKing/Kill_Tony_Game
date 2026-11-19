@@ -85,3 +85,12 @@ tone modifier − 5 × repeats).
 | 3 | 2 paid sets, reputation 25 |
 | 4 | 1 opening set, reputation 40 |
 | 5–9 | need touring/arenas (not built) |
+
+## Promises and regulars
+- Promise rewards are authored per event: typically trust +5–6, sometimes
+  $15–20 or a skill bump.
+- Breaking a promise uses the missed-booking penalty (reliability −8,
+  trust −5, respect −2), with no reputation loss.
+- Regular status takes 3 sets of 80+ at Kill Tony.
+- Each regular set needs at least 50% new material.
+- 3 strikes ends regular status.

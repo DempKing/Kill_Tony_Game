@@ -102,6 +102,13 @@ static func ensure_draw(s: GameState, db: ContentDB, day: int) -> Dictionary:
 		s.kt["golden_tickets"] = int(s.kt["golden_tickets"]) - 1
 	elif selected and int(s.kt.get("golden_tickets", 0)) > 0:
 		pass  # Pulled fairly; the ticket is kept for another week.
+	# Regulars are on the lineup: no bucket for their scheduled Mondays.
+	var regular := false
+	for c in s.commitments:
+		if str(c.get("kind", "")) == "kill_tony" and int(c["day"]) == day and bool(c.get("regular", false)):
+			selected = true
+			position = 1
+			regular = true
 	var forced: String = str(s.flags.get("dev_force_bucket", ""))
 	if forced == "selected":
 		selected = true
@@ -116,7 +123,7 @@ static func ensure_draw(s: GameState, db: ContentDB, day: int) -> Dictionary:
 	if selected:
 		names[clampi(position - 1, 0, pulls - 1)] = "__player__"
 	var d := {"day": day, "entrants": entrants, "pulls": pulls, "selected": selected, "position": position if selected else 0,
-		"names": names, "golden": golden, "forced": forced, "stage": "drawn", "resolved": false}
+		"names": names, "golden": golden, "regular": regular, "forced": forced, "stage": "drawn", "resolved": false}
 	draws[key] = d
 	return d
 
@@ -143,6 +150,8 @@ static func _prompt_ok(s: GameState, p: Dictionary, band: String) -> bool:
 	if c.has("min_appearances") and apps < int(c["min_appearances"]):
 		return false
 	if c.has("max_appearances") and apps > int(c["max_appearances"]):
+		return false
+	if c.has("min_day") and s.day < int(c["min_day"]):
 		return false
 	if c.has("set_band") and str(c["set_band"]) != band:
 		return false
@@ -242,6 +251,8 @@ static func resolve_rewards(s: GameState, db: ContentDB, day: int, set_score: fl
 	if set_score >= float(R.get("regular_track_set_min", 80)) and RewardRules.claim(s, "kt_%s_regular_progress" % key):
 		s.kt["regular_progress"] = int(s.kt.get("regular_progress", 0)) + 1
 		out.append({"id": "regular_progress", "label": "Noticed", "text": "The panel will remember you. (Regular-track progress %d/%d.)" % [int(s.kt["regular_progress"]), db.bali("regular.progress_needed", 3)]})
+		if int(s.kt["regular_progress"]) >= db.bali("regular.progress_needed", 3) and not bool(s.flags.get("kt_regular", false)) and not bool(s.flags.get("kt_regular_declined", false)):
+			s.flags["kt_regular_ready"] = true
 	var draw: Dictionary = s.kt["draws"].get(key, {})
 	if not draw.is_empty():
 		draw["resolved"] = true
@@ -250,3 +261,45 @@ static func resolve_rewards(s: GameState, db: ContentDB, day: int, set_score: fl
 		draw["interview_score"] = iv_score
 	s.kt["history"].append({"day": day, "set_score": set_score, "interview": iv_score, "rewards": out.map(func(o): return o["id"])})
 	return out
+
+
+## Schedules the next regular spot (every other Monday) once regular status is on.
+static func schedule_regular(s: GameState, db: ContentDB) -> String:
+	if not bool(s.flags.get("kt_regular", false)):
+		return ""
+	if not s.flags.has("kt_regular_next_day"):
+		s.flags["kt_regular_next_day"] = CalendarRules.next_weekday(s.day, CalendarRules.MONDAY)
+	var next_day: int = int(s.flags["kt_regular_next_day"])
+	if s.day < next_day:
+		return ""
+	s.flags["kt_regular_next_day"] = next_day + 14
+	if next_day < s.day:
+		return ""
+	var c := {"kind": "kill_tony", "title": "Kill Tony (regular spot)", "day": next_day, "block": show_block(db), "length": 1,
+		"location_id": "mothership", "venue_id": VENUE_ID, "slot_seconds": db.bali("bucket.set_seconds", 60), "pay": 0, "fee": 0, "npc": "partner_redban", "regular": true}
+	var res := Scheduler.add(s, db, c, false)
+	if not bool(res["ok"]):
+		return "Your regular Kill Tony spot tonight conflicts with another booking. Sort it out, or you'll miss it."
+	return "You're on the Kill Tony lineup tonight as a regular. Bring new material."
+
+
+## Regulars must keep producing. Call BEFORE applying the performance (exposure
+## is still the pre-show count). Returns a panel note.
+static func regular_review(s: GameState, db: ContentDB, results: Array) -> String:
+	if not bool(s.flags.get("kt_regular", false)) or results.is_empty():
+		return ""
+	var fresh := 0
+	for r in results:
+		var joke: Dictionary = s.jokes.get(str(r["joke_id"]), {})
+		if int(joke.get("exposure", {}).get(VENUE_ID, 0)) == 0:
+			fresh += 1
+	var ratio := float(fresh) / results.size()
+	if ratio >= 0.5:
+		s.kt["regular_strikes"] = 0
+		return "The panel notices the new material. That's what being a regular means."
+	s.kt["regular_strikes"] = int(s.kt.get("regular_strikes", 0)) + 1
+	if int(s.kt["regular_strikes"]) >= 3:
+		s.flags["kt_regular"] = false
+		s.flags.erase("kt_regular_next_day")
+		return "The host, gently: 'We've heard this one.' After three recycled sets, you're off the regular lineup. The bucket's still there."
+	return "The host: 'Didn't we hear this last time?' Regulars need new material. (Strike %d of 3.)" % int(s.kt["regular_strikes"])

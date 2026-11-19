@@ -22,7 +22,7 @@ var interviews: Array = []
 var opportunities: Dictionary = {}
 var backgrounds: Dictionary = {}
 var styles: Dictionary = {}
-var pronouns: Array = []
+var genders: Dictionary = {}
 var appearance: Dictionary = {}
 var books: Dictionary = {}
 var housing: Dictionary = {}
@@ -85,7 +85,8 @@ func load_all(root: String) -> void:
 		opportunities[str(o["id"])] = o
 
 	var ch: Dictionary = _read_dict(root + "character/character.json")
-	pronouns = ch.get("pronouns", [])
+	for g in ch.get("genders", []):
+		genders[str(g["id"])] = g
 	appearance = ch.get("appearance", {})
 	for b in ch.get("backgrounds", []):
 		backgrounds[str(b["id"])] = b

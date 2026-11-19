@@ -27,6 +27,8 @@ static func unlock_component(s: GameState, db: ContentDB, id: String) -> bool:
 	if id == "" or s.components.has(id) or not db.components.has(id):
 		return false
 	s.components.append(id)
+	var key := "found_day_%d" % s.day
+	s.flags[key] = int(s.flags.get(key, 0)) + 1
 	return true
 
 

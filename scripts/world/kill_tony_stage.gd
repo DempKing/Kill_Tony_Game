@@ -98,6 +98,9 @@ func _waiting() -> void:
 	art.player_at_mic = false
 	caption.text = "Kill Tony · Comedy Mothership · %s" % CalendarRules.describe(s.day, s.block)
 	var lines: Dictionary = db.partner.get("lines", {})
+	if bool(draw.get("regular", false)):
+		ui.dialog("Regular spot", GameSim.fmt(s, db, str(lines.get("regular_intro", "You're on the lineup tonight."))), [{"label": "Walk to the mic", "cb": func(): _goto_minute()}])
+		return
 	var body := "%s\n\nTonight: %d names in the bucket. %d will be pulled. Fame doesn't help; your slip is just a slip." % [lines.get("bucket_intro", ""), int(draw["entrants"]), int(draw["pulls"])]
 	ui.dialog("The bucket", body, [{"label": "Watch the names get pulled", "cb": func(): _reveal(0)}])
 
@@ -113,7 +116,7 @@ func _reveal(i: int) -> void:
 		art.reaction = 0.6
 		art.band_cue = 1.0
 		var golden := " (Your golden ticket guarantees this spot.)" if bool(draw.get("golden", false)) else ""
-		ui.dialog("Name #%d" % (i + 1), "\"%s!\"\n\n%s%s" % [s.player.get("stage_name", ""), db.partner.get("lines", {}).get("called_up", "Your name is called."), golden], [{"label": "Walk to the mic", "cb": func(): _goto_minute()}])
+		ui.dialog("Name #%d" % (i + 1), "\"%s!\"\n\n%s%s" % [s.player.get("stage_name", ""), GameSim.fmt(s, db, str(db.partner.get("lines", {}).get("called_up", "Your name is called."))), golden], [{"label": "Walk to the mic", "cb": func(): _goto_minute()}])
 		return
 	ui.dialog("Name #%d" % (i + 1), "\"%s.\"\n\nA comic in a denim jacket jogs to the stage. You clap. You're still in the bucket..." % n if i < names.size() - 1 else "\"%s.\"\n\nThat's the last name." % n, [{"label": "Next name", "cb": func(): _reveal(i + 1)}])
 
@@ -219,6 +222,7 @@ func _on_reacted(res: Dictionary) -> void:
 
 func _on_set_finished(summary: Dictionary) -> void:
 	var ctx: Dictionary = night.get("perf", {})
+	var review := KillTonyRules.regular_review(s, db, summary["results"])
 	GameSim.apply_performance(s, db, ctx, summary, false)
 	night["set_score"] = float(summary["score"])
 	night["set_tier"] = str(summary["tier_label"])
@@ -238,6 +242,8 @@ func _on_set_finished(summary: Dictionary) -> void:
 	night["tones"] = []
 	_save_phase("interview")
 	var played_off := " The band played you off." if bool(summary.get("played_off", false)) else ""
+	if review != "":
+		line += "\n\n" + review
 	ui.dialog("The panel", "%s  ·  %d/100.%s\n\n%s" % [summary["tier_label"], int(float(summary["score"])), played_off, line], [{"label": "The host waves you over to talk", "cb": func(): _interview()}])
 
 
