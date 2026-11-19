@@ -171,5 +171,105 @@ func _run() -> void:
 	kt._interview()
 	await _wait(1.5)
 	await shot("kt_rewards")
-	print("[playtest] done. kt appearances=", s.kt.get("appearances"), " books=", s.books)
+	print("[playtest] kt appearances=", s.kt.get("appearances"), " books=", s.books)
+	await _tour_segment()
+	print("[playtest] done.")
 	get_tree().quit()
+
+
+func _tour_segment() -> void:
+	var s: GameState = Game.state
+	var db: ContentDB = Game.db
+	kt_leave()
+	await _wait(1.2)
+	var d := scene()
+	d.ui.close_all()
+	# Fast-forward the career so headline touring is unlocked.
+	s.career_tier = 6
+	s.fame = 30.0
+	s.reputation = 60.0
+	StatsRules.add_cash(s, 4000, "DEV playtest")
+	for id in db.components:
+		JokeRules.unlock_component(s, db, str(id))
+	for fam in ["fam_heat", "fam_bucket", "fam_coffee", "fam_delivery", "fam_bbq", "fam_grandma"]:
+		var parts := {}
+		for c in db.family_components(fam):
+			var t: String = str(c["type"])
+			if t in ["premise", "setup"] or (t == "punchline" and str(c["id"]).ends_with("_u2")):
+				parts[t] = str(c["id"])
+		for jid in s.jokes:
+			s.jokes[jid]["status"] = "complete"
+		JokeRules.create_joke(s, db, db.families[fam]["title"], parts)
+	for jid in s.jokes:
+		s.jokes[jid]["familiarity"] = 70
+	Game.notify()
+	d.open_phone("tours")
+	await _wait(0.6)
+	await shot("phone_tours")
+	d.ui.close_all()
+	var planner := TourPlannerUI.new().setup(d.ui, func(_m): pass)
+	planner.plan["legs"] = [{"market": "houston", "venue_type": "club"}, {"market": "dallas", "venue_type": "club"}, {"market": "san_antonio", "venue_type": "club"}]
+	planner.plan["opener"] = "deshawn"
+	planner.plan["marketing"] = 400
+	planner._build()
+	d.ui.open(planner, 1220)
+	await _wait(0.6)
+	await shot("tour_planner")
+	var res := TourRules.book(s, db, planner.plan)
+	print("[playtest] book: ", res.get("message"))
+	d.ui.close_all()
+	var tr: Dictionary = res["tour"]
+	while s.day < int(tr["start_day"]):
+		GameSim.advance(s, db, 1, true)
+	d.teleport_to("transit_stop")
+	d.open_location("transit_stop")
+	await _wait(0.6)
+	await shot("depart_action")
+	var dep := GameSim.run_action(s, db, {"id": "depart_tour", "params": {"tour_id": tr["id"]}})
+	print("[playtest] depart: ", dep.get("message"))
+	d.start_tour()
+	await _wait(1.5)
+	await shot("tour_arrive")
+	var ts := scene()
+	for i in range(tr["legs"].size()):
+		ts.ui.close_all()
+		ts._sales()
+		await _wait(0.5)
+		if i == 0:
+			await shot("tour_box_office")
+		ts.ui.close_all()
+		ts._pick_set()
+		await _wait(0.6)
+		if i == 0:
+			await shot("tour_set_pick")
+		ts._start_show()
+		await _wait(0.8)
+		ts.runner._pick("_start")
+		await _wait(2.3)
+		if i == 0:
+			await shot("tour_show_houston")
+		var guard := 0
+		while ts.runner != null and guard < 30:
+			guard += 1
+			if ts.sim.awaiting_choice:
+				var ch: Array = ts.sim.available_choices()
+				ts.runner._pick(str(ch[0]["id"]) if not ch.is_empty() else "_finish")
+				await _wait(0.2)
+			if ts.runner != null and ts.sim.has_next() and not ts.sim.awaiting_choice:
+				ts.runner._pick("_next")
+				await _wait(2.1)
+			elif ts.runner != null and not ts.sim.has_next() and not ts.sim.awaiting_choice:
+				ts.runner._pick("_finish")
+				await _wait(0.8)
+		await shot("tour_settlement_%d" % i)
+		ts.ui.close_all()
+		ts._night()
+		await _wait(1.0)
+	await shot("tour_home")
+	var sm := TourRules.summary(tr)
+	print("[playtest] tour summary: ", sm, " tier=", s.career_tier, " fans=", s.fans)
+
+
+func kt_leave() -> void:
+	Sfx.stop_music()
+	Game.goto(Game.SCENE_DISTRICT)

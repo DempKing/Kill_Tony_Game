@@ -24,7 +24,7 @@ func _build() -> void:
 	add_child(UiKit.title("Phone"))
 	var tabs := UiKit.hbox(6)
 	var offers_n := OpportunityRules.offers(Game.state).size()
-	for t in [["calendar", "Calendar"], ["offers", "Offers (%d)" % offers_n], ["money", "Money"], ["contacts", "Contacts"], ["career", "Career"], ["map", "Map / travel"], ["log", "Messages"]]:
+	for t in [["calendar", "Calendar"], ["offers", "Offers (%d)" % offers_n], ["money", "Money"], ["contacts", "Contacts"], ["career", "Career"], ["tours", "Tours"], ["map", "Map / travel"], ["log", "Messages"]]:
 		var tid: String = t[0]
 		tabs.add_child(UiKit.button(("▶ " if tab == tid else "") + str(t[1]), func(): _switch(tid)))
 	add_child(tabs)
@@ -40,6 +40,7 @@ func _build() -> void:
 		"contacts": _contacts()
 		"career": _career()
 		"map": _map()
+		"tours": _tours()
 		"log": _log()
 
 
@@ -175,6 +176,53 @@ func _career() -> void:
 	for j in s.jobs:
 		jobs.append("%s (reliability %d)" % [db.jobs.get(j, {}).get("name", j), int(s.jobs[j].get("reliability", 0))])
 	_body.add_child(UiKit.label("Jobs: " + (", ".join(PackedStringArray(jobs)) if not jobs.is_empty() else "none"), 18))
+
+
+func _tours() -> void:
+	var s: GameState = Game.state
+	var db: ContentDB = Game.db
+	var chk := TourRules.can_plan(s, db)
+	_body.add_child(UiKit.label("Austin is home. Tours are booked here and played on the road. Road offers (opening for headliners) show up under Offers.", 16, UiKit.C_DIM))
+	var plan_btn := UiKit.button("Plan a headline tour…", func(): _open_planner(), bool(chk["ok"]), str(chk["reason"]))
+	_body.add_child(plan_btn)
+	if not bool(chk["ok"]):
+		_body.add_child(UiKit.label(str(chk["reason"]), 16, UiKit.C_WARN))
+	if s.tours.is_empty():
+		_body.add_child(UiKit.label("No tours yet.", 17, UiKit.C_DIM))
+	for i in range(s.tours.size() - 1, -1, -1):
+		var tr: Dictionary = s.tours[i]
+		var sm := TourRules.summary(tr)
+		_body.add_child(UiKit.label("%s  ·  %s  ·  leaves %s" % [tr["title"], str(tr["status"]).to_upper(), CalendarRules.describe_slot(int(tr["start_day"]), 0)], 18, UiKit.C_ACCENT))
+		for leg in tr["legs"]:
+			var sold_txt := ("forecast ~%d" % int(leg["forecast"])) if int(leg["sold"]) < 0 else ("sold %d/%d, payout %s" % [int(leg["sold"]), int(leg["cap"]), TourRules.money_text(int(leg["payout"]))])
+			_body.add_child(UiKit.label("   %s · %s · %s" % [CalendarRules.describe_slot(int(leg["day"]), 2), leg["venue_name"], sold_txt], 15))
+		if str(tr["role"]) == "headliner":
+			_body.add_child(UiKit.label("   Paid: deposits %s, marketing %s · Reserved: %s · Settled so far: %s · Profit so far: %s" % [TourRules.money_text(int(tr["deposits"])), TourRules.money_text(int(tr["marketing"])), TourRules.money_text(int(tr["committed"])), TourRules.money_text(int(sm["revenue"])), TourRules.money_text(int(sm["profit"]))], 15, UiKit.C_WARN))
+		else:
+			_body.add_child(UiKit.label("   Opening spot: %s per show, travel covered." % TourRules.money_text(int(tr.get("pay_per_show", 0))), 15, UiKit.C_WARN))
+		if str(tr["status"]) == "booked":
+			var tid: String = str(tr["id"])
+			_body.add_child(UiKit.button("Cancel this tour (deposits are not refunded)", func(): _confirm_cancel(tid)))
+
+
+func _open_planner() -> void:
+	ui.open(TourPlannerUI.new().setup(ui, _on_tour_booked), 1220)
+
+
+func _on_tour_booked(msg: String) -> void:
+	ui.close()
+	ui.toast(msg)
+	_build()
+
+
+func _confirm_cancel(tid: String) -> void:
+	ui.confirm("Cancel tour?", "You'll lose deposits and marketing, and take a reputation hit.", "Cancel tour", func(): _do_cancel(tid))
+
+
+func _do_cancel(tid: String) -> void:
+	ui.toast(str(TourRules.cancel(Game.state, Game.db, tid)["message"]))
+	Game.notify()
+	_build()
 
 
 func _map() -> void:

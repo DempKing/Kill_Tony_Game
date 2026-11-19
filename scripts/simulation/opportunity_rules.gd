@@ -40,18 +40,19 @@ static func create_offer(s: GameState, db: ContentDB, template_id: String, from_
 		return {}
 	var lead: int = int(t.get("lead_days", 2))
 	var day := CalendarRules.next_weekday(from_day + lead, int(t.get("weekday", 3)))
-	var venue: Dictionary = db.venues.get(str(t["venue"]), {})
+	var venue: Dictionary = db.venues.get(str(t.get("venue", "")), {})
 	var o := {
 		"id": s.uid("offer"),
 		"template": template_id,
 		"title": str(t["title"]),
-		"venue_id": str(t["venue"]),
-		"location_id": str(venue.get("location", "")),
+		"kind": str(t.get("kind", "booking")),
+		"venue_id": str(t.get("venue", "")),
+		"location_id": str(venue.get("location", "transit_stop")),
 		"audience": str(t.get("audience", "")),
 		"day": day,
 		"block": int(t.get("block", 2)),
 		"slot_seconds": int(t.get("slot_seconds", 300)),
-		"pay": int(t.get("pay", 0)),
+		"pay": int(t.get("pay", t.get("pay_per_show", 0))),
 		"npc": str(t.get("npc", "")),
 		"offered_day": s.day,
 		"expires_day": mini(day - 1, s.day + int(t.get("expires_after_days", 3))),
@@ -103,6 +104,13 @@ static func accept(s: GameState, db: ContentDB, offer_id: String, force: bool = 
 	if s.day > int(o["expires_day"]):
 		o["status"] = "expired"
 		return {"ok": false, "message": "That offer has expired."}
+	if str(o.get("kind", "booking")) == "road":
+		var rr := TourRules.book_road(s, db, o, force)
+		if bool(rr["ok"]):
+			o["status"] = "accepted"
+			o["commitment_id"] = rr["tour"]["commitment_id"]
+			Relationships.change(s, str(o["npc"]), {"familiarity": 2})
+		return rr
 	var c := {"kind": "booking", "title": str(o["title"]), "day": int(o["day"]), "block": int(o["block"]), "length": 1,
 		"location_id": str(o["location_id"]), "venue_id": str(o["venue_id"]), "slot_seconds": int(o["slot_seconds"]),
 		"pay": int(o["pay"]), "fee": 0, "npc": str(o["npc"]), "offer_id": offer_id, "audience": str(o.get("audience", ""))}

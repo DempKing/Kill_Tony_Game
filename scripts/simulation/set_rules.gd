@@ -5,11 +5,14 @@ extends RefCounted
 
 const KT_MINUTE_ID := "kt_minute"
 const DEFAULT_ID := "main_set"
+const TOUR_ID := "tour_set"
 
 
 static func ensure_defaults(s: GameState) -> void:
 	if not s.setlists.has(DEFAULT_ID):
 		s.setlists[DEFAULT_ID] = {"name": "Open mic set", "jokes": []}
+	if not s.setlists.has(TOUR_ID):
+		s.setlists[TOUR_ID] = {"name": "Road set (your best material)", "jokes": []}
 	if not s.setlists.has(KT_MINUTE_ID):
 		s.setlists[KT_MINUTE_ID] = {"name": "Prepared minute (Kill Tony)", "jokes": [], "protected": true}
 

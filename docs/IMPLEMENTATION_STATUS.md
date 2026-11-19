@@ -21,8 +21,10 @@ regular status._
   - building signs are sized to fit
   - NPC name tags no longer overlap
   - the choice panel takes less of the stage
-- **Not verified:** a Windows export, a human playtest with keyboard or
-  controller, audio on real hardware, and Steam.
+- **Windows export:** builds a single-file x86_64 .exe with the pack embedded.
+  It hasn't been launched on Windows yet.
+- **Not verified:** a human playtest with keyboard or controller, audio on real
+  hardware, and Steam.
 
 ## Existing project (before this pass)
 The repository held only a one-line README. There were no conflicts with the spec.
@@ -78,6 +80,17 @@ README, exports).
 - Housing upgrade.
 - Posters and marquee change with progress.
 
+### Phase 4: touring (third pass)
+- 10 markets with clubs and theaters.
+- Road offers as an opener.
+- A headline tour planner: dates, route, price, marketing, transport, lodging,
+  opener, a live forecast and a money breakdown.
+- Deposits, reserved costs, settlements and a profit/loss summary.
+- A tour scene: travel, setbacks, box office, set, show, settlement, lodging,
+  return.
+- Recency, local fans, cancellations, missed departures, career tiers 5–7.
+- Tests in `test_touring`.
+
 ### Second pass
 - Gender (male/female) replaces pronouns, with save migration v1→v2.
 - 10 new joke families plus extra pieces for existing ones. Each has a real
@@ -112,7 +125,6 @@ README, exports).
 - Housing has no visual room or memorabilia display beyond the journal's shelf
   tab.
 - Not built at all:
-  - Phase 4: touring, the tour planner, deposits and settlements.
   - Phase 5: arenas, production, opener hiring, panel-guest gameplay. The stage
     art supports a player panel seat, but no flow uses it.
   - Phase 6: Steam integration, achievements on Steam, cloud saves, release

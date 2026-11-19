@@ -8,12 +8,14 @@ Tony bucket pull into a career.
 > **Status:** Phase 1 (Austin arrival) and the Phase 2 Kill Tony slice run
 > in Godot 4.3.
 > - The project imports with no script errors.
-> - All automated tests pass (838 checks; touring is skipped because it isn't
->   built).
+> - Phase 4 touring is built.
+> - All automated tests pass (884 checks, 0 skipped).
 > - An automated playtest drives the real game from the title screen through
->   an open mic and a full Kill Tony night, and screenshots each step.
-> - Not yet done: a Windows export, and a human playtest with keyboard or
->   controller.
+>   an open mic, a full Kill Tony night and a three-city tour, and screenshots
+>   each step.
+> - A Windows release export builds.
+> - Not yet done: running the export on Windows, and a human playtest with
+>   keyboard or controller.
 >
 > See [docs/IMPLEMENTATION_STATUS.md](docs/IMPLEMENTATION_STATUS.md).
 

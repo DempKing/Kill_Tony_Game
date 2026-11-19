@@ -27,7 +27,7 @@ func _build() -> void:
 	var s: GameState = Game.state
 	var db: ContentDB = Game.db
 	var entry: Dictionary = s.setlists.get(setlist_id, {"name": "Set", "jokes": []})
-	add_child(UiKit.label("%s · slot %ds" % [entry.get("name", "Set"), slot_seconds], 22, UiKit.C_ACCENT))
+	add_child(UiKit.label("%s%s" % [entry.get("name", "Set"), (" · slot %ds" % slot_seconds) if slot_seconds > 0 else ""], 22, UiKit.C_ACCENT))
 	var ids := SetRules.jokes_in(s, setlist_id)
 	var a := SetRules.analyze(s, db, ids, slot_seconds, venue_id)
 	_analysis = UiKit.rich(_analysis_text(a))
@@ -74,6 +74,8 @@ func _analysis_text(a: Dictionary) -> String:
 	var core: int = int(a["core_seconds"])
 	var col := "#8ef0a0" if core <= slot_seconds else "#ff8a8a"
 	var t := "[b]Length:[/b] [color=%s]%ds[/color] with extras / %ds core of %ds  ·  [b]Avg familiarity:[/b] %d" % [col, secs, core, slot_seconds, int(a["avg_familiarity"])]
+	if slot_seconds <= 0:
+		t = "[b]Length:[/b] %ds  ·  [b]Jokes:[/b] %d  ·  [b]Avg familiarity:[/b] %d" % [secs, int(a["count"]), int(a["avg_familiarity"])]
 	if venue_id != "":
 		t += "  ·  [b]Heard here before:[/b] %d" % int(a["exposure"])
 	for w in a["warnings"]:

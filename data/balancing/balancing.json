@@ -9,9 +9,25 @@
     "block": 1,
     "location": "transit_stop",
     "housing": "",
-    "skills": {"writing": 5.0, "delivery": 5.0, "crowd_work": 3.0, "stage_presence": 5.0},
-    "starting_components": ["comp_arrival_p", "comp_arrival_s", "comp_arrival_u1"],
-    "starter_joke": {"title": "Moving to Austin", "parts": {"premise": "comp_arrival_p", "setup": "comp_arrival_s", "punchline": "comp_arrival_u1"}}
+    "skills": {
+      "writing": 5.0,
+      "delivery": 5.0,
+      "crowd_work": 3.0,
+      "stage_presence": 5.0
+    },
+    "starting_components": [
+      "comp_arrival_p",
+      "comp_arrival_s",
+      "comp_arrival_u1"
+    ],
+    "starter_joke": {
+      "title": "Moving to Austin",
+      "parts": {
+        "premise": "comp_arrival_p",
+        "setup": "comp_arrival_s",
+        "punchline": "comp_arrival_u1"
+      }
+    }
   },
   "economy": {
     "daily_essentials": 8,
@@ -30,12 +46,12 @@
   },
   "writing": {
     "energy_cost": 8,
-    "base_chance": 0.40,
+    "base_chance": 0.4,
     "skill_divisor": 150.0,
     "confidence_divisor": 400.0,
-    "coffee_shop_bonus": 0.10,
-    "min_chance": 0.10,
-    "max_chance": 0.90,
+    "coffee_shop_bonus": 0.1,
+    "min_chance": 0.1,
+    "max_chance": 0.9,
     "pity_threshold": 2,
     "success_skill_gain": 1.0,
     "fail_skill_gain": 0.5,
@@ -46,13 +62,27 @@
     "revise_familiarity_keep": 0.6
   },
   "joke": {
-    "weights": {"premise": 0.2, "setup": 0.3, "punchline": 0.5},
-    "coherence_multiplier": {"coherent": 1.0, "weak": 0.7, "incompatible": 0.35, "missing": 0.0}
+    "weights": {
+      "premise": 0.2,
+      "setup": 0.3,
+      "punchline": 0.5
+    },
+    "coherence_multiplier": {
+      "coherent": 1.0,
+      "weak": 0.7,
+      "incompatible": 0.35,
+      "missing": 0.0
+    }
   },
   "performance": {
     "material_weight": 0.55,
     "delivery_weight": 0.45,
-    "delivery_mix": {"delivery": 0.35, "familiarity": 0.30, "confidence": 0.20, "stage_presence": 0.15},
+    "delivery_mix": {
+      "delivery": 0.35,
+      "familiarity": 0.3,
+      "confidence": 0.2,
+      "stage_presence": 0.15
+    },
     "warmth_weight": 0.35,
     "random_range": 12.0,
     "fatigue_energy_threshold": 40,
@@ -70,7 +100,7 @@
     "bonus_clamp": 15.0,
     "opener_weight": 1.2,
     "closer_weight": 1.5,
-    "overrun_grace_fraction": 0.10,
+    "overrun_grace_fraction": 0.1,
     "overrun_penalty_per_joke": 8.0,
     "callback_bonus_per_quality": 1.5,
     "callback_missing_penalty": 6.0,
@@ -78,19 +108,63 @@
     "act_out_bonus_per_quality": 1.5,
     "act_out_low_energy_penalty": 5.0,
     "response_tiers": [
-      {"min": 0, "id": "silence", "label": "Silence"},
-      {"min": 25, "id": "chuckle", "label": "A few chuckles"},
-      {"min": 45, "id": "laugh", "label": "Laughs"},
-      {"min": 65, "id": "big_laugh", "label": "Big laugh"},
-      {"min": 80, "id": "applause", "label": "Applause break"}
+      {
+        "min": 0,
+        "id": "silence",
+        "label": "Silence"
+      },
+      {
+        "min": 25,
+        "id": "chuckle",
+        "label": "A few chuckles"
+      },
+      {
+        "min": 45,
+        "id": "laugh",
+        "label": "Laughs"
+      },
+      {
+        "min": 65,
+        "id": "big_laugh",
+        "label": "Big laugh"
+      },
+      {
+        "min": 80,
+        "id": "applause",
+        "label": "Applause break"
+      }
     ],
     "set_tiers": [
-      {"min": 0, "id": "bombed", "label": "Bombed"},
-      {"min": 30, "id": "rough", "label": "Rough"},
-      {"min": 45, "id": "okay", "label": "Okay"},
-      {"min": 60, "id": "solid", "label": "Solid"},
-      {"min": 72, "id": "killed", "label": "Killed"},
-      {"min": 85, "id": "destroyed", "label": "Destroyed"}
+      {
+        "min": 0,
+        "id": "bombed",
+        "label": "Bombed"
+      },
+      {
+        "min": 30,
+        "id": "rough",
+        "label": "Rough"
+      },
+      {
+        "min": 45,
+        "id": "okay",
+        "label": "Okay"
+      },
+      {
+        "min": 60,
+        "id": "solid",
+        "label": "Solid"
+      },
+      {
+        "min": 72,
+        "id": "killed",
+        "label": "Killed"
+      },
+      {
+        "min": 85,
+        "id": "destroyed",
+        "label": "Destroyed"
+      }
     ],
     "choices": {
       "good_threshold": 55,
@@ -118,12 +192,30 @@
     "stress_bad": 8
   },
   "styles_effects": {
-    "observational": {"topic_bonus_topics": ["austin", "people"], "topic_bonus": 2.0},
-    "storytelling": {"long_joke_seconds": 30, "long_joke_bonus": 3.0},
-    "deadpan": {"acknowledge_bonus": 15.0},
-    "self_deprecating": {"acknowledge_bonus": 15.0},
-    "absurdist": {"originality_bonus": 0.6},
-    "high_energy": {"act_out_bonus": 4.0, "energy_drain_extra": 4}
+    "observational": {
+      "topic_bonus_topics": [
+        "austin",
+        "people"
+      ],
+      "topic_bonus": 2.0
+    },
+    "storytelling": {
+      "long_joke_seconds": 30,
+      "long_joke_bonus": 3.0
+    },
+    "deadpan": {
+      "acknowledge_bonus": 15.0
+    },
+    "self_deprecating": {
+      "acknowledge_bonus": 15.0
+    },
+    "absurdist": {
+      "originality_bonus": 0.6
+    },
+    "high_energy": {
+      "act_out_bonus": 4.0,
+      "energy_drain_extra": 4
+    }
   },
   "bucket": {
     "entrants_min": 35,
@@ -131,7 +223,10 @@
     "pulls": 8,
     "watch_skill_gain": 0.5,
     "networking_chance": 0.25,
-    "signup_blocks": [0, 1],
+    "signup_blocks": [
+      0,
+      1
+    ],
     "show_block": 2,
     "set_seconds": 60,
     "play_off_after_seconds": 10
@@ -157,31 +252,107 @@
     "repeat_tone_penalty": 5.0,
     "score_scale": 1.6,
     "tone_by_set_result": {
-      "low": {"self_deprecating": 8, "honest": 6, "confident": -10, "absurd": 0, "roast": -4},
-      "mid": {"self_deprecating": 2, "honest": 4, "confident": 0, "absurd": 3, "roast": 2},
-      "high": {"self_deprecating": -6, "honest": 2, "confident": 8, "absurd": 3, "roast": 5}
+      "low": {
+        "self_deprecating": 8,
+        "honest": 6,
+        "confident": -10,
+        "absurd": 0,
+        "roast": -4
+      },
+      "mid": {
+        "self_deprecating": 2,
+        "honest": 4,
+        "confident": 0,
+        "absurd": 3,
+        "roast": 2
+      },
+      "high": {
+        "self_deprecating": -6,
+        "honest": 2,
+        "confident": 8,
+        "absurd": 3,
+        "roast": 5
+      }
     }
   },
-  "golden_ticket": {"grants": "guaranteed_bucket_spot", "uses": 1},
-  "regular": {"_comment": "Regular status requires sustained success plus an authored career event. Only the progress counter is implemented.", "progress_needed": 3},
+  "golden_ticket": {
+    "grants": "guaranteed_bucket_spot",
+    "uses": 1
+  },
+  "regular": {
+    "_comment": "Regular status requires sustained success plus an authored career event. Only the progress counter is implemented.",
+    "progress_needed": 3
+  },
   "career_tiers": [
-    {"tier": 0, "name": "New arrival"},
-    {"tier": 1, "name": "Open-mic beginner", "sets": 1},
-    {"tier": 2, "name": "Local regular", "sets": 8, "rep": 15},
-    {"tier": 3, "name": "Paid club performer", "paid_sets": 2, "rep": 25},
-    {"tier": 4, "name": "Opening act", "opener_sets": 1, "rep": 40},
-    {"tier": 5, "name": "Touring opener", "requires_feature": "touring"},
-    {"tier": 6, "name": "Club headliner", "requires_feature": "touring"},
-    {"tier": 7, "name": "Theater headliner", "requires_feature": "touring"},
-    {"tier": 8, "name": "Arena headliner", "requires_feature": "arenas"},
-    {"tier": 9, "name": "Established star and mentor", "requires_feature": "arenas"}
+    {
+      "tier": 0,
+      "name": "New arrival"
+    },
+    {
+      "tier": 1,
+      "name": "Open-mic beginner",
+      "sets": 1
+    },
+    {
+      "tier": 2,
+      "name": "Local regular",
+      "sets": 8,
+      "rep": 15
+    },
+    {
+      "tier": 3,
+      "name": "Paid club performer",
+      "paid_sets": 2,
+      "rep": 25
+    },
+    {
+      "tier": 4,
+      "name": "Opening act",
+      "opener_sets": 1,
+      "rep": 40
+    },
+    {
+      "tier": 5,
+      "name": "Touring opener",
+      "road_sets": 3,
+      "rep": 45
+    },
+    {
+      "tier": 6,
+      "name": "Club headliner",
+      "headline_sets": 4,
+      "rep": 55
+    },
+    {
+      "tier": 7,
+      "name": "Theater headliner",
+      "theater_sets": 3,
+      "fame": 40
+    },
+    {
+      "tier": 8,
+      "name": "Arena headliner",
+      "requires_feature": "arenas"
+    },
+    {
+      "tier": 9,
+      "name": "Established star and mentor",
+      "requires_feature": "arenas"
+    }
   ],
   "relationships": {
     "talk_familiarity": 3,
-    "missed_booking": {"reliability": -8, "trust": -5, "respect": -2},
+    "missed_booking": {
+      "reliability": -8,
+      "trust": -5,
+      "respect": -2
+    },
     "missed_booking_rep": -2.0,
     "good_set_respect": 3,
     "great_set_respect": 6
   },
-  "stats_clamp": {"min": 0, "max": 100}
+  "stats_clamp": {
+    "min": 0,
+    "max": 100
+  }
 }

@@ -31,6 +31,7 @@ var location_order: Array = []
 var world: Dictionary = {}
 var partner: Dictionary = {}
 var stage_layout: Dictionary = {}
+var touring: Dictionary = {}
 var errors: Array = []
 
 
@@ -99,7 +100,23 @@ func load_all(root: String) -> void:
 
 	partner = _read_dict(root + "partner/partner_content.json")
 	stage_layout = _read_dict(root + "partner/kill_tony_stage_layout.json")
+	touring = _read_dict(root + "touring/touring.json")
+	_add_tour_venues()
 	errors.append_array(validate())
+
+
+## Every market/venue-type pair becomes a performable venue ("tour_<market>_<type>").
+func _add_tour_venues() -> void:
+	var types: Dictionary = touring.get("venue_types", {})
+	for m in touring.get("markets", []):
+		for vtype in m.get("venues", {}):
+			var v: Dictionary = m["venues"][vtype]
+			var vt: Dictionary = types.get(vtype, {})
+			var id := "tour_%s_%s" % [m["id"], vtype]
+			venues[id] = {"id": id, "name": "%s (%s)" % [v.get("name", ""), m.get("name", "")], "location": "transit_stop", "kind": "tour_" + str(vtype),
+				"audience": str(vt.get("audience", "showcase_crowd")), "slot_seconds": 0, "fee": 0, "pay": 0, "weekdays": [], "blocks": [2], "host_npc": "", "booking_only": true,
+				"host_intro": "The house MC: \"All the way from Austin, Texas... {stage}!\"",
+				"stage": {"style": str(vt.get("stage_style", "road_club")), "backdrop": "#20141c", "light": "#ffe0b0", "floor": "#181018", "sign": str(v.get("name", "")).to_upper()}}
 
 
 func _read_dict(path: String) -> Dictionary:
@@ -161,6 +178,8 @@ func validate() -> Array:
 			out.append("Venue %s has unknown location" % id)
 	for id in opportunities:
 		var o: Dictionary = opportunities[id]
+		if str(o.get("kind", "")) == "road":
+			continue
 		if not venues.has(str(o.get("venue", ""))):
 			out.append("Opportunity %s has unknown venue" % id)
 	for id in observations:

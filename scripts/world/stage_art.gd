@@ -32,13 +32,18 @@ func _draw() -> void:
 			_draw_cellar(back, light)
 		"secret":
 			_draw_secret(back, light)
+		"road_club":
+			_draw_road_club(back, light)
+		"theater":
+			_draw_theater(back, light)
 		_:
 			_draw_dive(back, light)
 	var sign_text := str(stage.get("sign", ""))
-	if style == "cellar":
-		draw_string(font, Vector2(560, 150), sign_text, HORIZONTAL_ALIGNMENT_CENTER, 480, 50, Color(light, 0.75 + 0.25 * sin(t * 3.0)) if not reduced else light)
-	else:
-		draw_string(font, Vector2(560, 120), sign_text, HORIZONTAL_ALIGNMENT_CENTER, 480, 54, light)
+	var fs := 54
+	while fs > 18 and font.get_string_size(sign_text, HORIZONTAL_ALIGNMENT_LEFT, -1, fs).x > 560:
+		fs -= 2
+	var sign_col := Color(light, 0.75 + 0.25 * sin(t * 3.0)) if style == "cellar" and not reduced else light
+	draw_string(font, Vector2(520, 150), sign_text, HORIZONTAL_ALIGNMENT_CENTER, 560, fs, sign_col)
 	draw_rect(Rect2(300, 560, 1000, 90), floor_c)
 	# Spotlight cone.
 	draw_colored_polygon(PackedVector2Array([Vector2(760, 0), Vector2(840, 0), Vector2(980, 600), Vector2(620, 600)]), Color(light, 0.10))
@@ -111,12 +116,40 @@ func _draw_secret(back: Color, light: Color) -> void:
 	draw_string(ThemeDB.fallback_font, Vector2(1262, 345), "NO PHONES", HORIZONTAL_ALIGNMENT_LEFT, -1, 28, Color("#ff6060"))
 
 
+func _draw_road_club(back: Color, light: Color) -> void:
+	# Corporate club: logo wall, brick veneer, neon outline.
+	draw_rect(Rect2(0, 0, 1600, 560), Color("#2a1c24"))
+	for x in range(0, 1600, 64):
+		draw_rect(Rect2(x, 0, 60, 560), Color("#32222c"))
+	draw_rect(Rect2(490, 100, 620, 80), Color("#160e14"))
+	draw_rect(Rect2(490, 100, 620, 80), Color(light, 0.8), false, 3.0)
+	draw_rect(Rect2(240, 250, 120, 60), Color("#101010"))
+	draw_string(ThemeDB.fallback_font, Vector2(250, 290), "2-DRINK MIN", HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color("#ffb040"))
+
+
+func _draw_theater(back: Color, light: Color) -> void:
+	# Proscenium arch, gold trim, balconies.
+	draw_rect(Rect2(0, 0, 1600, 560), Color("#1a0c10"))
+	draw_rect(Rect2(160, 30, 1280, 530), Color("#4a0c18"))
+	for x in range(180, 1420, 36):
+		draw_rect(Rect2(x, 40, 18, 520), Color("#5a1020"))
+	draw_rect(Rect2(140, 10, 1320, 40), Color("#b08a30"))
+	draw_rect(Rect2(140, 10, 40, 560), Color("#b08a30"))
+	draw_rect(Rect2(1420, 10, 40, 560), Color("#b08a30"))
+	for bx in [40, 1500]:
+		for by in [140, 300]:
+			draw_rect(Rect2(bx, by, 80, 50), Color("#3a2010"))
+			draw_circle(Vector2(bx + 40, by + 20), 8, Color(light, 0.6))
+
+
 func _draw_audience(style: String) -> void:
 	var n := clampi(audience_size, 8, 60)
+	if style == "theater":
+		n = 90
 	for i in range(n):
-		var row := i % 3
+		var row := i % (5 if style == "theater" else 3)
 		var x := 60.0 + (i * 997 % 1480)
-		var y := 700.0 + row * 70.0
+		var y := 700.0 + row * (40.0 if style == "theater" else 70.0)
 		var jump := 0.0
 		if not reduced and reaction > 0.2:
 			jump = absf(sin(t * 9.0 + i)) * 12.0 * reaction

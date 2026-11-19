@@ -43,7 +43,9 @@ var pity: Dictionary = {}
 var discovered_locations: Array = []
 var messages: Array = []
 var stats: Dictionary = {"sets": 0, "paid_sets": 0, "opener_sets": 0, "shifts": 0, "bombs": 0}
-var pending_events: Array = []     # world event ids queued for display
+var pending_events: Array = []
+var tours: Array = []             # tour records (see TourRules)
+var fans: Dictionary = {}         # market_id -> local fan count     # world event ids queued for display
 var next_uid: int = 1
 var rngs: Dictionary = {}          # stream -> RandomNumberGenerator
 
@@ -133,6 +135,8 @@ func to_dict() -> Dictionary:
 		"messages": messages,
 		"stats": stats,
 		"pending_events": pending_events,
+		"tours": tours,
+		"fans": fans,
 		"next_uid": next_uid,
 		"rngs": rng_out,
 	}
@@ -181,6 +185,8 @@ static func from_dict(d: Dictionary) -> GameState:
 	s.messages = raw.get("messages", [])
 	s.stats = raw.get("stats", s.stats)
 	s.pending_events = raw.get("pending_events", [])
+	s.tours = raw.get("tours", [])
+	s.fans = raw.get("fans", {})
 	s.next_uid = int(raw.get("next_uid", 1))
 	var rng_in: Dictionary = raw.get("rngs", {})
 	for k in rng_in:

@@ -96,7 +96,9 @@ static func mark_missed(s: GameState, db: ContentDB, c: Dictionary, reason: Stri
 		var pen: Dictionary = db.bal("relationships.missed_booking", {})
 		Relationships.change(s, npc, pen)
 	# Missing a Kill Tony signup has no professional penalty: it's a lottery.
-	if not (str(c.get("kind", "")) in ["kill_tony", "promise"]):
+	if str(c.get("kind", "")) == "tour":
+		TourRules.cancel(s, db, str(c.get("tour_id", "")), "you missed the departure")
+	elif not (str(c.get("kind", "")) in ["kill_tony", "promise"]):
 		s.reputation = maxf(0.0, s.reputation + db.balf("relationships.missed_booking_rep", -2.0))
 	s.add_message("Missed: %s (%s)." % [str(c.get("title", "booking")), reason])
 

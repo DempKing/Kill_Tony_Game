@@ -11,6 +11,7 @@ const SCENE_CREATE := "res://scenes/character_creation/character_creation.tscn"
 const SCENE_DISTRICT := "res://scenes/district/district.tscn"
 const SCENE_PERFORMANCE := "res://scenes/performances/performance.tscn"
 const SCENE_KILL_TONY := "res://scenes/performances/kill_tony_stage.tscn"
+const SCENE_TOUR := "res://scenes/touring/tour.tscn"
 
 var db: ContentDB
 var state: GameState
@@ -58,6 +59,8 @@ func load_slot(slot: String) -> Dictionary:
 	var kt: Dictionary = state.flags.get("active_kill_tony", {})
 	if not kt.is_empty():
 		goto(SCENE_KILL_TONY)
+	elif not (state.flags.get("active_tour", {}) as Dictionary).is_empty():
+		goto(SCENE_TOUR)
 	elif not (state.flags.get("active_performance", {}) as Dictionary).is_empty():
 		handoff = {"resume": true}
 		goto(SCENE_PERFORMANCE)

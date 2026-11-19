@@ -114,6 +114,3 @@ func test_npc_schedules_place_people() -> void:
 					placed[id] = true
 	eq(placed.size(), d.npcs.size(), "every recurring NPC appears somewhere during the week")
 
-
-func test_tour_cash_flow() -> String:
-	return "SKIP touring (Phase 4) is not implemented in this build"

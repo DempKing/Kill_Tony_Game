@@ -5,19 +5,27 @@ extends RefCounted
 ## unreachable in this build and reported as such.
 
 
+const STAT_KEYS: Array = ["sets", "paid_sets", "opener_sets", "road_sets", "headline_sets", "theater_sets"]
+const STAT_LABELS: Dictionary = {"sets": "sets", "paid_sets": "paid sets", "opener_sets": "opening sets", "road_sets": "road shows as an opener", "headline_sets": "headline shows", "theater_sets": "theater shows"}
+
+
+static func meets_tier(s: GameState, t: Dictionary) -> bool:
+	if t.has("requires_feature"):
+		return false
+	for k in STAT_KEYS:
+		if t.has(k) and int(s.stats.get(k, 0)) < int(t[k]):
+			return false
+	if t.has("rep") and s.reputation < float(t["rep"]):
+		return false
+	if t.has("fame") and s.fame < float(t["fame"]):
+		return false
+	return true
+
+
 static func evaluate(s: GameState, db: ContentDB) -> int:
-	var tiers: Array = db.bal("career_tiers", [])
 	var best := 0
-	for t in tiers:
-		if t.has("requires_feature"):
-			break
-		if t.has("sets") and int(s.stats.get("sets", 0)) < int(t["sets"]):
-			break
-		if t.has("paid_sets") and int(s.stats.get("paid_sets", 0)) < int(t["paid_sets"]):
-			break
-		if t.has("opener_sets") and int(s.stats.get("opener_sets", 0)) < int(t["opener_sets"]):
-			break
-		if t.has("rep") and s.reputation < float(t["rep"]):
+	for t in db.bal("career_tiers", []):
+		if not meets_tier(s, t):
 			break
 		best = int(t["tier"])
 	return best
@@ -46,13 +54,12 @@ static func next_requirements(s: GameState, db: ContentDB) -> String:
 			if t.has("requires_feature"):
 				return "Next tier needs %s, which isn't in this build yet." % t["requires_feature"]
 			var parts: Array = []
-			if t.has("sets"):
-				parts.append("%d/%d sets" % [int(s.stats.get("sets", 0)), int(t["sets"])])
-			if t.has("paid_sets"):
-				parts.append("%d/%d paid sets" % [int(s.stats.get("paid_sets", 0)), int(t["paid_sets"])])
-			if t.has("opener_sets"):
-				parts.append("%d/%d opening sets" % [int(s.stats.get("opener_sets", 0)), int(t["opener_sets"])])
+			for k in STAT_KEYS:
+				if t.has(k):
+					parts.append("%d/%d %s" % [int(s.stats.get(k, 0)), int(t[k]), STAT_LABELS[k]])
 			if t.has("rep"):
 				parts.append("reputation %.0f/%d" % [s.reputation, int(t["rep"])])
+			if t.has("fame"):
+				parts.append("fame %.0f/%d" % [s.fame, int(t["fame"])])
 			return "Next: %s (%s)" % [t["name"], ", ".join(PackedStringArray(parts))]
 	return ""

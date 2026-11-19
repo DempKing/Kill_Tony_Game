@@ -16,7 +16,7 @@ Legend: ✅ verified · 🟡 implemented, not verified · ⬜ not started
 | Overlay / focus loss safety | 🟡 | No real-time timers affect gameplay decisions; choices are untimed |
 | Controller navigation | 🟡 | Focusable buttons, focus outlines, default ui_* actions |
 | Settings (display/audio/accessibility/remap) | 🟡 | |
-| Windows export preset | 🟡 | `export_presets.cfg`, never exported |
+| Windows export preset | 🟡 | Release export builds a single .exe (pack embedded). Not yet launched on Windows; exe icon/metadata needs rcedit |
 | Dev tools excluded from release | 🟡 | Release preset has no `dev` tag; `OS.is_debug_build()` is false in release templates |
 | Approved partner assets | ⬜ | See ASSET_APPROVALS.md |
 | Performance profiling | ⬜ | |

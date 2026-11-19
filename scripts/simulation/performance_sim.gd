@@ -29,6 +29,7 @@ var last: Dictionary = {}
 var notes: Array = []          # narrative beats for display
 var performed_families: Array = []
 var good_families: Array = []
+var warmth_bonus: float = 0.0   # e.g. a good opener
 
 
 ## Builds a performance from game state. Jokes are snapshotted (revision
@@ -125,7 +126,7 @@ func factors_for(j: Dictionary) -> Dictionary:
 	var f: Dictionary = {}
 	f["material"] = float(j["quality"]) * _b("material_weight", 0.55)
 	f["delivery"] = delivery_value(float(j["familiarity"])) * _b("delivery_weight", 0.45)
-	f["warmth"] = float(audience.get("warmth", 40)) * _b("warmth_weight", 0.35)
+	f["warmth"] = float(audience.get("warmth", 40)) * _b("warmth_weight", 0.35) + warmth_bonus
 	# Audience fit: topic and style preferences.
 	var fit := 0.0
 	var prefs: Dictionary = audience.get("topic_prefs", {})

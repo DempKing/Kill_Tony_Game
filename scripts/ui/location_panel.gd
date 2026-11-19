@@ -154,6 +154,9 @@ func _run(a: Dictionary, force: bool) -> void:
 		"kill_tony":
 			host.start_kill_tony(str(res["commitment_id"]))
 			return
+		"tour":
+			host.start_tour()
+			return
 		"leads", "schedule":
 			ui.info("", str(res["message"]))
 			refresh()

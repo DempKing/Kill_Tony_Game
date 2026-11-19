@@ -234,3 +234,64 @@ results, new material found, days until rent, and upcoming commitments.
 4. At least half the jokes in each regular set must be new to Kill Tony.
    Otherwise you get a strike (a fresh set resets strikes).
 5. Three strikes and you're off the regular lineup. The bucket is still open to you.
+
+## Touring (Phase 4)
+Austin stays home. Touring is played through a planner and a leg-by-leg tour
+scene, not explorable cities.
+
+**Road offers (opener).** Phone → Offers, from tier 4 (Opening act). These are
+2-city runs opening for Lonnie, a touring headliner, or a Kill Tony panelist:
+- Flat pay per show ($150–250); travel is covered.
+- They count toward tier 5 (Touring opener).
+
+**Headline tours.** Phone → Tours → Plan, from tier 4. Theaters unlock at tier 6.
+You choose:
+- A leave date.
+- Up to 5 cities: Texas drive markets, US flight markets, Toronto (fame 20),
+  London (fame 35).
+- Club or theater in each city.
+- Ticket price, marketing, transport (van for Texas only, or fly), lodging
+  (motel or hotel), and an opener: Deshawn, Tasha or Benji, each with fee,
+  reliability, style and potential.
+
+**Money.**
+- Deposits and marketing are paid when you book.
+- Travel, lodging and opener fees are reserved, then charged when you depart.
+- Forecast revenue is shown, labelled as not spendable, and never added to cash.
+- Each night settles: payout = gross × (1 − venue cut) − (rent − deposit).
+- The trip summary shows tickets, settlements, all costs and profit/loss.
+  Selling out and making a profit are reported separately.
+
+**Demand.** Market base × (fame, reputation and local fans) × venue draw
+(theaters ×3) × price elasticity × marketing (up to +40%) × recency (−40% if
+you played the city in the last 21 days). Sales are rolled once and stored.
+
+**Time.**
+- The whole trip is one calendar commitment, from the departure morning to the
+  return afternoon, and it conflict-checks against Austin bookings.
+- Each city takes the morning and afternoon to travel, with the show in the
+  evening; then a night at the motel or hotel (rest depends on lodging).
+- You must leave from the bus stop on the departure morning. Missing it cancels
+  the tour.
+- Austin world events pause while you're away.
+
+**Setbacks and rules.**
+- A 12% chance per leg of a travel setback (flat tire or delayed flight) that
+  costs money and stress.
+- Cancelling before departure forfeits deposits and marketing, costs
+  reputation, and (for road runs) trust with whoever booked you.
+
+**Your act.**
+- Road sets use your best material: the game auto-fills from your strongest
+  jokes, and you can edit the set.
+- Headline sets need 5 jokes and opening sets need 3; each missing joke is a
+  penalty.
+- An opener's reliability can mean a no-show; a good opener warms the room.
+- Bringing a friend along builds the relationship and is tracked as
+  "talent helped".
+
+**Career.**
+- Tier 5 (Touring opener): 3 road shows and reputation 45.
+- Tier 6 (Club headliner): 4 headline shows and reputation 55.
+- Tier 7 (Theater headliner): 3 theater shows and fame 40.
+- Tiers 8–9 (arenas) wait on Phase 5.

@@ -94,3 +94,22 @@ tone modifier − 5 × repeats).
 - Regular status takes 3 sets of 80+ at Kill Tony.
 - Each regular set needs at least 50% new material.
 - 3 strikes ends regular status.
+
+## Touring (`data/touring/touring.json`)
+| Setting | Value |
+|---|---|
+| Draw | base_demand × (0.1 + fame×0.04 + rep×0.008 + fans×0.01) × draw_mult |
+| Club venue cut | 45% |
+| Theater venue cut | 25% |
+| Club rent | $800–1,600 (deposit = rent) |
+| Theater rent | ~$7k–19k |
+| Price elasticity | 1.2 (price factor 0.3–1.6) |
+| Marketing | +1% per $10 per leg, max +40% |
+
+Measured forecasts for a 3-city Texas run (`$25` clubs / `$40` theaters, $400 marketing):
+
+| Career stage | Clubs | Theaters |
+|---|---|---|
+| Early (fame 8, rep 40) | about break-even | about −$13.9k (theaters also locked) |
+| Mid (fame 30, rep 60, 40 fans) | about +$5.9k | about +$13.6k |
+| Late (fame 50, rep 80, 150 fans) | about +$6.3k | about +$52.9k |

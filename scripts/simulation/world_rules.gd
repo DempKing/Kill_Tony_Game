@@ -110,6 +110,8 @@ static func event_conditions_ok(s: GameState, db: ContentDB, ev: Dictionary) -> 
 static func roll_events(s: GameState, db: ContentDB, trigger: String) -> String:
 	if not s.flags.get("tutorial_done", false) and trigger == "day_start" and s.day < 1:
 		return ""
+	if s.flags.has("active_tour"):
+		return ""  # Austin life pauses while you're on the road.
 	var r := s.rng("world")
 	for ev in db.world_events:
 		if str(ev.get("trigger", "")) != trigger:

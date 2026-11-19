@@ -219,6 +219,10 @@ static func actions_for(s: GameState, db: ContentDB, location_id: String) -> Arr
 				for sh in JobRules.shift_options(s, db, "doorman"):
 					out.append(_act("work", "Work: %s" % sh["label"], int(sh["length"]), "Flat pay, small tips, watch sets. Energy %d." % int(sh["energy"]), sh, bool(sh["enabled"]), str(sh["reason"])))
 		"transit_stop":
+			var tr := TourRules.departing_today(s)
+			if not tr.is_empty():
+				var ok_dep := s.block == 0
+				out.append(_act("depart_tour", "Leave on tour: %s" % tr["title"], 0, "Travel, lodging and opener cost %s, charged now." % TourRules.money_text(int(tr["committed"])), {"tour_id": tr["id"]}, ok_dep, "Tours leave in the morning."))
 			if JobRules.is_hired(s, "delivery"):
 				for sh in JobRules.shift_options(s, db, "delivery"):
 					out.append(_act("work", "Work: %s" % sh["label"], int(sh["length"]), "Flexible. Lower, unpredictable pay minus bike costs.", sh, bool(sh["enabled"]), str(sh["reason"])))
@@ -392,6 +396,11 @@ static func run_action(s: GameState, db: ContentDB, a: Dictionary) -> Dictionary
 		"kt_signup":
 			var r := KillTonyRules.signup(s, db, bool(a.get("force", false)))
 			return r
+		"depart_tour":
+			var dr := TourRules.depart(s, db, str(p["tour_id"]))
+			if bool(dr["ok"]):
+				dr["open"] = "tour"
+			return dr
 		"kt_attend":
 			return {"ok": true, "open": "kill_tony", "commitment_id": str(p["commitment_id"])}
 		"watch":
