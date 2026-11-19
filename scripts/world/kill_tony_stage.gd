@@ -1,6 +1,6 @@
 extends Node2D
 ## Kill Tony night. Phase state lives in state.flags.active_kill_tony and the
-## draw in state.kt.draws, both saved before anything is revealed, so a reload
+## bucket_draw in state.kt.draws, both saved before anything is revealed, so a reload
 ## resumes the same night with the same outcome.
 ## Phases: waiting -> (not selected: watch) | minute -> set -> panel ->
 ## interview -> rewards -> return.
@@ -8,7 +8,7 @@ extends Node2D
 var s: GameState
 var db: ContentDB
 var night: Dictionary
-var draw: Dictionary
+var bucket_draw: Dictionary
 var art: KtStageArt
 var cam: Camera2D
 var ui: UiLayer
@@ -73,8 +73,8 @@ func _save_phase(phase: String) -> void:
 
 
 func _resume() -> void:
-	# The draw is created and saved before any reveal.
-	draw = KillTonyRules.ensure_draw(s, db, int(night["day"]))
+	# The bucket_draw is created and saved before any reveal.
+	bucket_draw = KillTonyRules.ensure_draw(s, db, int(night["day"]))
 	SaveManager.autosave()
 	match str(night.get("phase", "waiting")):
 		"waiting":
@@ -98,15 +98,15 @@ func _waiting() -> void:
 	art.player_at_mic = false
 	caption.text = "Kill Tony · Comedy Mothership · %s" % CalendarRules.describe(s.day, s.block)
 	var lines: Dictionary = db.partner.get("lines", {})
-	if bool(draw.get("regular", false)):
+	if bool(bucket_draw.get("regular", false)):
 		ui.dialog("Regular spot", GameSim.fmt(s, db, str(lines.get("regular_intro", "You're on the lineup tonight."))), [{"label": "Walk to the mic", "cb": func(): _goto_minute()}])
 		return
-	var body := "%s\n\nTonight: %d names in the bucket. %d will be pulled. Fame doesn't help; your slip is just a slip." % [lines.get("bucket_intro", ""), int(draw["entrants"]), int(draw["pulls"])]
+	var body := "%s\n\nTonight: %d names in the bucket. %d will be pulled. Fame doesn't help; your slip is just a slip." % [lines.get("bucket_intro", ""), int(bucket_draw["entrants"]), int(bucket_draw["pulls"])]
 	ui.dialog("The bucket", body, [{"label": "Watch the names get pulled", "cb": func(): _reveal(0)}])
 
 
 func _reveal(i: int) -> void:
-	var names: Array = draw["names"]
+	var names: Array = bucket_draw["names"]
 	if i >= names.size():
 		_not_selected()
 		return
@@ -115,14 +115,14 @@ func _reveal(i: int) -> void:
 		Sfx.play("sting")
 		art.reaction = 0.6
 		art.band_cue = 1.0
-		var golden := " (Your golden ticket guarantees this spot.)" if bool(draw.get("golden", false)) else ""
+		var golden := " (Your golden ticket guarantees this spot.)" if bool(bucket_draw.get("golden", false)) else ""
 		ui.dialog("Name #%d" % (i + 1), "\"%s!\"\n\n%s%s" % [s.player.get("stage_name", ""), GameSim.fmt(s, db, str(db.partner.get("lines", {}).get("called_up", "Your name is called."))), golden], [{"label": "Walk to the mic", "cb": func(): _goto_minute()}])
 		return
 	ui.dialog("Name #%d" % (i + 1), "\"%s.\"\n\nA comic in a denim jacket jogs to the stage. You clap. You're still in the bucket..." % n if i < names.size() - 1 else "\"%s.\"\n\nThat's the last name." % n, [{"label": "Next name", "cb": func(): _reveal(i + 1)}])
 
 
 func _not_selected() -> void:
-	draw["stage"] = "watched"
+	bucket_draw["stage"] = "watched"
 	var lines: Dictionary = db.partner.get("lines", {})
 	var gain := db.balf("bucket.watch_skill_gain", 0.5)
 	StatsRules.add_skill(s, "delivery", gain)
@@ -188,7 +188,7 @@ func _start_set() -> void:
 	runner.anchor_bottom = 1.0
 	runner.offset_left = -560
 	runner.offset_right = 560
-	runner.offset_top = -330
+	runner.offset_top = -250
 	runner.offset_bottom = -20
 	ui.root.add_child(runner)
 	runner.reacted.connect(_on_reacted)

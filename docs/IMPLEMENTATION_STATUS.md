@@ -4,20 +4,25 @@ _Last updated: second pass. That pass replaced pronouns with gender, added 59
 joke pieces, and added promises, street NPCs, venue stages, the day summary and
 regular status._
 
-## Critical limitation
-The build environment had no Godot binary, and running a downloaded one was not
-allowed. So:
-- **None of this has been run:** no project, scene, script or test.
-- There may be GDScript parse or type errors. Static cross-reference checks were
-  done by script; real compilation was not.
-- Nothing has been exported.
-
-Second pass: every `.gd` file was parsed with `gdtoolkit` (a GDScript 4 parser),
-and they all parse. Parsing checks syntax only, not types or runtime behavior.
-Data cross-references were checked by script.
-
-First step on a machine with Godot 4.3: open the project, fix any parse errors the
-editor reports, then run the tests (TESTING.md).
+## Verification status
+- **Godot 4.3:** the project imports with no script errors. Two compile errors
+  were found and fixed on the first real run: a type-inference failure in
+  `save_manager.gd`, and `var draw` clashing with Node2D's `draw` signal.
+- **Tests:** 838 checks, 0 failures, 1 skipped (touring). The first run also
+  found and fixed a real bug: JSON numbers load as floats, which broke NPC
+  schedules, opening hours and Kill Tony signup. Content is now normalized
+  to ints on load.
+- **Automated playtest with screenshots:** title → character creation →
+  arrival → journal → landmark → hostel → evening street → set builder → open
+  mic (set, choices, results) → Monday → Kill Tony (bucket, mic, set, panel,
+  interview, rewards). It runs with no errors. The UI fixes this led to:
+  - the HUD now fits the screen
+  - modals no longer cover the HUD
+  - building signs are sized to fit
+  - NPC name tags no longer overlap
+  - the choice panel takes less of the stage
+- **Not verified:** a Windows export, a human playtest with keyboard or
+  controller, audio on real hardware, and Steam.
 
 ## Existing project (before this pass)
 The repository held only a one-line README. There were no conflicts with the spec.

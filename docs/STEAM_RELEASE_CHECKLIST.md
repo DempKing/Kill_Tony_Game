@@ -22,5 +22,5 @@ Legend: ✅ verified · 🟡 implemented, not verified · ⬜ not started
 | Performance profiling | ⬜ | |
 | Store page, ratings, legal review of partner content | ⬜ | |
 
-Nothing in this file is ✅ yet: no Steam environment, and no Godot run, existed
-during development.
+Nothing is ✅ yet. The game and its tests have been run in Godot on Linux, but no
+Windows export and no Steam environment have been tested.

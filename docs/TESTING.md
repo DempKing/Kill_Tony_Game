@@ -1,7 +1,7 @@
 # Testing
 
-> **These tests have never been run.** The build environment had no Godot.
-> Run them on a machine with Godot 4.3 before trusting any result below.
+> **Last run:** Godot 4.3 stable, Linux, headless. 838 checks, 0 failures,
+> 1 skipped (touring isn't implemented).
 
 ## Automated
 ```
@@ -22,6 +22,12 @@ godot --headless --path . -s res://tests/run_tests.gd
 | `test_content` | validation, content targets, every family can form a coherent joke, every family obtainable in play, partner separation |
 
 `test_tour_cash_flow` is reported as SKIP because touring isn't implemented.
+
+## Automated playtest
+`tests/playtest/playtest_bot.gd` drives the real scenes and saves screenshots.
+See README for the command. The bot is only loaded when the `--playtest` user
+argument is passed in a dev build, and `tests/` is excluded from release
+exports.
 
 ## Manual checklist (first playable)
 1. New career → character creation → arrive at the bus stop.

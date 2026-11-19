@@ -26,13 +26,15 @@ func test_shift_income_and_daily_limit() -> void:
 	var cash0 := s.cash
 	for i in range(3):
 		var opts := JobRules.shift_options(s, d, "delivery")
+		s.block = i
+		opts = JobRules.shift_options(s, d, "delivery")
 		check(bool(opts[0]["enabled"]), "delivery run %d available" % i)
 		JobRules.begin_shift(s, d, "delivery", "run")
 		var r := GameSim.finish_shift(s, d, [0, 0])
 		check(bool(r["ok"]), "shift resolved")
-		s.block = 1
 		s.energy = 100
 	check(s.cash > cash0, "delivery earns money")
+	s.block = 3
 	var opts2 := JobRules.shift_options(s, d, "delivery")
 	check(not bool(opts2[0]["enabled"]), "daily delivery limit prevents unlimited money")
 

@@ -14,7 +14,8 @@ var _t: float = 0.0
 
 func setup(id: String, npc: Dictionary) -> StreetNpc:
 	npc_id = id
-	display_name = str(npc.get("name", id)).split(" ")[0]
+	var full := str(npc.get("name", id))
+	display_name = full.split("'")[1] if full.count("'") >= 2 else full.split(" ")[0]
 	body_color = Color(str(npc.get("color", "#888888")))
 	long_hair = str(npc.get("gender", "")) == "female"
 	return self

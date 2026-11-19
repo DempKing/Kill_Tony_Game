@@ -24,6 +24,13 @@ func _ready() -> void:
 	for e in db.errors:
 		push_warning("[content] " + str(e))
 	get_tree().auto_accept_quit = true
+	# Dev-only automated playtest (tests/ is excluded from release exports).
+	for a in OS.get_cmdline_user_args():
+		if a.begins_with("--playtest") and is_dev_build() and ResourceLoader.exists("res://tests/playtest/playtest_bot.gd"):
+			var bot: Node = load("res://tests/playtest/playtest_bot.gd").new()
+			if "=" in a:
+				bot.set("out_dir", a.split("=")[1])
+			call_deferred("add_child", bot)
 
 
 func is_dev_build() -> bool:

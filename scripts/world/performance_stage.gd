@@ -40,6 +40,11 @@ func _ready() -> void:
 	cam.make_current()
 	ui = UiLayer.new()
 	add_child(ui)
+	var strip := ColorRect.new()
+	strip.color = Color(0, 0, 0, 0.6)
+	strip.set_anchors_preset(Control.PRESET_TOP_WIDE)
+	strip.offset_bottom = 92
+	ui.root.add_child(strip)
 	var top := UiKit.label("%s · %s" % [venue.get("name", ""), CalendarRules.describe(s.day, s.block)], 22, UiKit.C_ACCENT, false)
 	top.position = Vector2(20, 14)
 	ui.root.add_child(top)
@@ -58,7 +63,7 @@ func _ready() -> void:
 	runner.anchor_bottom = 1.0
 	runner.offset_left = -560
 	runner.offset_right = 560
-	runner.offset_top = -330
+	runner.offset_top = -250
 	runner.offset_bottom = -20
 	ui.root.add_child(runner)
 	runner.reacted.connect(_on_reacted)

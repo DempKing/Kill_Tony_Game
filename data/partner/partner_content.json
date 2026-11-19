@@ -22,14 +22,14 @@
       "color": "#ff7a7a"
     },
     "panel_guest_a": {
-      "display_name": "Panel Guest (placeholder)",
+      "display_name": "Guest Comic A",
       "role": "Guest comic",
       "approved": false,
       "color": "#ffd27a",
       "style": "storytelling"
     },
     "panel_guest_b": {
-      "display_name": "Panel Guest (placeholder)",
+      "display_name": "Guest Comic B",
       "role": "Guest comic",
       "approved": false,
       "color": "#7affd2",

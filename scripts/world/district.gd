@@ -48,16 +48,17 @@ func _ready() -> void:
 	add_child(player)
 	cam = Camera2D.new()
 	cam.position_smoothing_enabled = not GameSettings.reduced_motion()
-	cam.limit_left = -200
-	cam.limit_top = -100
-	cam.limit_right = int(player.bounds.end.x) + 200
-	cam.limit_bottom = int(player.bounds.end.y) + 100
+	cam.limit_left = 0
+	cam.limit_top = -90
+	cam.limit_right = int(player.bounds.end.x)
+	cam.limit_bottom = int(player.bounds.end.y)
 	player.add_child(cam)
 	cam.make_current()
 	ui = UiLayer.new()
 	add_child(ui)
 	hud = Hud.new()
 	ui.root.add_child(hud)
+	ui.top_margin = 84
 	hud.journal_pressed.connect(open_journal)
 	hud.phone_pressed.connect(open_phone)
 	hud.wait_pressed.connect(wait_block)
@@ -124,7 +125,7 @@ func _place_npcs(animate: bool) -> void:
 		counts[loc] = idx + 1
 		var d := map.door_of(db.locations[loc])
 		var north := d.y < 650.0
-		var target := Vector2(d.x + 46.0 + idx * 34.0, d.y + (22.0 if north else -22.0))
+		var target := Vector2(d.x + 50.0 + idx * 58.0, d.y + (22.0 if north else -22.0))
 		var was_hidden := not sn.visible
 		sn.visible = true
 		if was_hidden:

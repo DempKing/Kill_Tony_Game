@@ -11,6 +11,8 @@ var modal_root: Control
 var toast_box: VBoxContainer
 var subtitle_label: Label
 var _stack: Array = []
+## Space reserved at the top (e.g. for the HUD) so modals never cover it.
+var top_margin: int = 0
 
 
 func _init() -> void:
@@ -72,6 +74,7 @@ func open(content: Control, width: int = 900, closable: bool = true) -> Control:
 	wrap.add_child(dim)
 	var center := CenterContainer.new()
 	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	center.offset_top = top_margin
 	wrap.add_child(center)
 	var p := UiKit.panel()
 	p.custom_minimum_size = Vector2(width, 0)

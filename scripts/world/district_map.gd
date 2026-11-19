@@ -74,7 +74,7 @@ func _draw() -> void:
 		if str(loc.get("kind", "")) == "hotspot":
 			draw_rect(r, base)
 			draw_rect(r, sign_c, false, 2.0)
-			draw_string(font, r.position + Vector2(6, 22), str(loc["name"]), HORIZONTAL_ALIGNMENT_LEFT, r.size.x + 60, 15, sign_c)
+			draw_string(font, r.position + Vector2(6, 22), str(loc["name"]), HORIZONTAL_ALIGNMENT_LEFT, -1, 15, sign_c)
 		else:
 			draw_rect(r, base)
 			draw_rect(Rect2(r.position.x, r.position.y, r.size.x, 14), base.darkened(0.3))
@@ -98,7 +98,11 @@ func _draw() -> void:
 				var marquee := "TONIGHT: KILL TONY" if wd == 0 else ("THURSDAY: THE SECRET SHOW" if wd == 3 else "HEADLINE SHOWS NIGHTLY")
 				draw_string(font, Vector2(r.position.x + 60, r.position.y + 140), marquee, HORIZONTAL_ALIGNMENT_LEFT, -1, 22, Color("#ffe27a"))
 			else:
-				draw_string(font, Vector2(r.position.x + 12, sign_y), str(loc["name"]).to_upper(), HORIZONTAL_ALIGNMENT_LEFT, r.size.x - 20, 20, Color(sign_c, glow))
+				var sign_txt := str(loc["name"]).to_upper()
+				var fs := 20
+				while fs > 11 and font.get_string_size(sign_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, fs).x > r.size.x - 20:
+					fs -= 1
+				draw_string(font, Vector2(r.position.x + 10, sign_y), sign_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, fs, Color(sign_c, glow))
 			if not open:
 				draw_string(font, Vector2(d.x - 30, sign_y + 22), "CLOSED", HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("#ff8a8a"))
 	# Street lamps.

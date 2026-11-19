@@ -5,11 +5,17 @@ You arrive in Austin, Texas with $180, a bag, and a journal of bad jokes.
 Work bad jobs, find material, write, bomb, improve, and try to turn a Kill
 Tony bucket pull into a career.
 
-> **Status: Phase 1 (Austin arrival) and the Phase 2 Kill Tony slice are
-> written, but have never been run.** Godot wasn't available in the
-> environment this was built in, so no scene, script or test here has been
-> run or exported yet. Run the tests below first. See
-> [docs/IMPLEMENTATION_STATUS.md](docs/IMPLEMENTATION_STATUS.md).
+> **Status:** Phase 1 (Austin arrival) and the Phase 2 Kill Tony slice run
+> in Godot 4.3.
+> - The project imports with no script errors.
+> - All automated tests pass (838 checks; touring is skipped because it isn't
+>   built).
+> - An automated playtest drives the real game from the title screen through
+>   an open mic and a full Kill Tony night, and screenshots each step.
+> - Not yet done: a Windows export, and a human playtest with keyboard or
+>   controller.
+>
+> See [docs/IMPLEMENTATION_STATUS.md](docs/IMPLEMENTATION_STATUS.md).
 
 ## Engine
 
@@ -38,6 +44,17 @@ godot --headless --path . --import
 godot --headless --path . -s res://tests/run_tests.gd
 ```
 Exit code 0 means every test passed. See [docs/TESTING.md](docs/TESTING.md).
+
+## Automated playtest (dev only)
+
+```
+godot --path . -- --playtest=/some/output/dir
+```
+This plays through the title screen, character creation, the arrival, the
+journal, the hostel, an open-mic set with results, Monday signup, and a full
+Kill Tony night (forced pull, set, interview, rewards). It saves a numbered
+screenshot at each step. It needs a display; on a headless Linux box use
+`xvfb-run`.
 
 ## Export (Windows)
 

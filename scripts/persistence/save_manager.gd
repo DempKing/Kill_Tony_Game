@@ -122,6 +122,6 @@ func export_slot(slot: String) -> String:
 
 func delete_slot(slot: String) -> void:
 	for suffix in ["", ".bak"]:
-		var p := slot_path(slot) + suffix
+		var p: String = slot_path(slot) + str(suffix)
 		if FileAccess.file_exists(p):
 			DirAccess.remove_absolute(p)

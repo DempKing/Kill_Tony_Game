@@ -114,7 +114,9 @@ func _read_dict(path: String) -> Dictionary:
 	if typeof(parsed) != TYPE_DICTIONARY:
 		errors.append("Malformed JSON: " + path)
 		return {}
-	return parsed
+	# JSON numbers parse as floats; whole numbers become ints so lookups like
+	# `[0, 1].has(block)` behave.
+	return GameState.normalize(parsed)
 
 
 ## Derives authored compatibility tags from family + component type when the

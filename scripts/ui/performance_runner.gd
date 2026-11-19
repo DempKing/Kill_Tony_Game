@@ -13,24 +13,29 @@ var _v: VBoxContainer
 var _status: Label
 var _speech: RichTextLabel
 var _reaction: Label
-var _buttons: VBoxContainer
+var _buttons: HFlowContainer
+var _hint: Label
 var _busy: bool = false
 
 
 func setup(p_sim: PerformanceSim) -> PerformanceRunner:
 	sim = p_sim
 	theme = GameSettings.theme
-	custom_minimum_size = Vector2(1100, 260)
+	custom_minimum_size = Vector2(1100, 200)
 	_v = UiKit.vbox(6)
 	add_child(_v)
 	_status = UiKit.label("", 18, UiKit.C_DIM, false)
 	_v.add_child(_status)
-	_speech = UiKit.rich("", 22)
+	_speech = UiKit.rich("", 21)
 	_v.add_child(_speech)
 	_reaction = UiKit.label("", 22, UiKit.C_WARN)
 	_v.add_child(_reaction)
-	_buttons = UiKit.vbox(4)
+	_buttons = HFlowContainer.new()
+	_buttons.add_theme_constant_override("h_separation", 8)
+	_buttons.add_theme_constant_override("v_separation", 6)
 	_v.add_child(_buttons)
+	_hint = UiKit.label("", 15, UiKit.C_DIM)
+	_v.add_child(_hint)
 	_update_status()
 	if sim.queue.is_empty():
 		_speech.text = "You step up with nothing coherent prepared."
@@ -48,12 +53,17 @@ func _update_status() -> void:
 
 func _offer(opts: Array) -> void:
 	UiKit.clear(_buttons)
+	_hint.text = ""
 	for o in opts:
 		var od: Dictionary = o
 		var b := UiKit.button(str(od["label"]), func(): _pick(str(od["id"])))
+		var hint: String = str(od.get("hint", ""))
+		b.tooltip_text = hint
+		b.focus_entered.connect(func(): _hint.text = hint)
+		b.mouse_entered.connect(func(): _hint.text = hint)
 		_buttons.add_child(b)
-		if str(od.get("hint", "")) != "":
-			_buttons.add_child(UiKit.label("     " + str(od["hint"]), 15, UiKit.C_DIM))
+	if not opts.is_empty():
+		_hint.text = str(opts[0].get("hint", ""))
 	UiKit.focus_first(_buttons)
 
 

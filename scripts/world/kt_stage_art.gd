@@ -92,7 +92,7 @@ func _draw() -> void:
 			draw_string(font, sp + Vector2(-60, -90), "YOU (panel guest)", HORIZONTAL_ALIGNMENT_CENTER, 120, 14, Color("#ffe27a"))
 		else:
 			_figure(sp + Vector2(look, -laugh), col.darkened(0.4), Color("#d8b898"))
-			draw_string(font, sp + Vector2(-80, -90), str(chars.get(mid, {}).get("display_name", "Panel")), HORIZONTAL_ALIGNMENT_CENTER, 160, 14, col)
+			draw_string(font, sp + Vector2(-72, -90), str(chars.get(mid, {}).get("display_name", "Panel")), HORIZONTAL_ALIGNMENT_CENTER, 144, 13, col)
 	draw_rect(desk, Color("#2c2238"))
 	draw_rect(desk, Color("#6a5a8a"), false, 2.0)
 	draw_string(font, desk.position + Vector2(10, desk.size.y - 14), "PANEL", HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color("#e0d0ff"))
