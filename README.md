@@ -14,6 +14,9 @@ Tony bucket pull into a career.
 >   an open mic, a full Kill Tony night and a three-city tour, and screenshots
 >   each step.
 > - A Windows release export builds.
+> - Art pass done. Everything is still original procedural placeholder art: a
+>   shared character renderer, a lit district with day/night, distinct
+>   stages, and an animated title screen.
 > - Not yet done: running the export on Windows, and a human playtest with
 >   keyboard or controller.
 >
@@ -52,7 +55,8 @@ Exit code 0 means every test passed. See [docs/TESTING.md](docs/TESTING.md).
 ```
 godot --path . -- --playtest=/some/output/dir
 ```
-This plays through the title screen, character creation, the arrival, the
+Add `--artshots` for a quick visual pass (about 10 key screens). The full run
+plays through the title screen, character creation, the arrival, the
 journal, the hostel, an open-mic set with results, Monday signup, and a full
 Kill Tony night (forced pull, set, interview, rewards). It saves a numbered
 screenshot at each step. It needs a display; on a headless Linux box use
