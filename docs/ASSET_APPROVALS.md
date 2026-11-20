@@ -8,7 +8,7 @@ architectural drawing or third-party asset is used.
 | Characters (player, NPCs, panel, band) | Placeholder | 3D: low-poly figures built from primitives in code (`Character3D`). 2D screens (creator, interiors, title) still use `CharacterArt`. Both read the same `look` data. |
 | Crowds | Placeholder | Instanced capsule-and-head silhouettes (`Crowd3D`) |
 | District (buildings, street, props, street life) | Placeholder | 3D, built in code (`District3D`) from the layout in `data/venues/locations.json`; textured with Poly Haven surfaces; street furniture from Poly Haven models (below) |
-| Comedy Mothership exterior | Placeholder, **original saucer-marquee design**, not the real building | `District3D._build_mothership` |
+| Comedy Mothership exterior | Placeholder, **original saucer-marquee design**, not the real building. Deliberately clean and upscale (satin panels, metal fins, glass lobby); early-career clubs like the Rusty Spur and the Cellar keep grimy textures | `District3D._build_mothership` |
 | Title screen backdrop | Placeholder | `TitleBackdrop` |
 | Interiors | Placeholder | Drawn in code (`LocationPanel.InteriorArt`) |
 | Club / road / theater / arena stages | Placeholder | 3D, built in code (`Stage3D`: dive, lantern, cellar, secret, road club, theater, arena) |

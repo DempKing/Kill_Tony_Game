@@ -67,10 +67,14 @@ func rebuild() -> void:
 	# Room shell: floor, side walls, ceiling.
 	var wide := style in ["theater", "arena"]
 	var hw := 16.0 if wide else 9.0
-	Mat3D.box(_root, Vector3(0, -0.05, 6), Vector3(hw * 2, 0.1, 24), Mat3D.surface("dirty_carpet", back.lightened(0.35), 0.5))
+	# Early-career rooms (dive, cellar) are grimy; nicer rooms get clean carpet.
+	var grimy := style in ["dive", "cellar"]
+	var floor_mat: Material = Mat3D.surface("dirty_carpet", back.lightened(0.35), 0.5) if grimy else Mat3D.color(back.darkened(0.35), 0.9)
+	Mat3D.box(_root, Vector3(0, -0.05, 6), Vector3(hw * 2, 0.1, 24), floor_mat)
 	if style != "arena":
 		for sx in [-1.0, 1.0]:
-			Mat3D.box(_root, Vector3(sx * hw, 3.5, 6), Vector3(0.2, 7, 24), Mat3D.surface(_wall_tex(style), back.lightened(0.3), 0.4))
+			var wall_mat: Material = Mat3D.surface(_wall_tex(style), back.lightened(0.3), 0.4) if _wall_tex(style) != "" else Mat3D.color(back.lightened(0.15), 0.6)
+			Mat3D.box(_root, Vector3(sx * hw, 3.5, 6), Vector3(0.2, 7, 24), wall_mat)
 		Mat3D.box(_root, Vector3(0, 7.0 if style != "cellar" else 4.6, 6), Vector3(hw * 2, 0.2, 24), Mat3D.color(back.darkened(0.7), 0.9))
 	# Riser.
 	Mat3D.box(_root, Vector3(0, H * 0.5, -1.7), Vector3(12, H, 4.6), Mat3D.surface("wood_floor", floor_c.lightened(0.6), 0.5, 0.6))
@@ -153,7 +157,8 @@ func _shown() -> int:
 
 
 func _wall_tex(style: String) -> String:
-	return {"dive": "red_brick_03", "lantern": "plastered_wall", "cellar": "concrete_wall_003", "secret": "corrugated_iron", "road_club": "factory_brick", "theater": "velour_velvet"}.get(style, "plastered_wall")
+	# "" = clean painted wall (no texture).
+	return {"dive": "red_brick_03", "lantern": "plastered_wall", "cellar": "concrete_wall_003", "secret": "", "road_club": "factory_brick", "theater": "velour_velvet"}.get(style, "")
 
 
 func _environment(back: Color, light: Color, style: String) -> void:
@@ -284,15 +289,18 @@ func _cellar(back: Color, light: Color) -> void:
 	_point(Vector3(0, 3.6, -3.2), light, 1.5, 6.0)
 
 
+## The Secret Show runs inside the Comedy Mothership, so the room is clean:
+## dark acoustic wall panels, wood slats, warm string lights.
 func _secret(back: Color, light: Color) -> void:
-	Mat3D.box(_root, Vector3(0, 3.5, -4.0), Vector3(18, 7, 0.2), Mat3D.surface("corrugated_iron", Color("#5a5a78"), 0.5))
-	for x in range(-8, 9, 3):
-		Mat3D.box(_root, Vector3(x, 3.5, -3.8), Vector3(0.3, 7, 0.3), Mat3D.color(Color("#1c1c28"), 0.6, 0.5))
-	Mat3D.box(_root, Vector3(0, 6.2, -3.8), Vector3(18, 0.3, 0.3), Mat3D.color(Color("#1c1c28"), 0.6, 0.5))
+	Mat3D.box(_root, Vector3(0, 3.5, -4.0), Vector3(18, 7, 0.2), Mat3D.color(Color("#161624"), 0.8))
+	for i in range(12):
+		Mat3D.box(_root, Vector3(-7.7 + i * 1.4, 3.2, -3.85), Vector3(1.25, 4.6, 0.1), Mat3D.color(Color("#262840") if i % 2 else Color("#20223a"), 0.95))
+	for i in range(36):
+		Mat3D.box(_root, Vector3(-8.75 + i * 0.5, 6.2, -3.85), Vector3(0.22, 1.2, 0.12), Mat3D.surface("dark_wood", Color("#c8a080"), 1.0))
 	for i in range(17):
-		_cyl(_root, Vector3(-8 + i, 5.7 + (0.3 if i % 2 == 0 else 0.0), -3.6), 0.06, 0.06, 0.1, Mat3D.glow(light, 3.0))
-	Mat3D.box(_root, Vector3(6.0, 2.5, -3.85), Vector3(2.4, 0.7, 0.1), Mat3D.color(Color("#202030"), 0.6))
-	Mat3D.label(_root, Vector3(6.0, 2.5, -3.78), "NO PHONES", 40, Color("#ff6060"), false, 4)
+		_cyl(_root, Vector3(-8 + i, 5.4 + (0.3 if i % 2 == 0 else 0.0), -3.6), 0.06, 0.06, 0.1, Mat3D.glow(light, 3.0))
+	Mat3D.box(_root, Vector3(6.0, 2.5, -3.78), Vector3(2.4, 0.7, 0.06), Mat3D.color(Color("#0c0c14"), 0.4))
+	Mat3D.label(_root, Vector3(6.0, 2.5, -3.74), "NO PHONES", 40, Color("#ff6060"), false, 4)
 
 
 func _road_club(back: Color, light: Color) -> void:

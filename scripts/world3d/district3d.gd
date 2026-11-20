@@ -304,9 +304,19 @@ func _build_mothership(loc: Dictionary) -> void:
 	var front := r.end.y
 	var cx := r.get_center().x
 	var sign_c := Color(str(loc.get("sign_color", "#b88cff")))
-	Mat3D.box(self, Vector3(cx, h * 0.5, r.get_center().y), Vector3(r.size.x, h, r.size.y), Mat3D.surface("concrete_wall_003", Color("#6a70c8"), 0.3))
-	for i in range(int(r.size.x / 1.8)):
-		Mat3D.box(self, Vector3(r.position.x + 0.9 + i * 1.8, h * 0.5, front + 0.08), Vector3(0.25, h, 0.16), Mat3D.color(Color("#3a3e6a"), 0.6))
+	# A well-kept flagship club: smooth satin panels, a polished granite base,
+	# brushed-metal fins with LED strips, and a glass lobby. No grime textures.
+	Mat3D.box(self, Vector3(cx, h * 0.5, r.get_center().y), Vector3(r.size.x, h, r.size.y), Mat3D.color(Color("#3c3f86"), 0.35, 0.25))
+	Mat3D.box(self, Vector3(cx, 1.3, front + 0.06), Vector3(r.size.x + 0.1, 2.6, 0.14), Mat3D.color(Color("#141420"), 0.12, 0.3))
+	Mat3D.box(self, Vector3(cx, 2.62, front + 0.14), Vector3(r.size.x + 0.1, 0.06, 0.04), Mat3D.glow(sign_c, 1.6))
+	Mat3D.box(self, Vector3(cx, h + 0.15, front - 0.1), Vector3(r.size.x + 0.4, 0.3, 0.6), Mat3D.color(Color("#c8cad8"), 0.25, 0.8))
+	var n_fins := int(r.size.x / 2.6)
+	for i in range(n_fins + 1):
+		var fx := r.position.x + i * r.size.x / n_fins
+		Mat3D.box(self, Vector3(fx, h * 0.5 + 1.3, front + 0.12), Vector3(0.3, h - 2.6, 0.24), Mat3D.color(Color("#b8bccc"), 0.3, 0.85))
+		Mat3D.box(self, Vector3(fx, h * 0.5 + 1.3, front + 0.25), Vector3(0.05, h - 2.6, 0.02), Mat3D.glow(sign_c.lerp(Color.WHITE, 0.3), 1.2))
+	# Glass lobby band.
+	Mat3D.box(self, Vector3(cx, 1.4, front + 0.15), Vector3(12.0, 2.4, 0.05), Mat3D.color(Color(0.55, 0.65, 0.95, 0.55), 0.05, 0.4))
 	# Saucer.
 	var c := Vector3(cx, h * 0.72, front + 2.4)
 	var disc := MeshInstance3D.new()

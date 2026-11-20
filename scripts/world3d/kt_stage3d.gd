@@ -99,9 +99,12 @@ func _build_room() -> void:
 	we.environment = env
 	add_child(we)
 	# Floor, walls, ceiling.
-	Mat3D.box(self, Vector3(0, -0.05, 4), Vector3(22, 0.1, 20), Mat3D.surface("dirty_carpet", Color("#4a4060"), 0.5))
+	# Inside the Comedy Mothership: clean room, painted panels, plain carpet.
+	Mat3D.box(self, Vector3(0, -0.05, 4), Vector3(22, 0.1, 20), Mat3D.color(Color("#1c1828"), 0.95))
 	for sx in [-1.0, 1.0]:
-		Mat3D.box(self, Vector3(sx * 10.5, 3.5, 4), Vector3(0.2, 7, 20), Mat3D.surface("concrete_wall_003", Color("#3a3450"), 0.4))
+		Mat3D.box(self, Vector3(sx * 10.5, 3.5, 4), Vector3(0.2, 7, 20), Mat3D.color(Color("#1e1c30"), 0.8))
+		for k in range(6):
+			Mat3D.box(self, Vector3(sx * 10.38, 3.2, -2.0 + k * 3.0), Vector3(0.05, 4.4, 2.6), Mat3D.color(Color("#2a2644"), 0.95))
 	Mat3D.box(self, Vector3(0, 7.0, 4), Vector3(22, 0.2, 20), Mat3D.color(Color("#08070e"), 0.9))
 	# Backdrop: purple velvet wall, glowing ribs, trim frame.
 	var bd := _r("backdrop")
