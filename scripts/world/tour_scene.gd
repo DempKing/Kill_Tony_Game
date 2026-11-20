@@ -28,9 +28,11 @@ func _ready() -> void:
 		return
 	art = StageArt.new()
 	art.reduced = GameSettings.reduced_motion()
+	art.show_light = false
 	var pa := PlayerActor.new()
 	pa.configure(db, s)
 	art.player_colors = pa.colors
+	art.player_look = pa.look
 	pa.free()
 	add_child(art)
 	var cam := Camera2D.new()

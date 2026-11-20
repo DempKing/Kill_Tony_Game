@@ -35,6 +35,7 @@ func _ready() -> void:
 	var pa := PlayerActor.new()
 	pa.configure(db, s)
 	art.player_colors = pa.colors
+	art.player_look = pa.look
 	pa.free()
 	add_child(art)
 	cam = Camera2D.new()
@@ -335,7 +336,7 @@ func _leave() -> void:
 func _panel_start() -> void:
 	art.show_bucket = false
 	art.player_at_mic = false
-	art.player_at_panel_seat = 0
+	art.player_at_panel_seat = 2
 	if not night.has("comics"):
 		night["comics"] = PanelRules.generate(s, db, 3)
 		night["idx"] = 0

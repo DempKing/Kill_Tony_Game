@@ -80,6 +80,32 @@ README, exports).
 - Housing upgrade.
 - Posters and marquee change with progress.
 
+### Art pass (fifth pass)
+All art is still original procedural placeholder art; nothing is
+partner-approved.
+- **Characters:** a shared renderer (`CharacterArt`) draws everyone. It has
+  shading, faces with five expressions, five hair styles (chosen in the
+  creator), walk cycles and seated poses.
+- **District:**
+  - time-of-day gradient sky, stars, moon/sun, and a lit skyline
+  - facades with cornices, rooftop units, framed lit windows, awnings and
+    neon-glow signs
+  - the Mothership as an original saucer marquee with chasing bulbs and
+    searchlights
+  - roof-plus-storefront south buildings; sidewalks, curbs, crosswalks,
+    manholes
+  - trees, parked cars, benches, a bus shelter and a notice board
+  - walking pedestrians, and a Monday bucket line with stanchions
+  - an additive night-glow layer for lamps, signs, doors and headlights
+- **Stages:** gradient backdrops, a soft spotlight cone and floor pool, a
+  stage lip with footlights, a stool and cable, and rim-lit audience
+  silhouettes. The comedian holds the mic and reacts to the room.
+- **Kill Tony stage:** seated panel with reactions, a drum kit, keys and
+  guitar, desk mics, a lit desk, and the bucket on a stand.
+- **Other screens:** interiors with perspective floors, props, lighting and
+  full NPC figures; an animated title screen; the creator preview uses the
+  new renderer.
+
 ### Phase 5: arenas and legacy (fourth pass)
 - Arena venues, including an Austin home arena, with production levels.
 - Separate sellout and profitability stats.

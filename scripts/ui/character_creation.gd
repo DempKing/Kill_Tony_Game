@@ -5,18 +5,19 @@ extends Control
 
 class Preview extends Control:
 	var colors: Dictionary = {}
+	var hair_style: int = 0
+	var t: float = 0.0
+	func _process(d: float) -> void:
+		t += d
+		queue_redraw()
 	func _draw() -> void:
-		var c := size * 0.5
-		draw_rect(Rect2(c.x - 40, c.y - 20, 80, 120), colors.get("outfit", Color.SLATE_BLUE))
-		draw_circle(Vector2(c.x, c.y - 55), 38, colors.get("skin", Color.TAN))
-		draw_arc(Vector2(c.x, c.y - 60), 38, PI, TAU, 16, colors.get("hair", Color.BLACK), 16)
-		if bool(colors.get("long_hair", false)):
-			draw_rect(Rect2(c.x - 46, c.y - 64, 12, 56), colors.get("hair", Color.BLACK))
-			draw_rect(Rect2(c.x + 34, c.y - 64, 12, 56), colors.get("hair", Color.BLACK))
-		draw_rect(Rect2(c.x + 36, c.y, 26, 40), Color("#6b4a2a"))
+		CharacterArt.vgradient(self, Rect2(Vector2.ZERO, size), Color("#1c1430"), Color("#0a0812"))
+		draw_texture_rect(CharacterArt.glow_texture(), Rect2(Vector2(size.x * 0.5 - 140, size.y - 120), Vector2(280, 120)), false, Color(1, 0.9, 0.7, 0.35))
+		var look := CharacterArt.look_from(colors, {"hair_style": hair_style})
+		CharacterArt.draw(self, Vector2(size.x * 0.5, size.y - 40), 3.4, look, {"facing": 1.0, "expression": "smile", "bob": 0.0 if GameSettings.reduced_motion() else sin(t * 2.0) * 1.5})
 
 
-var setup: Dictionary = {"name": "", "stage_name": "", "gender": "male", "appearance": {"skin": 1, "hair": 0, "outfit": 0}, "background": "server_vet", "style": "observational"}
+var setup: Dictionary = {"name": "", "stage_name": "", "gender": "male", "appearance": {"skin": 1, "hair": 0, "outfit": 0, "hair_style": 0}, "background": "server_vet", "style": "observational"}
 var _box: VBoxContainer
 var _preview: Preview
 var _name_edit: LineEdit
@@ -34,18 +35,23 @@ func _ready() -> void:
 	var sc := ScrollContainer.new()
 	sc.set_anchors_preset(Control.PRESET_FULL_RECT)
 	sc.offset_left = 60
-	sc.offset_right = -60
+	sc.offset_right = -400
 	sc.offset_top = 30
 	sc.offset_bottom = -30
 	add_child(sc)
 	var row := UiKit.hbox(30)
 	sc.add_child(row)
 	_box = UiKit.vbox(10)
-	_box.custom_minimum_size = Vector2(1050, 0)
+	_box.custom_minimum_size = Vector2(1100, 0)
 	row.add_child(_box)
 	_preview = Preview.new()
-	_preview.custom_minimum_size = Vector2(260, 320)
-	row.add_child(_preview)
+	_preview.anchor_left = 1.0
+	_preview.anchor_right = 1.0
+	_preview.offset_left = -370
+	_preview.offset_right = -40
+	_preview.offset_top = 40
+	_preview.offset_bottom = 520
+	add_child(_preview)
 	ui = UiLayer.new()
 	add_child(ui)
 	_build()
@@ -97,6 +103,12 @@ func _build() -> void:
 			b.add_theme_color_override("font_color", Color(str(opts[i])).lightened(0.2))
 			pr.add_child(b)
 		_box.add_child(pr)
+	var hs := UiKit.hbox(6)
+	hs.add_child(UiKit.label("Hair style", 19, UiKit.C_TEXT, false))
+	for i in range(CharacterArt.HAIR_STYLES.size()):
+		var idx := i
+		hs.add_child(UiKit.button(("● " if int(setup["appearance"].get("hair_style", 0)) == i else "○ ") + str(CharacterArt.HAIR_STYLES[i]), func(): _pick_appearance("hair_style", idx)))
+	_box.add_child(hs)
 	_box.add_child(UiKit.label("Background (a head start, never a cage)", 21, UiKit.C_ACCENT))
 	for bid in db.backgrounds:
 		var bg: Dictionary = db.backgrounds[bid]
@@ -104,7 +116,7 @@ func _build() -> void:
 		_box.add_child(UiKit.button(("● " if setup["background"] == bid else "○ ") + "%s — %s" % [bg["name"], bg["desc"]], func(): _pick("background", bid_c)))
 	_box.add_child(UiKit.label("Starting comedy style (you can blend in a second style later)", 21, UiKit.C_ACCENT))
 	var sr := GridContainer.new()
-	sr.columns = 2
+	sr.columns = 1
 	for sid in db.styles:
 		var st: Dictionary = db.styles[sid]
 		var sid_c: String = sid
@@ -115,12 +127,15 @@ func _build() -> void:
 	_box.add_child(go)
 	_box.add_child(UiKit.button("Back to title", func(): Game.goto(Game.SCENE_BOOT)))
 	_preview.colors = _colors()
+	_preview.hair_style = int(setup["appearance"].get("hair_style", 0))
 	_preview.queue_redraw()
 	UiKit.focus_first(_box)
 
 
 func _pick(key: String, v: String) -> void:
 	setup[key] = v
+	if key == "gender":
+		setup["appearance"]["hair_style"] = 2 if v == "female" else 0
 	_build()
 
 

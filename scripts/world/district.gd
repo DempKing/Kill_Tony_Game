@@ -33,6 +33,13 @@ func _ready() -> void:
 	map = DistrictMap.new()
 	map.setup(db, s)
 	add_child(map)
+	var glow_layer := CanvasLayer.new()
+	glow_layer.layer = 1
+	glow_layer.follow_viewport_enabled = true
+	add_child(glow_layer)
+	var glow := DistrictGlow.new()
+	glow.map = map
+	glow_layer.add_child(glow)
 	for npc_id in db.npcs:
 		var sn := StreetNpc.new().setup(str(npc_id), db.npcs[npc_id])
 		add_child(sn)
@@ -49,9 +56,10 @@ func _ready() -> void:
 	cam = Camera2D.new()
 	cam.position_smoothing_enabled = not GameSettings.reduced_motion()
 	cam.limit_left = 0
-	cam.limit_top = -90
+	cam.limit_top = -260
 	cam.limit_right = int(player.bounds.end.x)
 	cam.limit_bottom = int(player.bounds.end.y)
+	cam.offset = Vector2(0, -130)
 	player.add_child(cam)
 	cam.make_current()
 	ui = UiLayer.new()
@@ -101,7 +109,7 @@ func _on_modal_closed() -> void:
 
 
 func _apply_time_tint() -> void:
-	var c := [Color("#fff4e0"), Color("#ffffff"), Color("#b7a8e8"), Color("#8078c0")][clampi(s.block, 0, 3)] as Color
+	var c := [Color("#fff4e0"), Color("#ffffff"), Color("#9a8ad0"), Color("#6a62a8")][clampi(s.block, 0, 3)] as Color
 	tint.color = c
 	map.queue_redraw()
 

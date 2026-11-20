@@ -13,6 +13,10 @@ var blocked: Array = []      # Rect2 list
 var bounds := Rect2(0, 0, 2600, 1200)
 var input_enabled: bool = true
 var _bob: float = 0.0
+var facing: float = 1.0
+var walk_phase: float = 0.0
+var moving: bool = false
+var look: Dictionary = {}
 
 
 func configure(db: ContentDB, s: GameState) -> void:
@@ -25,6 +29,7 @@ func configure(db: ContentDB, s: GameState) -> void:
 	}
 	colors["long_hair"] = str(s.player.get("gender", "male")) == "female"
 	has_bag = s.flags.has("has_bag")
+	look = CharacterArt.look_from(colors, appearance)
 	queue_redraw()
 
 
@@ -32,6 +37,15 @@ func _process(delta: float) -> void:
 	if not input_enabled:
 		return
 	var dir := Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	moving = dir.length() > 0.01
+	if absf(dir.x) > 0.1:
+		facing = signf(dir.x)
+	if not moving:
+		if walk_phase != 0.0:
+			walk_phase = 0.0
+			queue_redraw()
+		return
+	walk_phase += delta * 11.0
 	if dir.length() > 0.01:
 		var step := dir * SPEED * delta
 		var next := position + Vector2(step.x, 0)
@@ -54,14 +68,11 @@ func _hits(p: Vector2) -> bool:
 
 
 func _draw() -> void:
-	var bob := 0.0 if GameSettings.reduced_motion() else sin(_bob) * 2.0
-	draw_circle(Vector2(0, 8), 16, Color(0, 0, 0, 0.3))
-	draw_rect(Rect2(-12, -30 + bob, 24, 34), colors.get("outfit", Color.SLATE_BLUE))
-	draw_circle(Vector2(0, -42 + bob), 13, colors.get("skin", Color.TAN))
-	draw_arc(Vector2(0, -44 + bob), 13, PI, TAU, 12, colors.get("hair", Color.BLACK), 7)
-	if bool(colors.get("long_hair", false)):
-		draw_rect(Rect2(-15, -46 + bob, 5, 22), colors.get("hair", Color.BLACK))
-		draw_rect(Rect2(10, -46 + bob, 5, 22), colors.get("hair", Color.BLACK))
+	var bob := 0.0 if GameSettings.reduced_motion() else -absf(sin(walk_phase)) * 2.0
 	if has_bag:
-		draw_rect(Rect2(10, -22 + bob, 12, 18), Color("#6b4a2a"))
-	draw_colored_polygon(PackedVector2Array([Vector2(-6, -70), Vector2(6, -70), Vector2(0, -62)]), Color("#ffe27a"))
+		draw_rect(Rect2(-14 * facing - (12 if facing > 0 else 0), -38 + bob, 12, 18), Color("#6b4a2a"))
+	CharacterArt.draw(self, Vector2(0, 8), 1.0, look, {"walk": walk_phase if moving else 0.0, "bob": bob, "facing": facing})
+	if has_bag:
+		draw_line(Vector2(-8 * facing, -46 + bob), Vector2(-14 * facing, -36 + bob), Color("#4a3018"), 2.0)
+	var y := -78.0 + (0.0 if GameSettings.reduced_motion() else sin(Time.get_ticks_msec() / 300.0) * 2.0)
+	draw_colored_polygon(PackedVector2Array([Vector2(-7, y), Vector2(7, y), Vector2(0, y + 9)]), Color("#ffe27a"))

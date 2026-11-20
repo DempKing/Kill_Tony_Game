@@ -11,6 +11,8 @@ var light_on: bool = false
 var t: float = 0.0
 var reduced: bool = false
 var production: String = ""   # arena production level
+var player_look: Dictionary = {}
+var show_light: bool = true
 
 
 func _process(delta: float) -> void:
@@ -25,7 +27,7 @@ func _draw() -> void:
 	var light := Color(str(stage.get("light", "#ffcf8a")))
 	var floor_c := Color(str(stage.get("floor", "#1a1008")))
 	var style: String = str(stage.get("style", "dive"))
-	draw_rect(Rect2(0, 0, 1600, 900), back.darkened(0.4))
+	CharacterArt.vgradient(self, Rect2(0, 0, 1600, 900), back.darkened(0.3), back.darkened(0.75))
 	match style:
 		"lantern":
 			_draw_lantern(back, light)
@@ -41,42 +43,71 @@ func _draw() -> void:
 			_draw_arena(back, light)
 		_:
 			_draw_dive(back, light)
+	# Sign.
 	var sign_text := str(stage.get("sign", ""))
 	var fs := 54
 	while fs > 18 and font.get_string_size(sign_text, HORIZONTAL_ALIGNMENT_LEFT, -1, fs).x > 560:
 		fs -= 2
 	var sign_col := Color(light, 0.75 + 0.25 * sin(t * 3.0)) if style == "cellar" and not reduced else light
-	draw_string(font, Vector2(520, 150), sign_text, HORIZONTAL_ALIGNMENT_CENTER, 560, fs, sign_col)
-	draw_rect(Rect2(300, 560, 1000, 90), floor_c)
-	# Spotlight cone.
-	draw_colored_polygon(PackedVector2Array([Vector2(760, 0), Vector2(840, 0), Vector2(980, 600), Vector2(620, 600)]), Color(light, 0.10))
-	draw_circle(Vector2(800, 590), 170, Color(light, 0.12))
-	# The light (time warning). Shown as text too, so it never relies on color.
-	draw_circle(Vector2(1380, 200), 22, Color("#ff3030") if light_on else Color("#401010"))
-	draw_string(font, Vector2(1300, 250), "LIGHT ON" if light_on else "light", HORIZONTAL_ALIGNMENT_CENTER, 160, 18, Color.WHITE if light_on else Color("#806060"))
-	# Mic stand and performer.
-	draw_line(Vector2(800, 440), Vector2(800, 590), Color("#b0b0b8"), 5)
-	draw_circle(Vector2(800, 436), 9, Color("#404048"))
-	_performer(Vector2(860, 580))
+	for o in [Vector2(-2, 0), Vector2(2, 0), Vector2(0, 2), Vector2(0, -2)]:
+		draw_string(font, Vector2(520, 170) + o, sign_text, HORIZONTAL_ALIGNMENT_CENTER, 560, fs, Color(sign_col, 0.18))
+	draw_string(font, Vector2(520, 170), sign_text, HORIZONTAL_ALIGNMENT_CENTER, 560, fs, sign_col.lightened(0.2))
+	# Stage: riser with a lip and footlights.
+	CharacterArt.vgradient(self, Rect2(260, 560, 1080, 70), floor_c.lightened(0.15), floor_c)
+	draw_rect(Rect2(260, 560, 1080, 5), floor_c.lightened(0.35))
+	draw_rect(Rect2(250, 630, 1100, 14), floor_c.darkened(0.5))
+	for i in range(14):
+		draw_circle(Vector2(300 + i * 76, 636), 3.0, Color(light, 0.9))
+	# Spotlight: soft cone and a pool on the floor.
+	var top := Vector2(800, -20)
+	var cone := PackedVector2Array([top + Vector2(-30, 0), top + Vector2(30, 0), Vector2(990, 600), Vector2(610, 600)])
+	draw_polygon(cone, PackedColorArray([Color(light, 0.22), Color(light, 0.22), Color(light, 0.02), Color(light, 0.02)]))
+	draw_texture_rect(CharacterArt.glow_texture(), Rect2(560, 470, 480, 200), false, Color(light, 0.45))
+	# Time light (open mics only).
+	if show_light:
+		draw_rect(Rect2(172, 236, 56, 90), Color("#1a1414"))
+		draw_circle(Vector2(200, 266), 18, Color("#ff2a2a") if light_on else Color("#3a1010"))
+		if light_on:
+			draw_texture_rect(CharacterArt.glow_texture(), Rect2(140, 206, 120, 120), false, Color(1, 0.2, 0.2, 0.6))
+		draw_string(font, Vector2(160, 312), "LIGHT ON" if light_on else "light", HORIZONTAL_ALIGNMENT_CENTER, 80, 14, Color.WHITE if light_on else Color("#806060"))
+	# Stool with a water bottle, mic stand (mic is in hand), cable.
+	draw_line(Vector2(1010, 520), Vector2(1000, 600), Color("#4a3a2a"), 4)
+	draw_line(Vector2(1050, 520), Vector2(1060, 600), Color("#4a3a2a"), 4)
+	draw_rect(Rect2(996, 512, 68, 10), Color("#6a4a2a"))
+	draw_rect(Rect2(1040, 490, 10, 22), Color(0.7, 0.85, 1.0, 0.7))
+	draw_line(Vector2(760, 470), Vector2(760, 600), Color("#9a9aa4"), 4)
+	draw_line(Vector2(740, 600), Vector2(780, 600), Color("#9a9aa4"), 4)
+	draw_line(Vector2(760, 470), Vector2(784, 452), Color("#9a9aa4"), 3)
+	draw_polyline(PackedVector2Array([Vector2(840, 470), Vector2(812, 540), Vector2(790, 598), Vector2(700, 604), Vector2(560, 600)]), Color("#141414"), 3.0)
+	_performer(Vector2(850, 600))
 	_draw_audience(style)
 
 
 func _draw_dive(back: Color, light: Color) -> void:
-	for y in range(0, 560, 40):
+	for y in range(80, 560, 40):
 		for x in range(0, 1600, 90):
 			var off := 45 if (y / 40) % 2 == 0 else 0
-			draw_rect(Rect2(x + off, y, 84, 34), back.lightened(0.05 * ((x + y) % 3)))
+			var shade := 0.04 * ((x * 7 + y * 3) % 4)
+			draw_rect(Rect2(x + off, y, 84, 34), back.lightened(shade))
+	CharacterArt.vgradient(self, Rect2(0, 80, 1600, 480), Color(0, 0, 0, 0.0), Color(0, 0, 0, 0.35))
 	# Bar counter, stools, beer signs, string bulbs.
-	draw_rect(Rect2(1180, 380, 420, 190), Color("#3a2414"))
-	draw_rect(Rect2(1180, 370, 420, 16), Color("#6a4424"))
+	CharacterArt.vgradient(self, Rect2(1180, 380, 420, 190), Color("#4a2c18"), Color("#2a1a0e"))
+	draw_rect(Rect2(1180, 370, 420, 16), Color("#7a5030"))
+	for i in range(6):
+		draw_rect(Rect2(1200 + i * 66, 300, 14, 60), Color(0.4 + 0.1 * (i % 3), 0.25, 0.1, 0.9))
 	for i in range(4):
 		draw_rect(Rect2(1210 + i * 95, 470, 50, 10), Color("#202020"))
 		draw_line(Vector2(1235 + i * 95, 480), Vector2(1235 + i * 95, 560), Color("#202020"), 5)
-	draw_rect(Rect2(1220, 260, 140, 60), Color("#101010"))
-	draw_string(ThemeDB.fallback_font, Vector2(1228, 300), "COLD BEER", HORIZONTAL_ALIGNMENT_LEFT, -1, 22, Color("#40d0ff"))
-	for i in range(14):
-		var bx := 60.0 + i * 80.0
-		draw_circle(Vector2(bx, 40 + 18 * sin(i * 0.9)), 6, Color(light, 0.9))
+	draw_rect(Rect2(1220, 200, 140, 60), Color("#101010"))
+	draw_string(ThemeDB.fallback_font, Vector2(1228, 240), "COLD BEER", HORIZONTAL_ALIGNMENT_LEFT, -1, 22, Color("#40d0ff"))
+	draw_texture_rect(CharacterArt.glow_texture(), Rect2(1180, 150, 220, 160), false, Color(0.25, 0.8, 1.0, 0.25))
+	var prev := Vector2(40, 110)
+	for i in range(19):
+		var bp := Vector2(40 + i * 80, 110 + 18 * absf(sin(i * 0.9)))
+		draw_line(prev, bp, Color("#222222"), 1.5)
+		prev = bp
+		draw_circle(bp, 5, Color(light, 0.95))
+		draw_texture_rect(CharacterArt.glow_texture(), Rect2(bp - Vector2(18, 18), Vector2(36, 36)), false, Color(light, 0.35))
 
 
 func _draw_lantern(back: Color, light: Color) -> void:
@@ -168,38 +199,53 @@ func _draw_mini_performer(p: Vector2) -> void:
 
 
 func _draw_audience(style: String) -> void:
-	var n := clampi(audience_size, 8, 60)
-	if style == "theater":
-		n = 90
-	if style == "arena":
-		n = 160
-	for i in range(n):
-		var row := i % (8 if style == "arena" else (5 if style == "theater" else 3))
-		var x := 60.0 + (i * 997 % 1480)
-		var y := 700.0 + row * (25.0 if style == "arena" else (40.0 if style == "theater" else 70.0))
-		var jump := 0.0
-		if not reduced and reaction > 0.2:
-			jump = absf(sin(t * 9.0 + i)) * 12.0 * reaction
-		if style == "cellar":
-			y -= 20.0  # standing crowd
-		draw_circle(Vector2(x, y - jump), 26, Color("#0c0a10"))
-		draw_rect(Rect2(x - 34, y + 14 - jump, 68, 80), Color("#0c0a10"))
+	var light := Color(str(stage.get("light", "#ffcf8a")))
+	var rows := 3
+	var per_row := 9
+	var sc := 1.9
+	var dark := Color("#0c0a10")
+	match style:
+		"theater":
+			rows = 5
+			per_row = 16
+			sc = 1.2
+		"arena":
+			rows = 7
+			per_row = 26
+			sc = 0.8
+		"cellar":
+			sc = 2.0
+	var shown := clampi(audience_size, 6, rows * per_row)
+	var n := 0
+	for row in range(rows):
+		var y := 720.0 + row * (150.0 / rows) + (row * 8.0)
+		var count := per_row + (row % 2)
+		for i in range(count):
+			if n >= shown:
+				return
+			n += 1
+			var x := 1600.0 * (i + 0.5 + (0.5 if row % 2 else 0.0)) / count
+			var jump := 0.0
+			if not reduced and reaction > 0.2:
+				jump = absf(sin(t * 9.0 + i * 1.3 + row)) * 10.0 * reaction
+			var rim := Color(light, 0.55 - row * 0.05)
+			CharacterArt.silhouette(self, Vector2(x, y - jump), sc * (1.0 + row * 0.06), dark.lightened(row * 0.02), rim)
 	if style == "lantern":
 		for i in range(6):
 			var tx := 160.0 + i * 260.0
-			draw_rect(Rect2(tx - 40, 790, 80, 12), Color("#2a1a10"))
-			draw_circle(Vector2(tx, 782), 6, Color("#ffd070"))
-			draw_circle(Vector2(tx, 782), 22, Color(1.0, 0.8, 0.4, 0.15))
+			draw_rect(Rect2(tx - 40, 800, 80, 12), Color("#2a1a10"))
+			draw_circle(Vector2(tx, 792), 6, Color("#ffd070"))
+			draw_texture_rect(CharacterArt.glow_texture(), Rect2(tx - 40, 752, 80, 80), false, Color(1.0, 0.8, 0.4, 0.4))
 
 
 func _performer(p: Vector2) -> void:
-	var bob := 0.0 if reduced else sin(t * 2.0) * 2.0
-	draw_rect(Rect2(p.x - 22, p.y - 120 + bob, 44, 90), player_colors.get("outfit", Color.SLATE_BLUE))
-	draw_rect(Rect2(p.x - 20, p.y - 30, 16, 30), Color("#202028"))
-	draw_rect(Rect2(p.x + 4, p.y - 30, 16, 30), Color("#202028"))
-	draw_circle(Vector2(p.x, p.y - 142 + bob), 22, player_colors.get("skin", Color.TAN))
-	draw_arc(Vector2(p.x, p.y - 146 + bob), 22, PI, TAU, 16, player_colors.get("hair", Color.BLACK), 10)
-	if bool(player_colors.get("long_hair", false)):
-		draw_rect(Rect2(p.x - 26, p.y - 150 + bob, 8, 40), player_colors.get("hair", Color.BLACK))
-		draw_rect(Rect2(p.x + 18, p.y - 150 + bob, 8, 40), player_colors.get("hair", Color.BLACK))
-	draw_line(Vector2(p.x - 20, p.y - 100 + bob), Vector2(p.x - 54, p.y - 140), player_colors.get("outfit", Color.SLATE_BLUE), 10)
+	var bob := 0.0 if reduced else sin(t * 2.0) * 1.5
+	var expr := "neutral"
+	if reaction > 0.35:
+		expr = "laugh"
+	elif reaction > 0.1:
+		expr = "smile"
+	elif reaction < -0.2:
+		expr = "nervous"
+	var look := player_look if not player_look.is_empty() else CharacterArt.look_from(player_colors)
+	CharacterArt.draw(self, p, 2.6, look, {"bob": bob, "facing": -1.0, "mic_hand": true, "expression": expr})

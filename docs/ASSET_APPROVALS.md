@@ -5,9 +5,12 @@ architectural drawing or third-party asset is used.
 
 | Asset | Status | Source |
 |---|---|---|
-| District art (buildings, street, people) | Placeholder | Drawn in code (`DistrictMap`) |
+| Characters (player, NPCs, panel, band, crowds) | Placeholder | Shared procedural renderer `CharacterArt` (faces, expressions, 5 hair styles, walk cycle) |
+| District art (sky, skyline, facades, props, street life) | Placeholder | Drawn in code (`DistrictMap`), night lighting via additive `DistrictGlow` |
+| Comedy Mothership exterior | Placeholder, **original saucer-marquee design**, not the real building | `DistrictMap._draw_mothership` |
+| Title screen backdrop | Placeholder | `TitleBackdrop` |
 | Interiors | Placeholder | Drawn in code (`LocationPanel.InteriorArt`) |
-| Club stages (dive, lantern, cellar, secret variants) | Placeholder | Drawn in code (`StageArt`) |
+| Club / road / theater / arena stages | Placeholder | Drawn in code (`StageArt`: dive, lantern, cellar, secret, road club, theater, arena) |
 | Street NPC figures | Placeholder | Drawn in code (`StreetNpc`) |
 | Kill Tony stage | Placeholder blockout, **not architecturally accurate** | `KtStageArt` + `data/partner/kill_tony_stage_layout.json` |
 | Show logo / signage | Placeholder text only (`logo_asset` empty) | `data/partner/partner_content.json` |

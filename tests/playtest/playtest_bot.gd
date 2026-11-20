@@ -31,6 +31,10 @@ func scene() -> Node:
 
 
 func _run() -> void:
+	if "--artshots" in OS.get_cmdline_user_args():
+		await _art_run()
+		get_tree().quit()
+		return
 	await _wait(1.0)
 	await shot("title")
 	Game.goto(Game.SCENE_CREATE)
@@ -386,3 +390,78 @@ func _legacy_segment() -> void:
 	await _wait(1.0)
 	await shot("arena_home")
 	print("[playtest] arena: ", TourRules.summary(tr), " tier=", s.career_tier, " stats=", s.stats)
+
+
+## Quick visual pass over the main looks (used while iterating on art).
+func _art_run() -> void:
+	await _wait(1.2)
+	await shot("art_title")
+	Game.goto(Game.SCENE_CREATE)
+	await _wait(1.0)
+	var cc := scene()
+	cc.setup["name"] = "Sam"
+	cc.setup["gender"] = "female"
+	cc.setup["appearance"] = {"skin": 2, "hair": 5, "outfit": 3, "hair_style": 1}
+	cc._build()
+	await _wait(0.5)
+	await shot("art_creator")
+	Game.start_new_game({"name": "Sam", "stage_name": "Sammy Vale", "gender": "female", "background": "theater_kid", "style": "absurdist", "appearance": {"skin": 2, "hair": 5, "outfit": 3, "hair_style": 1}})
+	await _wait(1.2)
+	var d := scene()
+	d.ui.close_all()
+	var s: GameState = Game.state
+	var db: ContentDB = Game.db
+	GameSim.run_action(s, db, {"id": "pick_up_bag", "params": {}})
+	d.player.configure(db, s)
+	d.player.position = Vector2(1000, 640)
+	await _wait(1.0)
+	await shot("art_street_day")
+	GameSim.advance(s, db, 1)
+	Game.notify()
+	d.player.position = Vector2(1300, 640)
+	await _wait(2.5)
+	await shot("art_street_evening")
+	while CalendarRules.weekday(s.day) != 0 or s.block != 2:
+		GameSim.advance(s, db, 1, true)
+	Game.notify()
+	d.player.position = Vector2(1300, 640)
+	await _wait(2.5)
+	await shot("art_monday_night")
+	d.player.position = Vector2(500, 760)
+	await _wait(1.0)
+	await shot("art_south_night")
+	d.open_location("rusty_spur")
+	await _wait(0.6)
+	await shot("art_interior")
+	d.ui.close_all()
+	SetRules.save_setlist(s, SetRules.DEFAULT_ID, "", s.jokes.keys())
+	GameSim.begin_performance(s, db, "spur_open_mic", SetRules.DEFAULT_ID, "")
+	Game.goto(Game.SCENE_PERFORMANCE)
+	await _wait(1.2)
+	var ps := scene()
+	ps.runner._pick("_start")
+	await _wait(2.4)
+	await shot("art_open_mic")
+	Game.goto(Game.SCENE_DISTRICT)
+	await _wait(0.8)
+	s.flags.erase("active_performance")
+	KillTonyRules.signup(s, db)
+	s.flags["dev_force_bucket"] = "selected"
+	s.flags["active_kill_tony"] = {"commitment_id": "", "day": s.day, "phase": "minute"}
+	Game.goto(Game.SCENE_KILL_TONY)
+	await _wait(1.8)
+	var kt := scene()
+	kt.ui.close_all()
+	await _wait(0.6)
+	await shot("art_kt_stage")
+	s.flags["active_kill_tony"] = {"commitment_id": "", "day": s.day + 7, "phase": "panel", "mode": "panel"}
+	Game.goto(Game.SCENE_KILL_TONY)
+	await _wait(1.5)
+	kt = scene()
+	kt.ui.close_all()
+	kt._panel_save("set")
+	kt._panel_step()
+	await _wait(1.2)
+	kt.ui.close_all()
+	await _wait(0.4)
+	await shot("art_kt_panel")

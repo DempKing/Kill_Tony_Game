@@ -7,7 +7,11 @@ class InteriorArt extends Control:
 	var loc: Dictionary = {}
 	var npc_colors: Array = []
 	var npc_names: Array = []
+	var npc_female: Array = []
 	var block: int = 0
+
+	func _glow(c: Vector2, r: float, col: Color) -> void:
+		draw_texture_rect(CharacterArt.glow_texture(), Rect2(c - Vector2(r, r), Vector2(r, r) * 2.0), false, col)
 
 	func _draw() -> void:
 		var w := size.x
@@ -16,47 +20,72 @@ class InteriorArt extends Control:
 		var wall := Color(str(it.get("wall", loc.get("color", "#333344"))))
 		var floor_c := Color(str(it.get("floor", "#222222")))
 		var accent := Color(str(it.get("accent", loc.get("sign_color", "#ffffff"))))
-		draw_rect(Rect2(0, 0, w, h * 0.68), wall)
-		draw_rect(Rect2(0, h * 0.68, w, h * 0.32), floor_c)
-		draw_rect(Rect2(0, h * 0.66, w, 6), accent.darkened(0.3))
+		var fy := h * 0.68
+		CharacterArt.vgradient(self, Rect2(0, 0, w, fy), wall.lightened(0.08), wall.darkened(0.2))
+		CharacterArt.vgradient(self, Rect2(0, fy, w, h - fy), floor_c.lightened(0.1), floor_c.darkened(0.3))
+		for i in range(12):
+			var x0 := w * i / 11.0
+			draw_line(Vector2(x0, fy), Vector2(w * 0.5 + (x0 - w * 0.5) * 1.8, h), Color(0, 0, 0, 0.12), 1.0)
+		draw_rect(Rect2(0, fy - 8, w, 8), accent.darkened(0.45))
+		draw_rect(Rect2(0, 0, w, 10), wall.darkened(0.4))
 		var font := ThemeDB.fallback_font
-		draw_string(font, Vector2(24, 44), str(loc.get("name", "")).to_upper(), HORIZONTAL_ALIGNMENT_LEFT, -1, 30, accent)
 		var id: String = str(loc.get("id", ""))
 		match id:
 			"rusty_spur", "lantern", "cellar", "mothership":
-				# Small stage, mic, spotlight.
-				draw_rect(Rect2(w * 0.6, h * 0.55, w * 0.32, h * 0.13), Color(0.1, 0.08, 0.06))
-				draw_circle(Vector2(w * 0.76, h * 0.3), h * 0.28, Color(accent, 0.12))
-				draw_line(Vector2(w * 0.76, h * 0.38), Vector2(w * 0.76, h * 0.56), Color(0.75, 0.75, 0.8), 4)
-				draw_circle(Vector2(w * 0.76, h * 0.37), 7, Color(0.3, 0.3, 0.32))
-				for i in range(6):
-					draw_circle(Vector2(w * 0.1 + i * w * 0.08, h * 0.85), 14, Color(0.08, 0.08, 0.1))
+				CharacterArt.vgradient(self, Rect2(w * 0.58, fy - 20, w * 0.34, 28), Color("#3a2a1a"), Color("#1a120a"))
+				draw_polygon(PackedVector2Array([Vector2(w * 0.74, 0), Vector2(w * 0.76, 0), Vector2(w * 0.86, fy), Vector2(w * 0.64, fy)]), PackedColorArray([Color(accent, 0.25), Color(accent, 0.25), Color(accent, 0.03), Color(accent, 0.03)]))
+				_glow(Vector2(w * 0.75, fy - 10), 110, Color(accent, 0.3))
+				draw_line(Vector2(w * 0.75, fy - 90), Vector2(w * 0.75, fy - 20), Color(0.75, 0.75, 0.8), 4)
+				draw_circle(Vector2(w * 0.75, fy - 92), 6, Color(0.3, 0.3, 0.32))
+				for i in range(3):
+					draw_rect(Rect2(w * 0.06 + i * 70, h * 0.12, 54, 70), Color("#f0e6c8"))
+					draw_rect(Rect2(w * 0.06 + i * 70, h * 0.12, 54, 16), accent.darkened(0.2))
 			"diner", "coffee":
 				for i in range(3):
-					var x := w * 0.1 + i * w * 0.18
-					draw_rect(Rect2(x, h * 0.6, w * 0.12, h * 0.05), accent.darkened(0.4))
-					draw_rect(Rect2(x + w * 0.05, h * 0.65, 8, h * 0.15), Color(0.2, 0.2, 0.2))
-				draw_rect(Rect2(w * 0.65, h * 0.45, w * 0.3, h * 0.2), accent.darkened(0.2))
+					var tx := w * 0.08 + i * w * 0.17
+					draw_rect(Rect2(tx, fy - 6, w * 0.12, 10), accent.darkened(0.3))
+					draw_rect(Rect2(tx + w * 0.055, fy + 4, 6, h * 0.14), Color(0.2, 0.2, 0.22))
+					draw_circle(Vector2(tx + 20, fy - 12), 6, Color("#f8f4f0"))
+				CharacterArt.vgradient(self, Rect2(w * 0.62, fy - 70, w * 0.34, 74), accent.darkened(0.1), accent.darkened(0.45))
+				for i in range(4):
+					draw_circle(Vector2(w * 0.66 + i * 60, fy - 80), 8, Color(0.9, 0.9, 0.95))
+				for i in range(3):
+					var lx := w * 0.2 + i * w * 0.25
+					draw_line(Vector2(lx, 0), Vector2(lx, 40), Color(0.2, 0.2, 0.2), 2)
+					draw_circle(Vector2(lx, 46), 10, Color("#ffe8b0"))
+					_glow(Vector2(lx, 50), 60, Color(1.0, 0.85, 0.5, 0.3))
 			"hostel", "apartments":
 				for i in range(3):
-					var bx := w * 0.08 + i * w * 0.2
-					draw_rect(Rect2(bx, h * 0.38, w * 0.15, h * 0.08), Color(0.5, 0.45, 0.4))
-					draw_rect(Rect2(bx, h * 0.58, w * 0.15, h * 0.08), Color(0.5, 0.45, 0.4))
-					draw_rect(Rect2(bx, h * 0.3, 6, h * 0.4), Color(0.3, 0.25, 0.2))
-				draw_rect(Rect2(w * 0.75, h * 0.15, w * 0.15, h * 0.2), Color(0.55, 0.7, 0.9, 0.6))
+					var bx := w * 0.06 + i * w * 0.18
+					draw_rect(Rect2(bx, fy - 140, 8, 140), Color(0.35, 0.28, 0.22))
+					draw_rect(Rect2(bx + w * 0.13, fy - 140, 8, 140), Color(0.35, 0.28, 0.22))
+					for yy in [fy - 120, fy - 40]:
+						draw_rect(Rect2(bx, yy, w * 0.14, 16), Color(0.55, 0.5, 0.45))
+						draw_rect(Rect2(bx + 6, yy - 8, 30, 10), Color(0.9, 0.9, 0.95))
+				var win := Rect2(w * 0.72, h * 0.1, w * 0.2, h * 0.32)
+				CharacterArt.vgradient(self, win, Color("#9fc4e8") if block < 2 else Color("#0a0a20"), Color("#e8d0a8") if block < 2 else Color("#2a1a40"))
+				draw_rect(win, Color(0.3, 0.25, 0.2), false, 6.0)
+				draw_line(Vector2(win.get_center().x, win.position.y), Vector2(win.get_center().x, win.end.y), Color(0.3, 0.25, 0.2), 4)
+				draw_rect(Rect2(w * 0.6, fy - 30, 40, 30), Color("#2a6a3a"))
 			"mart":
 				for i in range(4):
-					draw_rect(Rect2(w * 0.08 + i * w * 0.14, h * 0.25, w * 0.1, h * 0.42), accent.darkened(0.5))
-		# Night window tint.
+					var sx := w * 0.06 + i * w * 0.14
+					draw_rect(Rect2(sx, h * 0.18, w * 0.11, fy - h * 0.18), accent.darkened(0.55))
+					for sy in range(4):
+						var shy := h * 0.24 + sy * (fy - h * 0.24) / 4.0
+						draw_rect(Rect2(sx + 4, shy, w * 0.11 - 8, 4), Color(0.8, 0.8, 0.85))
+						for k in range(5):
+							draw_rect(Rect2(sx + 8 + k * 16, shy - 14, 12, 14), Color.from_hsv(fmod(k * 0.21 + sy * 0.13 + i * 0.07, 1.0), 0.6, 0.85))
+				draw_rect(Rect2(w * 0.7, fy - 60, w * 0.25, 64), Color("#d8d8e0"))
+				_glow(Vector2(w * 0.5, 20), w * 0.5, Color(0.8, 0.9, 1.0, 0.15))
+		draw_string(font, Vector2(24, 46), str(loc.get("name", "")).to_upper(), HORIZONTAL_ALIGNMENT_LEFT, -1, 30, accent.lightened(0.2))
 		if block >= 2:
-			draw_rect(Rect2(0, 0, w, h), Color(0.05, 0.02, 0.15, 0.25))
-		# People present.
+			draw_rect(Rect2(0, 0, w, h), Color(0.05, 0.02, 0.15, 0.22))
 		for i in range(npc_colors.size()):
-			var px := w * 0.2 + i * 120.0
-			var py := h * 0.72
-			draw_circle(Vector2(px, py - 52), 18, Color("#e8c8a8"))
-			draw_rect(Rect2(px - 18, py - 34, 36, 52), npc_colors[i])
-			draw_string(font, Vector2(px - 50, py + 40), str(npc_names[i]), HORIZONTAL_ALIGNMENT_CENTER, 100, 15, Color.WHITE)
+			var px := w * 0.22 + i * 130.0
+			var lk := CharacterArt.npc_look((npc_colors[i] as Color).to_html(false), bool(npc_female[i]), i * 7 + str(npc_names[i]).length())
+			CharacterArt.draw(self, Vector2(px, h - 18), 1.75, lk, {"facing": 1.0 if px < w * 0.5 else -1.0, "expression": "smile"})
+			draw_string(font, Vector2(px - 60, h - 150), str(npc_names[i]), HORIZONTAL_ALIGNMENT_CENTER, 120, 16, Color.WHITE)
 
 
 var host: Node   # District
@@ -89,7 +118,8 @@ func _build(log_text: String = "") -> void:
 	var here := WorldRules.npcs_at(s, db, location_id)
 	for n in here:
 		_art.npc_colors.append(Color(str(db.npcs[n].get("color", "#888888"))))
-		_art.npc_names.append(str(db.npcs[n]["name"]).split(" ")[0])
+		_art.npc_names.append(str(db.npcs[n]["name"]).split("'")[1] if str(db.npcs[n]["name"]).count("'") >= 2 else str(db.npcs[n]["name"]).split(" ")[0])
+		_art.npc_female.append(str(db.npcs[n].get("gender", "")) == "female")
 	add_child(_art)
 	add_child(UiKit.label("%s  ·  %s" % [loc.get("desc", ""), CalendarRules.describe(s.day, s.block)], 18, UiKit.C_DIM))
 	_log = UiKit.rich(log_text)

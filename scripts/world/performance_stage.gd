@@ -32,6 +32,7 @@ func _ready() -> void:
 	var pa := PlayerActor.new()
 	pa.configure(db, s)
 	art.player_colors = pa.colors
+	art.player_look = pa.look
 	pa.free()
 	add_child(art)
 	var cam := Camera2D.new()
