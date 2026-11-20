@@ -483,27 +483,32 @@ func _build_props() -> void:
 		for sx in [-0.85, 0.85]:
 			Mat3D.box(self, bc + Vector3(sx, 0.22, 0), Vector3(0.06, 0.45, 0.45), Mat3D.color(Color("#2a2a2e"), 0.4, 0.7))
 	# Parked cars.
-	for c in map.cars:
-		var L: float = float(c["len"]) * S
+	# Parked cars: Quaternius Realistic Car Pack (CC0), body paint recolored.
+	var models := ["NormalCar1", "NormalCar2", "SUV", "NormalCar1", "SportsCar", "NormalCar2", "Taxi", "SUV", "Cop"]
+	var paint := ["Blue", "LightBlue", "White", "Orange", "DarkOrange"]
+	for i in range(map.cars.size()):
+		var c: Dictionary = map.cars[i]
 		var col: Color = c["col"]
+		var model: String = models[i % models.size()]
+		var mesh: Mesh = load("res://assets/models/quaternius/cars/%s.obj" % model) if ResourceLoader.exists("res://assets/models/quaternius/cars/%s.obj" % model) else null
 		var cp := Vector3((float(c["x"]) + float(c["len"]) * 0.5) * S, 0.0, (float(c["y"]) + 4.0) * S)
-		Mat3D.box(self, cp + Vector3(0, 0.6, 0), Vector3(L, 0.7, 1.7), Mat3D.color(col, 0.35, 0.5))
-		Mat3D.box(self, cp + Vector3(-L * 0.05, 1.2, 0), Vector3(L * 0.55, 0.55, 1.5), Mat3D.color(Color("#9ac8e8", 0.85), 0.05, 0.3))
-		for wx in [-L * 0.32, L * 0.32]:
-			for wz in [-0.85, 0.85]:
-				var wheel := MeshInstance3D.new()
-				var cyl := CylinderMesh.new()
-				cyl.top_radius = 0.34
-				cyl.bottom_radius = 0.34
-				cyl.height = 0.25
-				wheel.mesh = cyl
-				wheel.material_override = Mat3D.color(Color("#141414"), 0.8)
-				wheel.position = cp + Vector3(wx, 0.34, wz)
-				wheel.rotation.x = PI * 0.5
-				add_child(wheel)
+		if mesh == null:
+			Mat3D.box(self, cp + Vector3(0, 0.7, 0), Vector3(float(c["len"]) * S, 1.0, 1.7), Mat3D.color(col, 0.35, 0.5))
+			continue
+		var mi := MeshInstance3D.new()
+		mi.mesh = mesh
+		mi.position = cp
+		# Models are 4.2 m long along Z; park along the curb, facing traffic.
+		mi.rotation.y = PI * 0.5 if float(c["y"]) < 650.0 else -PI * 0.5
+		if model not in ["Taxi", "Cop"]:
+			for si in range(mesh.get_surface_count()):
+				var m := mesh.surface_get_material(si)
+				if m != null and m.resource_name in paint:
+					mi.set_surface_override_material(si, Mat3D.color(col, 0.3, 0.4))
+		add_child(mi)
 	# Taco truck (a converted ambulance), parked at the south curb.
 	var tt := Node3D.new()
-	tt.position = Vector3(1414 * S, 0.0, 686 * S)
+	tt.position = Vector3(1660 * S, 0.0, 686 * S)
 	add_child(tt)
 	Mat3D.box(tt, Vector3(0, 1.45, 0), Vector3(5.2, 2.3, 2.1), Mat3D.color(Color("#e8e4dc"), 0.45))
 	Mat3D.box(tt, Vector3(2.9, 1.05, 0), Vector3(1.0, 1.5, 2.0), Mat3D.color(Color("#e8e4dc"), 0.45))

@@ -18,8 +18,10 @@ res://
     balancing/ character/ events/ interviews/ jobs/ material/ npcs/ opportunities/ venues/
     partner/               ALL real-person, show-identity and partner-specific content
   assets/textures/polyhaven/ assets/models/polyhaven/   CC0 Poly Haven textures and models
+  assets/models/quaternius/   CC0 Quaternius characters, hair, animations, cars
   assets/placeholder/ assets/approved/   (empty)
   tests/                   headless runner + unit suites
+  tools/                   dev-only asset prep (Quaternius import helpers); excluded from exports
   docs/
 ```
 

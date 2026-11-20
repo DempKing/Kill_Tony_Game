@@ -5,7 +5,7 @@ architectural drawing or third-party asset is used.
 
 | Asset | Status | Source |
 |---|---|---|
-| Characters (player, NPCs, panel, band) | Placeholder | 3D: low-poly figures built from primitives in code (`Character3D`). 2D screens (creator, interiors, title) still use `CharacterArt`. Both read the same `look` data. |
+| Characters (player, NPCs, panel, band) | Placeholder | 3D: Quaternius base bodies, animations and hairstyles (below) in `Character3D`, with the outfit painted on by a shader in each look's colors. 2D screens (creator, interiors, title) still use `CharacterArt`. Both read the same `look` data. |
 | Crowds | Placeholder | Instanced capsule-and-head silhouettes (`Crowd3D`) |
 | District (buildings, street, props, street life) | Placeholder | 3D, built in code (`District3D`) from the layout in `data/venues/locations.json`; textured with Poly Haven surfaces; street furniture from Poly Haven models (below) |
 | Comedy Mothership exterior | Placeholder, **original saucer-marquee design**, not the real building. Deliberately clean and upscale (satin panels, metal fins, glass lobby); early-career clubs like the Rusty Spur and the Cellar keep grimy textures | `District3D._build_mothership` |
@@ -67,14 +67,38 @@ several variants (clean and rusty copies); only the named meshes are shown.
 | hanging_industrial_lamp | https://polyhaven.com/a/hanging_industrial_lamp | open-mic room lamps |
 | wine_bottles_01 | https://polyhaven.com/a/wine_bottles_01 | bottles on the open-mic bar |
 
-Poly Haven has no people, so characters are built in code. Buildings, cars,
-the band's instruments and the stage risers are built in code from boxes and
-cylinders.
+Buildings, the band's instruments and the stage risers are built in code
+from boxes and cylinders.
+
+## Quaternius models (CC0)
+People and cars come from [Quaternius](https://quaternius.com). Every pack's
+License.txt reads "CC0 1.0 Universal (CC0 1.0) Public Domain Dedication"; the
+license files are kept next to the models. The packs were downloaded through
+Quaternius' itch.io pages (the free "Standard" versions).
+
+| Pack | Source | Files in `assets/models/quaternius/` | Used for |
+|---|---|---|---|
+| Universal Base Characters (Standard) | https://quaternius.itch.io/universal-base-characters | `characters/` (male and female bodies), `hair/` (six hairstyles) | every 3D person |
+| Universal Animation Library (Standard) | https://quaternius.itch.io/universal-animation-library | `animations/ual_basic.res` (8 clips: idle, idle talking, walk, formal walk, sitting idle, sitting talking, dance, interact) | all character animation |
+| LowPoly Cars / Realistic Car Pack | https://quaternius.itch.io/lowpoly-cars | `cars/` (sedans, SUV, sports car, taxi, police car) | parked cars |
+
+What was changed:
+- **Textures:** downscaled to 512px (eyes 128px).
+- **Clothing masks:** `T_Male_ClothesMask.png` and `T_Female_ClothesMask.png`
+  are new. `tools/prep_quaternius.py` bakes them from the body mesh.
+- **Animations:** `tools/extract_ual_animations.gd` copied the 8 clips out of
+  the 7.6 MB library. The full library is not shipped.
+- **Recoloring:** car body paint is recolored in code. Skin, hair and clothes
+  colors are applied by shaders.
+
+The base bodies ship without clothes, so `Character3D` always paints a shirt,
+pants and shoes over them.
 
 ## Real people
 Tony Hinchcliffe (host) and Brian Redban appear **by name and role only**, in
 `data/partner/partner_content.json`, flagged `approved: false`. Their figures
-are generic placeholder looks (`Character3D`/`CharacterArt`), **not likenesses**. Guest
+are generic placeholder looks (a stock Quaternius body with a generic outfit and
+hairstyle in `Character3D`; `CharacterArt` in 2D), **not likenesses**. Guest
 panelists are fictional. Stage positions (Tony at the host seat nearest the
 mic, guests along the desk, Redban at a sound station) are a best-understanding
 blockout in `data/partner/kill_tony_stage_layout.json`. They are not verified

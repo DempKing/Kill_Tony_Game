@@ -80,6 +80,19 @@ README, exports).
 - Housing upgrade.
 - Posters and marquee change with progress.
 
+### Quaternius people and cars (eighth pass)
+- **People:** every 3D person now uses Quaternius' CC0 base characters and
+  their animation library. They walk, idle, talk at the mic, sit and talk at
+  the panel, and play in the band. Clothes, skin and hair use each look's
+  colors. Laughs show as an upper-body bounce, because the bodies have no
+  facial rig, so `expression` no longer changes anything in 3D.
+- **Cars:** parked cars are Quaternius models with recolored paint.
+- **Mothership:** the exterior and the two rooms inside it (Kill Tony stage,
+  Secret Show) are now clean and upscale. The early clubs (Rusty Spur, Cellar)
+  stay grimy.
+- **Not verified:** frame rate with about 40 animated characters on the
+  street, on real GPUs or in browsers.
+
 ### 3D conversion (seventh pass)
 The street, the club stages, tour stages and the Kill Tony stage now render
 in 3D. Menus, the HUD, the journal, the phone, interiors, the title screen and
