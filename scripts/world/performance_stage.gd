@@ -1,4 +1,4 @@
-extends Node2D
+extends Node3D
 ## Generic performance scene (open mic, showcases, late shows, The Secret Show).
 ## Reads the stored performance context, runs the set, applies results once,
 ## shows explainable feedback, then returns to the district.
@@ -7,7 +7,7 @@ var s: GameState
 var db: ContentDB
 var ctx: Dictionary
 var sim: PerformanceSim
-var art: StageArt
+var art: Stage3D
 var ui: UiLayer
 var runner: PerformanceRunner
 var _before: Dictionary = {}
@@ -25,7 +25,7 @@ func _ready() -> void:
 		return
 	var venue: Dictionary = db.venues.get(str(ctx["venue_id"]), {})
 	sim = GameSim.build_sim(s, db, ctx)
-	art = StageArt.new()
+	art = Stage3D.new()
 	art.stage = venue.get("stage", {})
 	art.reduced = GameSettings.reduced_motion()
 	art.audience_size = int(sim.audience.get("size", 30))
@@ -35,10 +35,6 @@ func _ready() -> void:
 	art.player_look = pa.look
 	pa.free()
 	add_child(art)
-	var cam := Camera2D.new()
-	cam.position = Vector2(800, 450)
-	add_child(cam)
-	cam.make_current()
 	ui = UiLayer.new()
 	add_child(ui)
 	var strip := ColorRect.new()

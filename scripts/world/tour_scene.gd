@@ -1,4 +1,4 @@
-extends Node2D
+extends Node3D
 ## On the road. State lives in state.flags.active_tour {id, leg, phase} and in
 ## the tour record, so a reload resumes the same leg with the same sales.
 ## Phases: arrive -> sales -> show -> night -> (next leg) ... -> return.
@@ -6,7 +6,7 @@ extends Node2D
 var s: GameState
 var db: ContentDB
 var tour: Dictionary
-var art: StageArt
+var art: Stage3D
 var ui: UiLayer
 var runner: PerformanceRunner
 var sim: PerformanceSim
@@ -26,7 +26,7 @@ func _ready() -> void:
 		s.flags.erase("active_tour")
 		Game.goto(Game.SCENE_DISTRICT)
 		return
-	art = StageArt.new()
+	art = Stage3D.new()
 	art.reduced = GameSettings.reduced_motion()
 	art.show_light = false
 	var pa := PlayerActor.new()
@@ -35,10 +35,6 @@ func _ready() -> void:
 	art.player_look = pa.look
 	pa.free()
 	add_child(art)
-	var cam := Camera2D.new()
-	cam.position = Vector2(800, 450)
-	add_child(cam)
-	cam.make_current()
 	ui = UiLayer.new()
 	add_child(ui)
 	var strip := ColorRect.new()
@@ -92,7 +88,7 @@ func _update_header() -> void:
 	art.stage = venue.get("stage", {})
 	art.audience_size = clampi(int(leg["sold"]) / (40 if str(leg["venue_type"]) == "theater" else 5), 8, 60) if int(leg["sold"]) >= 0 else 20
 	art.production = str(tour.get("production", "standard")) if str(leg["venue_type"]) == "arena" else ""
-	art.queue_redraw()
+	art.rebuild()
 
 
 func _resume() -> void:

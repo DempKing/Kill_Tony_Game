@@ -1,4 +1,4 @@
-extends Node2D
+extends Node3D
 ## District scene controller: exploration, interaction prompts, interiors,
 ## and every modal flow reachable from the street (journal, phone, writing,
 ## shifts, pre-show set builder, pause/save/settings, developer panel).
@@ -9,8 +9,8 @@ var db: ContentDB
 var s: GameState
 var map: DistrictMap
 var player: PlayerActor
-var cam: Camera2D
-var tint: CanvasModulate
+var view: District3D
+var _logic: CanvasLayer
 var ui: UiLayer
 var hud: Hud
 var prompt: Label
@@ -28,21 +28,17 @@ func _ready() -> void:
 	if s == null:
 		Game.goto(Game.SCENE_BOOT)
 		return
-	tint = CanvasModulate.new()
-	add_child(tint)
+	# The street logic (collision, schedules, walking) still runs on the 2D
+	# map-pixel nodes; they live in a hidden layer and District3D mirrors them.
+	_logic = CanvasLayer.new()
+	_logic.visible = false
+	add_child(_logic)
 	map = DistrictMap.new()
 	map.setup(db, s)
-	add_child(map)
-	var glow_layer := CanvasLayer.new()
-	glow_layer.layer = 1
-	glow_layer.follow_viewport_enabled = true
-	add_child(glow_layer)
-	var glow := DistrictGlow.new()
-	glow.map = map
-	glow_layer.add_child(glow)
+	_logic.add_child(map)
 	for npc_id in db.npcs:
 		var sn := StreetNpc.new().setup(str(npc_id), db.npcs[npc_id])
-		add_child(sn)
+		_logic.add_child(sn)
 		street_npcs[str(npc_id)] = sn
 	_place_npcs(false)
 	player = PlayerActor.new()
@@ -52,16 +48,10 @@ func _ready() -> void:
 		var r: Rect2 = map.rect_of(db.locations[id])
 		player.blocked.append(r.grow(-4))
 	player.bounds = Rect2(0, 0, float(db.world.get("width", 2600)), float(db.world.get("height", 1200)))
-	add_child(player)
-	cam = Camera2D.new()
-	cam.position_smoothing_enabled = not GameSettings.reduced_motion()
-	cam.limit_left = 0
-	cam.limit_top = -260
-	cam.limit_right = int(player.bounds.end.x)
-	cam.limit_bottom = int(player.bounds.end.y)
-	cam.offset = Vector2(0, -130)
-	player.add_child(cam)
-	cam.make_current()
+	_logic.add_child(player)
+	view = District3D.new()
+	add_child(view)
+	view.setup(db, s, map, player, street_npcs)
 	ui = UiLayer.new()
 	add_child(ui)
 	hud = Hud.new()
@@ -109,9 +99,8 @@ func _on_modal_closed() -> void:
 
 
 func _apply_time_tint() -> void:
-	var c := [Color("#fff4e0"), Color("#ffffff"), Color("#9a8ad0"), Color("#6a62a8")][clampi(s.block, 0, 3)] as Color
-	tint.color = c
-	map.queue_redraw()
+	if view != null:
+		view.refresh_time()
 
 
 ## Recurring NPCs stand outside wherever their schedule puts them this block.
@@ -172,10 +161,7 @@ func _process(_delta: float) -> void:
 
 func _landmark_moment() -> void:
 	if not GameSettings.reduced_motion():
-		var tw := create_tween()
-		tw.tween_property(cam, "offset", Vector2(1300 - player.position.x, -200), 1.2)
-		tw.tween_interval(1.0)
-		tw.tween_property(cam, "offset", Vector2.ZERO, 0.8)
+		view.pan_to(District3D.to3(Vector2(1300, 600), 4.0), 3.0)
 	ui.info("The Comedy Mothership", "There it is. The marquee glows over the whole block.\n\nEvery Monday night, comics line up outside to drop their names in a bucket. A few get pulled for one minute on Kill Tony, in front of a packed room and a panel of professionals.\n\nOne day. First: somewhere to sleep, and some way to pay for it.")
 	Game.notify()
 

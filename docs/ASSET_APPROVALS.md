@@ -5,14 +5,15 @@ architectural drawing or third-party asset is used.
 
 | Asset | Status | Source |
 |---|---|---|
-| Characters (player, NPCs, panel, band, crowds) | Placeholder | Shared procedural renderer `CharacterArt` (faces, expressions, 5 hair styles, walk cycle) |
-| District art (sky, skyline, facades, props, street life) | Placeholder | Drawn in code (`DistrictMap`), night lighting via additive `DistrictGlow` |
-| Comedy Mothership exterior | Placeholder, **original saucer-marquee design**, not the real building | `DistrictMap._draw_mothership` |
+| Characters (player, NPCs, panel, band) | Placeholder | 3D: low-poly figures built from primitives in code (`Character3D`). 2D screens (creator, interiors, title) still use `CharacterArt`. Both read the same `look` data. |
+| Crowds | Placeholder | Instanced capsule-and-head silhouettes (`Crowd3D`) |
+| District (buildings, street, props, street life) | Placeholder | 3D, built in code (`District3D`) from the layout in `data/venues/locations.json`; textured with Poly Haven surfaces; street furniture from Poly Haven models (below) |
+| Comedy Mothership exterior | Placeholder, **original saucer-marquee design**, not the real building | `District3D._build_mothership` |
 | Title screen backdrop | Placeholder | `TitleBackdrop` |
 | Interiors | Placeholder | Drawn in code (`LocationPanel.InteriorArt`) |
-| Club / road / theater / arena stages | Placeholder | Drawn in code (`StageArt`: dive, lantern, cellar, secret, road club, theater, arena) |
-| Street NPC figures | Placeholder | Drawn in code (`StreetNpc`) |
-| Kill Tony stage | Placeholder blockout, **not architecturally accurate** | `KtStageArt` + `data/partner/kill_tony_stage_layout.json` |
+| Club / road / theater / arena stages | Placeholder | 3D, built in code (`Stage3D`: dive, lantern, cellar, secret, road club, theater, arena) |
+| Street NPC figures | Placeholder | `Character3D`, driven by the hidden `StreetNpc` logic node |
+| Kill Tony stage | Placeholder 3D blockout, **not architecturally accurate** | `KtStage3D` + `data/partner/kill_tony_stage_layout.json` (incl. `cameras_3d`) |
 | Show logo / signage | Placeholder text only (`logo_asset` empty) | `data/partner/partner_content.json` |
 | Panel members, host, band | Placeholder figures and names | `data/partner/partner_content.json` |
 | "Redban" name and lines | Pending partner review | `data/partner/partner_content.json` |
@@ -27,7 +28,8 @@ architectural drawing or third-party asset is used.
 Surface textures come from [Poly Haven](https://polyhaven.com). They are
 released under CC0 (public domain): free for commercial use, no attribution
 required (credited here anyway). Each is the 1K diffuse map, downscaled to a
-256px tile, in `assets/textures/polyhaven/`. Drawn through `Materials`.
+256px tile, in `assets/textures/polyhaven/`. 2D screens draw them through
+`Materials`; 3D scenes map them triplanar through `Mat3D.surface`.
 
 | Texture | Source | Used for |
 |---|---|---|
@@ -44,13 +46,35 @@ required (credited here anyway). Each is the 1K diffuse map, downscaled to a
 | corrugated_iron | https://polyhaven.com/a/corrugated_iron | Secret Show room |
 | dirty_carpet | https://polyhaven.com/a/dirty_carpet | audience floors |
 
-Poly Haven offers mostly 3D models and HDR skies, which don't apply to this 2D
-game. So only textures are used; characters and props are still drawn in code.
+## Poly Haven models (CC0)
+Since the 3D conversion, street furniture and stage props are Poly Haven
+models, also CC0. Each is the 1K glTF with its textures downscaled to 256px,
+in `assets/models/polyhaven/<id>/`, loaded through `ModelLib`. Some files hold
+several variants (clean and rusty copies); only the named meshes are shown.
+
+| Model | Source | Used for |
+|---|---|---|
+| street_lamp_02 | https://polyhaven.com/a/street_lamp_02 | lantern heads on the street-lamp poles |
+| fire_hydrant | https://polyhaven.com/a/fire_hydrant | hydrants (clean variant) |
+| metal_trash_can | https://polyhaven.com/a/metal_trash_can | sidewalk trash cans (clean variant) |
+| utility_box_01 | https://polyhaven.com/a/utility_box_01 | utility boxes |
+| potted_plant_02 | https://polyhaven.com/a/potted_plant_02 | sidewalk planters |
+| exterior_aircon_unit | https://polyhaven.com/a/exterior_aircon_unit | rooftop AC units |
+| bar_chair_round_01 | https://polyhaven.com/a/bar_chair_round_01 | open-mic bar stools |
+| metal_stool_01 | https://polyhaven.com/a/metal_stool_01 | the stool on every club stage |
+| round_wooden_table_01 | https://polyhaven.com/a/round_wooden_table_01 | Lantern Room tables |
+| classic_laptop | https://polyhaven.com/a/classic_laptop | Redban's laptop |
+| hanging_industrial_lamp | https://polyhaven.com/a/hanging_industrial_lamp | open-mic room lamps |
+| wine_bottles_01 | https://polyhaven.com/a/wine_bottles_01 | bottles on the open-mic bar |
+
+Poly Haven has no people, so characters are built in code. Buildings, cars,
+the band's instruments and the stage risers are built in code from boxes and
+cylinders.
 
 ## Real people
 Tony Hinchcliffe (host) and Brian Redban appear **by name and role only**, in
 `data/partner/partner_content.json`, flagged `approved: false`. Their figures
-are generic placeholder looks drawn by `CharacterArt`, **not likenesses**. Guest
+are generic placeholder looks (`Character3D`/`CharacterArt`), **not likenesses**. Guest
 panelists are fictional. Stage positions (Tony at the host seat nearest the
 mic, guests along the desk, Redban at a sound station) are a best-understanding
 blockout in `data/partner/kill_tony_stage_layout.json`. They are not verified

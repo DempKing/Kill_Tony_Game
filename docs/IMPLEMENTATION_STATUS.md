@@ -80,6 +80,36 @@ README, exports).
 - Housing upgrade.
 - Posters and marquee change with progress.
 
+### 3D conversion (seventh pass)
+The street, the club stages, tour stages and the Kill Tony stage now render
+in 3D. Menus, the HUD, the journal, the phone, interiors, the title screen and
+the character creator are still 2D UI. All art is still placeholder; nothing is
+partner-approved.
+- **District:** textured 3D buildings with lit windows, awnings and signs,
+  the original saucer-marquee Mothership with chasing bulbs, and the street.
+  Props include Poly Haven lamps, hydrants, trash cans, planters, AC units and
+  utility boxes, plus built benches, parked cars and the taco truck.
+- **People and time:** walking 3D people (player, NPCs with name tags,
+  pedestrians, the Monday bucket line) and time-of-day sky and sun. Lamp
+  lights come on at night.
+- **Camera:** a follow camera. South-side buildings switch to a cutaway when
+  they would hide the player. The landmark tutorial swings out to a wide shot.
+- **Stages:** seven room styles with Poly Haven props, a spotlight with a
+  visible cone, the time light, and an instanced audience that bounces on
+  laughs.
+- **Kill Tony stage:** Tony is in the host seat nearest the mic, up to three
+  guests are along the desk, and Redban is at his own sound station with a
+  soundboard, drop pads and a laptop. It also has the band riser (drums,
+  keys, bass), the bucket, and camera moves for arrival, set, panel,
+  interview, reward and band.
+- **Verified:**
+  - 944 test checks pass.
+  - The art-shot run and the full scripted playtest both run with no script
+    errors. They were checked by screenshots under Xvfb and llvmpipe.
+- **Not verified:**
+  - frame rate on real GPUs and in browsers
+  - how the web build performs with the 3D scenes
+
 ### Art pass (fifth pass)
 All art is still original procedural placeholder art; nothing is
 partner-approved.

@@ -1,4 +1,4 @@
-extends Node2D
+extends Node3D
 ## Kill Tony night. Phase state lives in state.flags.active_kill_tony and the
 ## bucket_draw in state.kt.draws, both saved before anything is revealed, so a reload
 ## resumes the same night with the same outcome.
@@ -9,13 +9,11 @@ var s: GameState
 var db: ContentDB
 var night: Dictionary
 var bucket_draw: Dictionary
-var art: KtStageArt
-var cam: Camera2D
+var art: KtStage3D
 var ui: UiLayer
 var runner: PerformanceRunner
 var sim: PerformanceSim
 var caption: Label
-var _cam_tween: Tween
 
 
 func _ready() -> void:
@@ -28,7 +26,7 @@ func _ready() -> void:
 	if night.is_empty():
 		Game.goto(Game.SCENE_DISTRICT)
 		return
-	art = KtStageArt.new()
+	art = KtStage3D.new()
 	art.layout = db.stage_layout
 	art.partner = db.partner
 	art.reduced = GameSettings.reduced_motion()
@@ -38,9 +36,6 @@ func _ready() -> void:
 	art.player_look = pa.look
 	pa.free()
 	add_child(art)
-	cam = Camera2D.new()
-	add_child(cam)
-	cam.make_current()
 	ui = UiLayer.new()
 	add_child(ui)
 	caption = UiKit.label("", 24, Color("#ffe27a"))
@@ -55,16 +50,7 @@ func _ready() -> void:
 
 
 func _frame(phase: String, instant: bool = false) -> void:
-	var c := art.camera_for(phase)
-	if instant or GameSettings.reduced_motion():
-		cam.position = c["center"]
-		cam.zoom = Vector2.ONE * float(c["zoom"])
-		return
-	if _cam_tween != null and _cam_tween.is_valid():
-		_cam_tween.kill()
-	_cam_tween = create_tween().set_parallel(true)
-	_cam_tween.tween_property(cam, "position", c["center"], 0.8).set_trans(Tween.TRANS_SINE)
-	_cam_tween.tween_property(cam, "zoom", Vector2.ONE * float(c["zoom"]), 0.8).set_trans(Tween.TRANS_SINE)
+	art.frame(phase, instant)
 
 
 func _save_phase(phase: String) -> void:

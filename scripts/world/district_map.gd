@@ -4,7 +4,7 @@ extends Node2D
 ## original and procedural: sky and skyline, facades with cornices, windows,
 ## awnings and neon, a saucer-marquee for the Mothership (an original design,
 ## not the real building), sidewalks, road, props, street life.
-## Night glow is drawn separately by DistrictGlow (additive layer).
+## Since the 3D conversion this node is hidden: it supplies layout and moving-crowd data that District3D renders.
 ## Layout data comes from data/venues/locations.json.
 
 var db: ContentDB
@@ -480,7 +480,7 @@ func _draw_props() -> void:
 	draw_circle(tt + Vector2(100, 48), 8, Color("#202020"))
 	draw_rect(Rect2(tt + Vector2(54, -8), Vector2(14, 8)), Color("#ff3030") if night and int(t * 2.0) % 2 == 0 else Color("#802020"))
 	draw_string(ThemeDB.fallback_font, tt + Vector2(6, 40), "TACO EMS", HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color("#d03030"))
-	# Street lamps (glow comes from DistrictGlow).
+	# Street lamps.
 	for x in lamp_positions():
 		var p: Vector2 = x
 		draw_line(p, p + Vector2(0, -58), Color("#4a4e56"), 5)
