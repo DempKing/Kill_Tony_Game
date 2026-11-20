@@ -339,6 +339,26 @@
         "rep": 4.0,
         "fame": 2.0
       }
+    },
+    {
+      "id": "opp_kt_panel",
+      "title": "Sit on the Kill Tony panel",
+      "kind": "kt_panel",
+      "venue": "kill_tony",
+      "weekday": 0,
+      "block": 2,
+      "slot_seconds": 0,
+      "pay": 0,
+      "npc": "partner_redban",
+      "chance": 0.5,
+      "lead_days": 2,
+      "expires_after_days": 3,
+      "cooldown_days": 21,
+      "conditions": {
+        "min_tier": 6,
+        "min_fame": 35
+      },
+      "on_complete": {}
     }
   ]
 }

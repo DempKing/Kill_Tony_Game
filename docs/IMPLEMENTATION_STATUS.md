@@ -80,6 +80,16 @@ README, exports).
 - Housing upgrade.
 - Posters and marquee change with progress.
 
+### Phase 5: arenas and legacy (fourth pass)
+- Arena venues, including an Austin home arena, with production levels.
+- Separate sellout and profitability stats.
+- Opener hiring cards: fee, reliability, style, audience fit, relationship,
+  potential, mentorship progress.
+- Mentorship breakouts with payoffs.
+- Kill Tony panel-guest nights: react, contribute, scout.
+- Tiers 8–9.
+- Tests in `test_legacy`.
+
 ### Phase 4: touring (third pass)
 - 10 markets with clubs and theaters.
 - Road offers as an opener.
@@ -125,8 +135,6 @@ README, exports).
 - Housing has no visual room or memorabilia display beyond the journal's shelf
   tab.
 - Not built at all:
-  - Phase 5: arenas, production, opener hiring, panel-guest gameplay. The stage
-    art supports a player panel seat, but no flow uses it.
   - Phase 6: Steam integration, achievements on Steam, cloud saves, release
     pipeline.
 - Controller: menus use focusable buttons and default `ui_*` actions. Controller

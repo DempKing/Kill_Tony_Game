@@ -14,6 +14,8 @@ var panel_reaction: float = 0.0  # panel: -1 .. 1
 var band_cue: float = 0.0        # 0..1 decays
 var player_at_mic: bool = false
 var player_at_panel_seat: int = -1
+var guest_at_mic: bool = false
+var guest_color := Color("#88aacc")
 var show_bucket: bool = true
 var reduced: bool = false
 
@@ -107,6 +109,8 @@ func _draw() -> void:
 	draw_circle(mic_pos + Vector2(0, 20), 120, Color(1, 0.95, 0.85, 0.10))
 	draw_line(mic_pos + Vector2(0, -70), mic_pos + Vector2(0, 20), Color("#c0c0c8"), 5)
 	draw_circle(mic_pos + Vector2(0, -74), 9, Color("#404048"))
+	if guest_at_mic and not player_at_mic:
+		_figure(mic_pos + Vector2(40, -10), guest_color, Color("#d8b090"), Color("#2a2420"), 1.3)
 	if player_at_mic:
 		var bob2 := 0.0 if reduced else sin(t * 2.2) * 2.0
 		var fp := mic_pos + Vector2(40, -10 + bob2)

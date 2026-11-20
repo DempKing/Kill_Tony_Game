@@ -9,7 +9,7 @@ Tony bucket pull into a career.
 > in Godot 4.3.
 > - The project imports with no script errors.
 > - Phase 4 touring is built.
-> - All automated tests pass (884 checks, 0 skipped).
+> - Phase 5 (arenas, opener mentorship, Kill Tony panel guest) is built. All automated tests pass (917 checks, 0 skipped).
 > - An automated playtest drives the real game from the title screen through
 >   an open mic, a full Kill Tony night and a three-city tour, and screenshots
 >   each step.

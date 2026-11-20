@@ -11,7 +11,7 @@ func test_content_targets() -> void:
 	eq(d.families.size(), 22, "twenty-two joke families")
 	check(d.components.size() >= 120, "at least 120 component records (%d)" % d.components.size())
 	eq(d.npcs.size(), 8, "eight recurring fictional NPCs")
-	eq(d.audiences.size(), 6, "six audience profiles")
+	check(d.audiences.size() >= 6, "at least six audience profiles")
 	check(d.interviews.size() >= 18, "eighteen interview prompts (%d)" % d.interviews.size())
 	check(d.opportunities.size() >= 10, "ten career opportunities (%d)" % d.opportunities.size())
 	check(d.world_events.size() >= 25, "at least 25 world events (%d)" % d.world_events.size())

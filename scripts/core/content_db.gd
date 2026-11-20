@@ -32,6 +32,7 @@ var world: Dictionary = {}
 var partner: Dictionary = {}
 var stage_layout: Dictionary = {}
 var touring: Dictionary = {}
+var panel_comics: Dictionary = {}
 var errors: Array = []
 
 
@@ -101,6 +102,7 @@ func load_all(root: String) -> void:
 	partner = _read_dict(root + "partner/partner_content.json")
 	stage_layout = _read_dict(root + "partner/kill_tony_stage_layout.json")
 	touring = _read_dict(root + "touring/touring.json")
+	panel_comics = _read_dict(root + "events/panel_comics.json")
 	_add_tour_venues()
 	errors.append_array(validate())
 
@@ -178,7 +180,7 @@ func validate() -> Array:
 			out.append("Venue %s has unknown location" % id)
 	for id in opportunities:
 		var o: Dictionary = opportunities[id]
-		if str(o.get("kind", "")) == "road":
+		if str(o.get("kind", "")) in ["road"]:
 			continue
 		if not venues.has(str(o.get("venue", ""))):
 			out.append("Opportunity %s has unknown venue" % id)

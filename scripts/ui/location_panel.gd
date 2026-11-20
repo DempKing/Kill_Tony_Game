@@ -157,6 +157,9 @@ func _run(a: Dictionary, force: bool) -> void:
 		"tour":
 			host.start_tour()
 			return
+		"kt_panel":
+			host.start_kt_panel(str(res["commitment_id"]))
+			return
 		"leads", "schedule":
 			ui.info("", str(res["message"]))
 			refresh()

@@ -89,6 +89,7 @@ func _update_header() -> void:
 	var venue: Dictionary = db.venues.get(TourRules.venue_id(str(leg["market"]), str(leg["venue_type"])), {})
 	art.stage = venue.get("stage", {})
 	art.audience_size = clampi(int(leg["sold"]) / (40 if str(leg["venue_type"]) == "theater" else 5), 8, 60) if int(leg["sold"]) >= 0 else 20
+	art.production = str(tour.get("production", "standard")) if str(leg["venue_type"]) == "arena" else ""
 	art.queue_redraw()
 
 
@@ -185,7 +186,11 @@ func _pick_set() -> void:
 
 
 func _min_jokes() -> int:
-	return int(TourRules.t(db, "headline_min_jokes", 5)) if str(tour["role"]) == "headliner" else 3
+	if str(tour["role"]) != "headliner":
+		return 3
+	if str(_leg()["venue_type"]) == "arena":
+		return int(TourRules.t(db, "arena_min_jokes", 8))
+	return int(TourRules.t(db, "headline_min_jokes", 5))
 
 
 func _start_show() -> void:

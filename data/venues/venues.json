@@ -116,6 +116,27 @@
         "storytelling": 2
       },
       "originality_weight": 1.2
+    },
+    {
+      "id": "arena_crowd",
+      "name": "Arena crowd",
+      "desc": "Fifteen thousand people, half of them on their phones. Big, broad bits play; crowd work dies in the rafters.",
+      "size": 15000,
+      "warmth": 60,
+      "regulars": false,
+      "crowdwork": 0.1,
+      "topic_prefs": {
+        "people": 3,
+        "family": 3,
+        "dating": 2,
+        "austin": 1,
+        "comedy": -3
+      },
+      "style_prefs": {
+        "high_energy": 3,
+        "storytelling": 2
+      },
+      "originality_weight": 0.2
     }
   ],
   "venues": [

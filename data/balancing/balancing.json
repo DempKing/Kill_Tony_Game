@@ -332,12 +332,15 @@
     {
       "tier": 8,
       "name": "Arena headliner",
-      "requires_feature": "arenas"
+      "arena_sets": 1,
+      "fame": 60
     },
     {
       "tier": 9,
       "name": "Established star and mentor",
-      "requires_feature": "arenas"
+      "arena_sets": 3,
+      "talent_helped": 6,
+      "panel_sets": 1
     }
   ],
   "relationships": {

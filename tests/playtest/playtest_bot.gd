@@ -173,6 +173,7 @@ func _run() -> void:
 	await shot("kt_rewards")
 	print("[playtest] kt appearances=", s.kt.get("appearances"), " books=", s.books)
 	await _tour_segment()
+	await _legacy_segment()
 	print("[playtest] done.")
 	get_tree().quit()
 
@@ -273,3 +274,115 @@ func _tour_segment() -> void:
 func kt_leave() -> void:
 	Sfx.stop_music()
 	Game.goto(Game.SCENE_DISTRICT)
+
+
+func _legacy_segment() -> void:
+	var s: GameState = Game.state
+	var db: ContentDB = Game.db
+	Game.goto(Game.SCENE_DISTRICT)
+	await _wait(1.2)
+	var d := scene()
+	d.ui.close_all()
+	s.career_tier = 7
+	s.fame = 75.0
+	s.reputation = 90.0
+	s.fans["houston"] = 400
+	StatsRules.add_cash(s, 900000, "DEV playtest")
+	# Panel night.
+	var o := OpportunityRules.create_offer(s, db, "opp_kt_panel", s.day)
+	OpportunityRules.accept(s, db, str(o["id"]))
+	while s.day < int(o["day"]) or s.block < 2:
+		GameSim.advance(s, db, 1, true)
+	var cid := ""
+	for c in Scheduler.current(s):
+		if str(c["kind"]) == "kt_panel":
+			cid = str(c["id"])
+	d.start_kt_panel(cid)
+	await _wait(1.5)
+	await shot("panel_intro")
+	var kt := scene()
+	for i in range(3):
+		kt.ui.close_all()
+		kt._panel_save("walkup")
+		kt._panel_step()
+		await _wait(1.0)
+		if i == 0:
+			await shot("panel_walkup")
+		kt.ui.close_all()
+		kt._panel_save("set")
+		kt._panel_step()
+		await _wait(1.0)
+		if i == 0:
+			await shot("panel_minute")
+		kt.ui.close_all()
+		kt._panel_react(kt.night["comics"][i], "laugh")
+		kt.ui.close_all()
+		kt._panel_step()
+		await _wait(1.0)
+		if i == 0:
+			await shot("panel_interview")
+		kt.ui.close_all()
+		kt._panel_contribute(kt.night["comics"][i], ["roast", "support", "absurd"][i])
+		kt.ui.close_all()
+		if PanelRules.can_scout(kt.night["comics"][i]):
+			PanelRules.scout(s, kt.night["comics"][i])
+		kt.night["idx"] = i + 1
+		kt.night["step"] = "walkup"
+	kt.ui.close_all()
+	kt._panel_end()
+	await _wait(1.0)
+	await shot("panel_results")
+	# Arena show.
+	Game.goto(Game.SCENE_DISTRICT)
+	await _wait(1.0)
+	d = scene()
+	d.ui.close_all()
+	var planner := TourPlannerUI.new().setup(d.ui, func(_m): pass)
+	planner.plan["legs"] = [{"market": "houston", "venue_type": "arena"}]
+	planner.plan["transport"] = "flight"
+	planner.plan["price"] = 75
+	planner.plan["marketing"] = 2500
+	planner.plan["production"] = "spectacle"
+	planner.plan["opener"] = "deshawn"
+	planner._build()
+	d.ui.open(planner, 1220)
+	await _wait(0.6)
+	await shot("arena_planner")
+	var res := TourRules.book(s, db, planner.plan)
+	print("[playtest] arena book: ", res.get("message"))
+	d.ui.close_all()
+	var tr: Dictionary = res["tour"]
+	while s.day < int(tr["start_day"]):
+		GameSim.advance(s, db, 1, true)
+	TourRules.depart(s, db, str(tr["id"]))
+	d.start_tour()
+	await _wait(1.5)
+	var ts := scene()
+	ts.ui.close_all()
+	ts._sales()
+	await _wait(0.5)
+	ts.ui.close_all()
+	ts._start_show()
+	await _wait(0.8)
+	ts.runner._pick("_start")
+	await _wait(2.4)
+	await shot("arena_show")
+	var guard := 0
+	while ts.runner != null and guard < 40:
+		guard += 1
+		if ts.sim.awaiting_choice:
+			var ch: Array = ts.sim.available_choices()
+			ts.runner._pick(str(ch[0]["id"]) if not ch.is_empty() else "_finish")
+			await _wait(0.2)
+		if ts.runner != null and ts.sim.has_next() and not ts.sim.awaiting_choice:
+			ts.runner._pick("_next")
+			await _wait(2.1)
+		elif ts.runner != null and not ts.sim.has_next() and not ts.sim.awaiting_choice:
+			ts.runner._pick("_finish")
+			await _wait(0.8)
+	await shot("arena_settlement")
+	ts.ui.close_all()
+	ts._night()
+	await _wait(1.0)
+	await shot("arena_home")
+	print("[playtest] arena: ", TourRules.summary(tr), " tier=", s.career_tier, " stats=", s.stats)

@@ -10,6 +10,7 @@ var reaction: float = 0.0     # -1 silence .. 1 applause
 var light_on: bool = false
 var t: float = 0.0
 var reduced: bool = false
+var production: String = ""   # arena production level
 
 
 func _process(delta: float) -> void:
@@ -36,6 +37,8 @@ func _draw() -> void:
 			_draw_road_club(back, light)
 		"theater":
 			_draw_theater(back, light)
+		"arena":
+			_draw_arena(back, light)
 		_:
 			_draw_dive(back, light)
 	var sign_text := str(stage.get("sign", ""))
@@ -142,14 +145,38 @@ func _draw_theater(back: Color, light: Color) -> void:
 			draw_circle(Vector2(bx + 40, by + 20), 8, Color(light, 0.6))
 
 
+func _draw_arena(back: Color, light: Color) -> void:
+	# Huge black space, video screens, truss rig, light beams scaled by production.
+	draw_rect(Rect2(0, 0, 1600, 560), Color("#06060c"))
+	var beams := {"minimal": 2, "standard": 6, "spectacle": 12}.get(production, 6) as int
+	for i in range(beams):
+		var x := 100.0 + i * (1400.0 / maxf(1.0, beams - 1))
+		var sway := 0.0 if reduced else sin(t * 0.8 + i) * 80.0
+		var col := Color.from_hsv(fmod(0.62 + i * 0.07, 1.0), 0.6, 1.0, 0.10)
+		draw_colored_polygon(PackedVector2Array([Vector2(x - 6, 40), Vector2(x + 6, 40), Vector2(x + 140 + sway, 560), Vector2(x - 140 + sway, 560)]), col)
+	draw_rect(Rect2(0, 30, 1600, 14), Color("#3a3a46"))
+	if production != "minimal":
+		for sx in [60, 1260]:
+			draw_rect(Rect2(sx, 140, 280, 170), Color("#101828"))
+			draw_rect(Rect2(sx + 8, 148, 264, 154), Color(light, 0.25))
+			_draw_mini_performer(Vector2(sx + 140, 290))
+
+
+func _draw_mini_performer(p: Vector2) -> void:
+	draw_rect(Rect2(p.x - 16, p.y - 70, 32, 70), Color(player_colors.get("outfit", Color.SLATE_BLUE), 0.8))
+	draw_circle(Vector2(p.x, p.y - 86), 16, Color(player_colors.get("skin", Color.TAN), 0.8))
+
+
 func _draw_audience(style: String) -> void:
 	var n := clampi(audience_size, 8, 60)
 	if style == "theater":
 		n = 90
+	if style == "arena":
+		n = 160
 	for i in range(n):
-		var row := i % (5 if style == "theater" else 3)
+		var row := i % (8 if style == "arena" else (5 if style == "theater" else 3))
 		var x := 60.0 + (i * 997 % 1480)
-		var y := 700.0 + row * (40.0 if style == "theater" else 70.0)
+		var y := 700.0 + row * (25.0 if style == "arena" else (40.0 if style == "theater" else 70.0))
 		var jump := 0.0
 		if not reduced and reaction > 0.2:
 			jump = absf(sin(t * 9.0 + i)) * 12.0 * reaction

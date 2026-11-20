@@ -1,6 +1,6 @@
 # Testing
 
-> **Last run:** Godot 4.3 stable, Linux, headless. 884 checks, 0 failures, 0 skipped.
+> **Last run:** Godot 4.3 stable, Linux, headless. 917 checks, 0 failures, 0 skipped.
 
 ## Automated
 ```
@@ -19,6 +19,7 @@ godot --headless --path . -s res://tests/run_tests.gd
 | `test_progression` | career without a bucket pull, opportunity generation and expiry, tutorial completion through normal actions, every door reachable on foot, NPC schedules |
 | `test_life` | gender and text tokens, v1→v2 migration, keeping and breaking promises, promises never replacing bookings, shift promises, Priya workshops, regular-status flow and strikes, day summary |
 | `test_touring` | full tour cash flow (upfront vs reserved vs forecast vs settlements vs profit), stored sales, settle-once, cancellation forfeits, missed departure, demand response to price/marketing/fame/recency, plan rules (van range, fame and tier gates, affordability), calendar blocking, road offers, tier 5 |
+| `test_legacy` | arena gating and production costs, sellout vs profit, arena economics (stars profit, mid-career loses), mentorship breakout, contextual panel scoring, scouting, panel booking, tiers 8–9 |
 | `test_content` | validation, content targets, every family can form a coherent joke, every family obtainable in play, partner separation |
 
 `test_tour_cash_flow` is reported as SKIP because touring isn't implemented.

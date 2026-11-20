@@ -295,3 +295,65 @@ you played the city in the last 21 days). Sales are rolled once and stored.
 - Tier 6 (Club headliner): 4 headline shows and reputation 55.
 - Tier 7 (Theater headliner): 3 theater shows and fame 40.
 - Tiers 8–9 (arenas) wait on Phase 5.
+
+## Arenas and legacy (Phase 5)
+**Arenas.** Tier 7 and up, in Houston, Dallas, Chicago, Los Angeles, New York,
+Toronto, London, and a home show at Austin Center Arena:
+- 15,000–19,500 seats.
+- Rent of $150k–240k, paid as a deposit at booking.
+- A 15% venue cut.
+- Arena audiences pay about 2.5× club prices.
+- 8 jokes needed for a full set.
+
+**Production** (charged per arena show at departure):
+- Minimal: $8k, room −3, fame ×0.8.
+- Standard: $25k.
+- Spectacle: $70k, room +4, fame ×1.4.
+
+Selling out and making a profit are tracked separately (`arena_sellouts`,
+`arena_profitable`). Each settlement shows show profit after rent and
+production.
+
+**Hiring openers.** Each candidate card shows:
+- fee (×2 at theaters, ×5 at arenas)
+- reliability (Deshawn's also rises with your trust)
+- style
+- fit with this tour's biggest crowd
+- your relationship
+- career potential
+- how many shows they've opened for you
+
+A no-show leaves the room cold.
+
+**Mentorship.** After 6 shows (5 for scouted comics) an opener breaks out. Their
+fee doubles and their reliability rises, and the payoff comes back to you:
+- Deshawn lands a Kill Tony regular spot and credits you on air (fame and reputation).
+- Tasha sells out her own theater run.
+- Benji's special goes viral.
+
+"Talent helped" counts toward the final tier.
+
+**Kill Tony panel guest.** From tier 6 with fame 35, Redban offers a Monday
+panel seat. On the night you sit at the desk while 3 generated bucket comics
+(fictional, with original bit summaries) do their minutes. For each comic:
+- **React:** laugh big, polite smile, or stone face. Honesty is credible;
+  faking a laugh for a dud reads as fake, and stone-facing a killer reads as
+  jealous.
+- **Contribute to the interview:** roast, hype, absurd riff, or real advice.
+  What works depends on the comic's persona:
+  - cocky: roast them
+  - fragile: support them
+  - weird: go absurd
+  - polished: give advice
+
+  Your crowd-work skill helps, and repeating the same tone loses value.
+- **Scout:** sets of 68+ can be scouted as openers.
+
+The panel score feeds fame, reputation and your relationship with the host.
+
+**Final tiers.**
+- Tier 8 (Arena headliner): 1 arena show and fame 60.
+- Tier 9 (Established star and mentor): 3 arena shows, 6 shows helping an
+  opener, and a panel appearance.
+
+Play continues after every milestone.

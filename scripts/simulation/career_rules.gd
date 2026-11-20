@@ -5,8 +5,8 @@ extends RefCounted
 ## unreachable in this build and reported as such.
 
 
-const STAT_KEYS: Array = ["sets", "paid_sets", "opener_sets", "road_sets", "headline_sets", "theater_sets"]
-const STAT_LABELS: Dictionary = {"sets": "sets", "paid_sets": "paid sets", "opener_sets": "opening sets", "road_sets": "road shows as an opener", "headline_sets": "headline shows", "theater_sets": "theater shows"}
+const STAT_KEYS: Array = ["sets", "paid_sets", "opener_sets", "road_sets", "headline_sets", "theater_sets", "arena_sets", "talent_helped", "panel_sets"]
+const STAT_LABELS: Dictionary = {"sets": "sets", "paid_sets": "paid sets", "opener_sets": "opening sets", "road_sets": "road shows as an opener", "headline_sets": "headline shows", "theater_sets": "theater shows", "arena_sets": "arena shows", "talent_helped": "shows with an opener you're helping", "panel_sets": "Kill Tony panel appearances"}
 
 
 static func meets_tier(s: GameState, t: Dictionary) -> bool:

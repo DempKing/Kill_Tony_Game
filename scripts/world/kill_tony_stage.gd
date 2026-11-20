@@ -73,6 +73,9 @@ func _save_phase(phase: String) -> void:
 
 
 func _resume() -> void:
+	if str(night.get("mode", "")) == "panel":
+		_panel_start()
+		return
 	# The bucket_draw is created and saved before any reveal.
 	bucket_draw = KillTonyRules.ensure_draw(s, db, int(night["day"]))
 	SaveManager.autosave()
@@ -325,3 +328,116 @@ func _end_night(body: String) -> void:
 func _leave() -> void:
 	Sfx.stop_music()
 	Game.goto(Game.SCENE_DISTRICT)
+
+
+# --- Panel guest (Phase 5) ------------------------------------------------------
+
+func _panel_start() -> void:
+	art.show_bucket = false
+	art.player_at_mic = false
+	art.player_at_panel_seat = 0
+	if not night.has("comics"):
+		night["comics"] = PanelRules.generate(s, db, 3)
+		night["idx"] = 0
+		night["total"] = 0.0
+		night["tones"] = []
+		night["step"] = "intro"
+		_save_phase("panel")
+	_panel_step()
+
+
+func _panel_save(step: String) -> void:
+	night["step"] = step
+	_save_phase("panel")
+
+
+func _panel_step() -> void:
+	var comics: Array = night["comics"]
+	var i: int = int(night["idx"])
+	if str(night["step"]) == "intro":
+		_frame("panel")
+		caption.text = "Kill Tony · you're on the panel"
+		ui.dialog("Panel guest", GameSim.fmt(s, db, "The host introduces you: \"Our guest tonight came up through this very bucket. Give it up for {stage}!\"\n\nYou take your seat at the desk. Tonight you're the one judging."), [{"label": "Pull the first name", "cb": func():
+			_panel_save("walkup")
+			_panel_step()}])
+		return
+	if i >= comics.size():
+		_panel_end()
+		return
+	var c: Dictionary = comics[i]
+	art.guest_color = Color(str(c["color"]))
+	art.guest_at_mic = true
+	var persona: Dictionary = db.panel_comics.get("personas", {}).get(str(c["persona"]), {})
+	match str(night["step"]):
+		"walkup":
+			_frame("arrival")
+			caption.text = "Bucket pull #%d: %s" % [i + 1, c["name"]]
+			ui.dialog("Bucket pull #%d" % (i + 1), "\"%s!\" %s" % [c["name"], persona.get("desc", "")], [{"label": "Watch their minute", "cb": func():
+				_panel_save("set")
+				_panel_step()}])
+		"set":
+			_frame("set")
+			var q: int = int(c["quality"])
+			art.reaction = clampf((q - 40.0) / 40.0, -1.0, 1.0)
+			Sfx.play("applause" if q >= 75 else ("laugh" if q >= 45 else "silence"))
+			var opts: Array = []
+			for rx in PanelRules.REACTIONS:
+				var rxc: String = rx
+				opts.append({"label": str(PanelRules.REACTION_LABELS[rx]), "cb": func(): _panel_react(c, rxc)})
+			ui.dialog("%s's minute" % c["name"], "%s does %s (%s style).\n\n%s\n\nHow do you react?" % [c["name"], c["bit"], str(c["style"]).replace("_", "-"), PanelRules.crowd_reaction(q)], opts)
+		"interview":
+			_frame("interview")
+			var opts2: Array = []
+			var tones: Dictionary = db.panel_comics.get("tones", {})
+			for tone in tones:
+				var tn: String = tone
+				opts2.append({"label": str(tones[tone]), "cb": func(): _panel_contribute(c, tn)})
+			ui.dialog("Interview", "The host asks %s about their life. They're %s.\n\nThe host turns to you: \"Anything for them?\"" % [c["name"], str(persona.get("label", "")).to_lower()], opts2)
+		"scout":
+			if PanelRules.can_scout(c):
+				ui.dialog("Talent", "%s has something. You could ask them to open for you on the road." % c["name"], [
+					{"label": "Ask them to open for you", "cb": func():
+						PanelRules.scout(s, c)
+						_panel_next()},
+					{"label": "Not tonight", "cb": func(): _panel_next()}])
+			else:
+				_panel_next()
+
+
+func _panel_react(c: Dictionary, rx: String) -> void:
+	var r := PanelRules.score_reaction(c, rx)
+	night["total"] = float(night["total"]) + float(r["value"])
+	art.panel_reaction = clampf(float(r["value"]) / 6.0, -1.0, 1.0)
+	_panel_save("interview")
+	ui.dialog("", str(r["text"]), [{"label": "On to the interview", "cb": func(): _panel_step()}])
+
+
+func _panel_contribute(c: Dictionary, tone: String) -> void:
+	var tones: Array = night.get("tones", [])
+	var r := PanelRules.score_contribution(s, db, c, tone, tones)
+	tones.append(tone)
+	night["tones"] = tones
+	night["total"] = float(night["total"]) + float(r["value"])
+	art.reaction = clampf(float(r["value"]) / 8.0, -1.0, 1.0)
+	if float(r["value"]) >= 7.0:
+		Sfx.play("big_laugh")
+	_panel_save("scout")
+	ui.dialog("", str(r["text"]), [{"label": "Continue", "cb": func(): _panel_step()}])
+
+
+func _panel_next() -> void:
+	night["idx"] = int(night["idx"]) + 1
+	art.guest_at_mic = false
+	_panel_save("walkup")
+	_panel_step()
+
+
+func _panel_end() -> void:
+	art.guest_at_mic = false
+	_frame("reward")
+	var total := float(night.get("total", 0.0))
+	var notes := PanelRules.resolve(s, db, int(night["day"]), total)
+	var body := "Panel score: %d.\n\n%s" % [int(total), "\n".join(PackedStringArray(notes))]
+	if not s.discovered_openers.is_empty():
+		body += "\n\nScouted openers on your list: %d." % s.discovered_openers.size()
+	_end_night(body)

@@ -41,6 +41,38 @@ static func opener(db: ContentDB, id: String) -> Dictionary:
 	return {}
 
 
+## Built-in openers plus comics you discovered from the Kill Tony panel.
+static func openers_all(s: GameState, db: ContentDB) -> Array:
+	var out: Array = (db.touring.get("openers", []) as Array).duplicate()
+	out.append_array(s.discovered_openers)
+	return out
+
+
+static func opener_for(s: GameState, db: ContentDB, id: String) -> Dictionary:
+	if id == "":
+		return {}
+	for o in openers_all(s, db):
+		if str(o["id"]) == id:
+			var copy: Dictionary = (o as Dictionary).duplicate(true)
+			if bool(s.flags.get("breakout_" + id, false)):
+				copy["fee"] = int(copy.get("fee", 50)) * 2
+				copy["reliability"] = mini(100, int(copy.get("reliability", 60)) + 15)
+				copy["broke_out"] = true
+			return copy
+	return {}
+
+
+## How well an opener's style suits a venue type's audience (-5..+5).
+static func audience_fit(db: ContentDB, op: Dictionary, vtype: String) -> float:
+	var aud_id: String = str(db.touring.get("venue_types", {}).get(vtype, {}).get("audience", "showcase_crowd"))
+	var aud: Dictionary = db.audiences.get(aud_id, {})
+	return float(aud.get("style_prefs", {}).get(str(op.get("style", "")), 0)) + (1.0 if str(op.get("potential", "")) == "high" else 0.0)
+
+
+static func production(db: ContentDB, level: String) -> Dictionary:
+	return t(db, "production", {}).get(level, {"cost": 0, "warmth": 0, "fame_mult": 1.0})
+
+
 static func find(s: GameState, tour_id: String) -> Dictionary:
 	for tr in s.tours:
 		if str(tr["id"]) == tour_id:
@@ -62,7 +94,7 @@ static func demand(s: GameState, db: ContentDB, market_id: String, price: int, m
 	var m := market(db, market_id)
 	var fans: int = int(s.fans.get(market_id, 0))
 	var star := float(t(db, "base_star", 0.1)) + s.fame * float(t(db, "fame_weight", 0.08)) + s.reputation * float(t(db, "rep_weight", 0.02)) + fans * float(t(db, "fan_weight", 0.01))
-	var ref := float(m.get("ref_price", 25))
+	var ref := float(m.get("ref_price", 25)) * float(db.touring.get("venue_types", {}).get(vtype, {}).get("price_ref_mult", 1.0))
 	var pf := clampf(pow(ref / maxf(1.0, float(price)), float(t(db, "price_elasticity", 1.2))), float(t(db, "price_factor_min", 0.3)), float(t(db, "price_factor_max", 1.6)))
 	var mk := 1.0 + minf(float(t(db, "marketing_max_bonus", 0.4)), marketing_share / float(t(db, "marketing_per_point", 1000.0)))
 	var rec := 1.0
@@ -109,7 +141,12 @@ static func evaluate_plan(s: GameState, db: ContentDB, plan: Dictionary) -> Dict
 	var marketing: int = int(plan.get("marketing", 0))
 	var transport: String = str(plan.get("transport", "van"))
 	var lodging: String = str(plan.get("lodging", "motel"))
-	var op := opener(db, str(plan.get("opener", "")))
+	var op := opener_for(s, db, str(plan.get("opener", "")))
+	var prod_level: String = str(plan.get("production", "standard"))
+	var prod := production(db, prod_level)
+	var production_cost := 0
+	var opener_cost := 0
+	var fee_mult: Dictionary = t(db, "opener_fee_mult", {})
 	var share := float(marketing) / maxf(1.0, float(legs_in.size()))
 	var legs: Array = []
 	var deposits := 0
@@ -127,6 +164,12 @@ static func evaluate_plan(s: GameState, db: ContentDB, plan: Dictionary) -> Dict
 			continue
 		if s.fame < float(m.get("min_fame", 0)):
 			errors.append("%s needs fame %d to draw a crowd (you have %.0f)." % [m["name"], int(m["min_fame"]), s.fame])
+		if vtype == "arena":
+			production_cost += int(prod.get("cost", 0))
+			if s.career_tier < int(t(db, "arena_min_tier", 7)):
+				errors.append("Arenas need career tier %d (%s)." % [int(t(db, "arena_min_tier", 7)), CareerRules.tier_name(db, int(t(db, "arena_min_tier", 7)))])
+		if not op.is_empty():
+			opener_cost += int(op.get("fee", 0)) * int(fee_mult.get(vtype, 1))
 		if vtype == "theater" and s.career_tier < int(t(db, "theater_min_tier", 6)):
 			errors.append("Theaters need career tier %d (%s)." % [int(t(db, "theater_min_tier", 6)), CareerRules.tier_name(db, int(t(db, "theater_min_tier", 6)))])
 		if not bool(m.get("drive", false)):
@@ -148,8 +191,7 @@ static func evaluate_plan(s: GameState, db: ContentDB, plan: Dictionary) -> Dict
 	if not legs.is_empty():
 		var lastm := market(db, str(legs.back()["market"]))
 		transport_cost += int(lastm.get("drive_cost", 60)) if (transport == "van" and all_drive) else int(lastm.get("flight_cost", 250))
-	var opener_cost: int = int(op.get("fee", 0)) * legs.size()
-	var committed := transport_cost + lodging_cost + opener_cost
+	var committed := transport_cost + lodging_cost + opener_cost + production_cost
 	var upfront := deposits + marketing
 	var rent_total := 0
 	for f in legs:
@@ -161,7 +203,7 @@ static func evaluate_plan(s: GameState, db: ContentDB, plan: Dictionary) -> Dict
 	var conf: Array = Scheduler.conflicts(s, start_day, 0, n * 4 + 2) if n > 0 else []
 	return {"ok": errors.is_empty(), "errors": errors, "legs": legs, "start_day": start_day, "price": price, "marketing": marketing,
 		"transport": transport, "lodging": lodging, "opener": str(plan.get("opener", "")), "deposits": deposits, "upfront": upfront,
-		"transport_cost": transport_cost, "lodging_cost": lodging_cost, "opener_cost": opener_cost, "committed": committed,
+		"transport_cost": transport_cost, "lodging_cost": lodging_cost, "opener_cost": opener_cost, "production": prod_level, "production_cost": production_cost, "committed": committed,
 		"forecast_revenue": forecast, "rent_total": rent_total, "forecast_net": forecast_net, "conflicts": conf, "nights": n}
 
 
@@ -196,6 +238,7 @@ static func book(s: GameState, db: ContentDB, plan: Dictionary, force: bool = fa
 			"rent": f["rent"], "deposit": f["deposit"], "cut": f["cut"], "forecast": f["expected"], "sold": -1, "gross": 0, "payout": 0, "score": -1.0, "event": ""})
 	var tr := {"id": id, "title": title, "role": "headliner", "status": "booked", "start_day": int(ev["start_day"]), "legs": legs,
 		"price": int(ev["price"]), "marketing": int(ev["marketing"]), "transport": ev["transport"], "lodging": ev["lodging"], "opener": ev["opener"],
+		"production": ev["production"], "production_cost": int(ev["production_cost"]),
 		"deposits": int(ev["deposits"]), "committed": int(ev["committed"]), "forecast_revenue": int(ev["forecast_revenue"]),
 		"commitment_id": str(res["commitment"]["id"]), "booked_day": s.day}
 	s.tours.append(tr)
@@ -304,9 +347,11 @@ static func travel_event(s: GameState, db: ContentDB, tr: Dictionary, i: int) ->
 
 ## Opener's warmth bonus for a headline show (0 if none or a no-show).
 static func opener_bonus(s: GameState, db: ContentDB, tr: Dictionary, i: int) -> Dictionary:
-	var op := opener(db, str(tr.get("opener", "")))
+	var vtype: String = str(tr["legs"][i]["venue_type"])
+	var prod_w := float(production(db, str(tr.get("production", "standard"))).get("warmth", 0)) if vtype == "arena" else 0.0
+	var op := opener_for(s, db, str(tr.get("opener", "")))
 	if op.is_empty():
-		return {"bonus": 0.0, "text": "No opener: you walk out to a cold room."}
+		return {"bonus": prod_w - (3.0 if vtype == "arena" else 0.0), "text": "No opener: you walk out to a cold room."}
 	var rel := float(op.get("reliability", 60))
 	if str(op.get("npc", "")) != "":
 		rel = clampf(rel + float(s.rel(str(op["npc"]))["trust"]) * 0.3, 0.0, 100.0)
@@ -314,9 +359,10 @@ static func opener_bonus(s: GameState, db: ContentDB, tr: Dictionary, i: int) ->
 	if not s.flags.has(key):
 		s.flags[key] = s.rng("world").randf() < (1.0 - rel / 100.0) * 0.5
 	if bool(s.flags[key]):
-		return {"bonus": -2.0, "text": "%s missed the call time. You go up cold." % op["name"]}
+		return {"bonus": prod_w - 2.0, "text": "%s missed the call time. You go up cold." % op["name"]}
 	var fit := 5.0 if str(op.get("style", "")) != str(s.player.get("style", "")) else 2.0
-	return {"bonus": rel / 20.0 + fit, "text": "%s opens and warms the room up." % op["name"]}
+	fit += audience_fit(db, op, vtype)
+	return {"bonus": rel / 20.0 + fit + prod_w, "text": "%s opens and warms the room up." % op["name"]}
 
 
 ## Settles a played leg exactly once. score: the set score (0-100).
@@ -338,15 +384,27 @@ static func settle_leg(s: GameState, db: ContentDB, tr: Dictionary, i: int, scor
 		payout = gross - cut_amt - (int(leg["rent"]) - int(leg["deposit"]))
 		lines.append("Gross %s (%d × $%d) − venue cut %s − rent balance %s = payout %s." % [money_text(gross), int(leg["sold"]), int(tr["price"]), money_text(cut_amt), money_text(int(leg["rent"]) - int(leg["deposit"])), money_text(payout)])
 		s.stats["headline_sets"] = int(s.stats.get("headline_sets", 0)) + 1
-		if str(leg["venue_type"]) == "theater":
+		var vtype: String = str(leg["venue_type"])
+		if vtype == "theater":
 			s.stats["theater_sets"] = int(s.stats.get("theater_sets", 0)) + 1
+		var prod_cost: int = int(production(db, str(tr.get("production", "standard"))).get("cost", 0)) if vtype == "arena" else 0
+		leg["show_profit"] = gross - cut_amt - int(leg["rent"]) - prod_cost
+		if vtype == "arena":
+			s.stats["arena_sets"] = int(s.stats.get("arena_sets", 0)) + 1
+			if int(leg["sold"]) >= int(leg["cap"]):
+				s.stats["arena_sellouts"] = int(s.stats.get("arena_sellouts", 0)) + 1
+			if int(leg["show_profit"]) > 0:
+				s.stats["arena_profitable"] = int(s.stats.get("arena_profitable", 0)) + 1
+			lines.append("Show profit after rent and production: %s." % money_text(int(leg["show_profit"])))
 		if int(leg["sold"]) >= int(leg["cap"]):
 			s.stats["sellouts"] = int(s.stats.get("sellouts", 0)) + 1
 			lines.append("SOLD OUT.")
-		var op := opener(db, str(tr.get("opener", "")))
-		if str(op.get("npc", "")) != "":
-			Relationships.change(s, str(op["npc"]), {"chemistry": 2, "trust": 2, "respect": 1})
+		var op := opener_for(s, db, str(tr.get("opener", "")))
+		if not op.is_empty():
+			if str(op.get("npc", "")) != "":
+				Relationships.change(s, str(op["npc"]), {"chemistry": 2, "trust": 2, "respect": 1})
 			s.stats["talent_helped"] = int(s.stats.get("talent_helped", 0)) + 1
+			lines.append_array(mentor(s, db, op))
 	leg["payout"] = payout
 	if payout > 0:
 		StatsRules.add_cash(s, payout, "Tour settlement: " + str(market(db, mid).get("name", mid)))
@@ -354,9 +412,29 @@ static func settle_leg(s: GameState, db: ContentDB, tr: Dictionary, i: int, scor
 	var fan_delta: int = int(t(db, "fans_per_good_show", 40)) if score >= 60.0 else (int(t(db, "fans_per_bad_show", -15)) if score < 40.0 else 10)
 	s.fans[mid] = maxi(0, int(s.fans.get(mid, 0)) + fan_delta)
 	s.flags["tour_last_" + mid] = int(leg["day"])
-	s.fame += maxf(0.0, (score - 50.0) * 0.03) * (2.0 if str(leg["venue_type"]) == "theater" else 1.0)
+	var fame_mult := {"club": 1.0, "theater": 2.0, "arena": 5.0}.get(str(leg["venue_type"]), 1.0) as float
+	if str(leg["venue_type"]) == "arena":
+		fame_mult *= float(production(db, str(tr.get("production", "standard"))).get("fame_mult", 1.0))
+	s.fame += maxf(0.0, (score - 50.0) * 0.03) * fame_mult
 	lines.append("Local fans %+d." % fan_delta)
 	return {"ok": true, "payout": payout, "lines": lines}
+
+
+## Mentorship: openers you keep booking grow. At their breakout they get
+## pricier but more reliable, and the payoff comes back to you.
+static func mentor(s: GameState, db: ContentDB, op: Dictionary) -> Array:
+	var id: String = str(op["id"])
+	s.mentees[id] = int(s.mentees.get(id, 0)) + 1
+	var out: Array = []
+	if int(s.mentees[id]) >= int(op.get("breakout_shows", 6)) and not s.flags.has("breakout_" + id):
+		s.flags["breakout_" + id] = true
+		var bo: Dictionary = op.get("breakout", {"text": "%s is headlining on their own now, and tells everyone you gave them their start." % op["name"], "effects": {"rep": 2}})
+		var txt := GameSim.fmt(s, db, str(bo.get("text", "")))
+		out.append("BREAKOUT: " + txt)
+		out.append_array(StatsRules.apply_effects(s, db, bo.get("effects", {}), "", "mentorship"))
+		s.add_message(txt)
+		s.stats["breakouts"] = int(s.stats.get("breakouts", 0)) + 1
+	return out
 
 
 static func finish(s: GameState, db: ContentDB, tr: Dictionary) -> Dictionary:

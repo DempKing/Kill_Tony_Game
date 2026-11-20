@@ -444,6 +444,13 @@ func open_set_builder(venue_id: String, commitment_id: String) -> void:
 	holder[0] = ui.open(v, 1060)
 
 
+func start_kt_panel(commitment_id: String) -> void:
+	ui.close_all()
+	s.flags["active_kill_tony"] = {"commitment_id": commitment_id, "day": s.day, "phase": "panel", "mode": "panel"}
+	SaveManager.autosave()
+	Game.goto(Game.SCENE_KILL_TONY)
+
+
 func start_tour() -> void:
 	ui.close_all()
 	SaveManager.autosave()

@@ -15,6 +15,7 @@ const SUITES: Array = [
 	"res://tests/unit/test_content.gd",
 	"res://tests/unit/test_life.gd",
 	"res://tests/unit/test_touring.gd",
+	"res://tests/unit/test_legacy.gd",
 ]
 
 

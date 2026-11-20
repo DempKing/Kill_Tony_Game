@@ -1,0 +1,86 @@
+{
+  "_comment": "Fictional bucket comics for panel-guest nights. All bits are short original summaries, not real comedians' material.",
+  "personas": {
+    "cocky": {
+      "label": "Cocky",
+      "desc": "Walks up like he already has a special.",
+      "tones": {
+        "roast": 8,
+        "support": -2,
+        "absurd": 3,
+        "advice": 0
+      }
+    },
+    "nervous": {
+      "label": "Nervous",
+      "desc": "Shaking so hard the mic stand is clicking.",
+      "tones": {
+        "roast": -6,
+        "support": 6,
+        "absurd": 2,
+        "advice": 4
+      }
+    },
+    "weird": {
+      "label": "Weird",
+      "desc": "Brought a prop. Will not explain the prop.",
+      "tones": {
+        "roast": 2,
+        "support": 1,
+        "absurd": 8,
+        "advice": -2
+      }
+    },
+    "polished": {
+      "label": "Polished",
+      "desc": "Tight minute. Clearly has been doing this a while.",
+      "tones": {
+        "roast": 4,
+        "support": 0,
+        "absurd": 2,
+        "advice": 5
+      }
+    },
+    "fragile": {
+      "label": "Fragile",
+      "desc": "Funny, but one bad word from the panel and they're done.",
+      "tones": {
+        "roast": -8,
+        "support": 7,
+        "absurd": 0,
+        "advice": 3
+      }
+    }
+  },
+  "tones": {
+    "roast": "Roast them",
+    "support": "Hype them up",
+    "absurd": "Go on an absurd riff",
+    "advice": "Give real advice"
+  },
+  "bits": [
+    "a minute about how their landlord is secretly a goose in a trench coat",
+    "a bit about getting dumped via a shared calendar invite",
+    "a run of one-liners about working at a mattress store that is always closing",
+    "a story about their grandpa's revenge against a self-checkout machine",
+    "a minute about being the only sober person at a gender-reveal party",
+    "a bit about naming their car and then being too guilty to sell it",
+    "a story about accidentally joining a church choir for free snacks",
+    "a minute about the emotional politics of the office microwave",
+    "a bit about their dentist doing crowd work during a root canal",
+    "a minute about pretending to know about wine on a first date",
+    "a bit about their dog judging every decision they make",
+    "a story about getting lost inside an IKEA for three hours",
+    "a minute about being bad at small talk with their own parents",
+    "a run about competitive birthday-party parenting",
+    "a story about a job interview that turned into a hostage negotiation"
+  ],
+  "styles": [
+    "observational",
+    "storytelling",
+    "deadpan",
+    "self_deprecating",
+    "absurdist",
+    "high_energy"
+  ]
+}

@@ -13,7 +13,7 @@ func setup(p_ui: UiLayer, p_on_booked: Callable) -> TourPlannerUI:
 	ui = p_ui
 	on_booked = p_on_booked
 	var s: GameState = Game.state
-	plan = {"start_day": s.day + 3, "legs": [], "price": 25, "marketing": 150, "transport": "van", "lodging": "motel", "opener": ""}
+	plan = {"start_day": s.day + 3, "legs": [], "price": 25, "marketing": 150, "transport": "van", "lodging": "motel", "opener": "", "production": "standard"}
 	add_theme_constant_override("separation", 6)
 	custom_minimum_size = Vector2(1180, 640)
 	_build()
@@ -68,14 +68,28 @@ func _build() -> void:
 		_opt(r1, "%d. %s · %s  ✕" % [i + 1, str(m["name"]).split(",")[0], legs[i]["venue_type"]], true, func(): _remove_leg(idx))
 	v.add_child(r1)
 	var theater_ok := s.career_tier >= int(TourRules.t(db, "theater_min_tier", 6))
+	var arena_ok := s.career_tier >= int(TourRules.t(db, "arena_min_tier", 7))
+	var has_arena := false
+	var biggest := "club"
+	for lg in plan["legs"]:
+		if str(lg["venue_type"]) == "arena":
+			has_arena = true
+			biggest = "arena"
+		elif str(lg["venue_type"]) == "theater" and biggest == "club":
+			biggest = "theater"
 	var r2 := _row("Add city")
 	for m in db.touring.get("markets", []):
 		var mid: String = str(m["id"])
 		var fame_ok := s.fame >= float(m.get("min_fame", 0))
 		var label := "%s%s" % [str(m["name"]).split(",")[0], "" if bool(m.get("drive", false)) else " ✈"]
-		_opt(r2, label + " (club)", false, func(): _add_leg(mid, "club"), fame_ok and legs.size() < int(TourRules.t(db, "max_legs", 5)), "Needs fame %d" % int(m.get("min_fame", 0)))
-		if theater_ok:
-			_opt(r2, label + " (theater)", false, func(): _add_leg(mid, "theater"), fame_ok and legs.size() < int(TourRules.t(db, "max_legs", 5)))
+		var room := legs.size() < int(TourRules.t(db, "max_legs", 5))
+		var vs: Dictionary = m.get("venues", {})
+		if vs.has("club"):
+			_opt(r2, label + " (club)", false, func(): _add_leg(mid, "club"), fame_ok and room, "Needs fame %d" % int(m.get("min_fame", 0)))
+		if theater_ok and vs.has("theater"):
+			_opt(r2, label + " (theater)", false, func(): _add_leg(mid, "theater"), fame_ok and room)
+		if arena_ok and vs.has("arena"):
+			_opt(r2, label + " (ARENA %d)" % int(vs["arena"]["cap"]), false, func(): _add_leg(mid, "arena"), fame_ok and room)
 	v.add_child(r2)
 	# Price / marketing / transport / lodging.
 	var r3 := _row("Ticket price")
@@ -96,16 +110,37 @@ func _build() -> void:
 	_opt(r6, "Motels (cheap, poor rest)", plan["lodging"] == "motel", func(): _choose("lodging", "motel"))
 	_opt(r6, "Hotels (better rest)", plan["lodging"] == "hotel", func(): _choose("lodging", "hotel"))
 	v.add_child(r6)
+	if has_arena:
+		var rp := _row("Production")
+		for lvl in ["minimal", "standard", "spectacle"]:
+			var pr := TourRules.production(db, lvl)
+			var lv: String = lvl
+			_opt(rp, "%s · %s/show" % [pr.get("label", lvl), TourRules.money_text(int(pr.get("cost", 0)))], str(plan["production"]) == lvl, func(): _choose("production", lv), true,
+				"Room warmth %+d, fame from the show ×%.1f." % [int(pr.get("warmth", 0)), float(pr.get("fame_mult", 1.0))])
+		v.add_child(rp)
 	var r7 := _row("Opener")
 	_opt(r7, "None", str(plan["opener"]) == "", func(): _choose("opener", ""))
-	for o in db.touring.get("openers", []):
-		var oid: String = str(o["id"])
-		var relt := ""
-		if str(o.get("npc", "")) != "":
-			relt = ", trust %d" % int(s.rel(str(o["npc"]))["trust"])
-		_opt(r7, "%s ($%d/show)" % [o["name"], int(o["fee"])], str(plan["opener"]) == oid, func(): _choose("opener", oid), true,
-			"%s Reliability %d%s. Style: %s. Career potential: %s." % [o["desc"], int(o["reliability"]), relt, o["style"], o["potential"]])
 	v.add_child(r7)
+	var fee_mult: Dictionary = TourRules.t(db, "opener_fee_mult", {})
+	for o0 in TourRules.openers_all(s, db):
+		var o := TourRules.opener_for(s, db, str(o0["id"]))
+		var oid: String = str(o["id"])
+		var relt := "no history"
+		if str(o.get("npc", "")) != "":
+			var r := s.rel(str(o["npc"]))
+			relt = "trust %d, chemistry %d" % [int(r["trust"]), int(r["chemistry"])]
+		var shows: int = int(s.mentees.get(oid, 0))
+		var fit := TourRules.audience_fit(db, o, biggest)
+		var card := "%s%s · $%d/show at clubs ($%d at %s) · reliability %d · %s · fit with %s crowds %+d · %s · potential %s · opened %d/%d shows%s" % [
+			o["name"], " (scouted on Kill Tony)" if bool(o.get("from_panel", false)) else "", int(o["fee"]), int(o["fee"]) * int(fee_mult.get(biggest, 1)), biggest,
+			int(o["reliability"]), str(o["style"]).replace("_", "-"), biggest, int(fit), relt, o["potential"], shows, int(o.get("breakout_shows", 6)),
+			" · BROKE OUT" if bool(o.get("broke_out", false)) else ""]
+		var row := HBoxContainer.new()
+		var b := UiKit.button(("● " if str(plan["opener"]) == oid else "○ ") + card, func(): _choose("opener", oid), true, str(o.get("desc", "")))
+		b.add_theme_font_size_override("font_size", GameSettings.font_size(14))
+		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		row.add_child(b)
+		v.add_child(row)
 	# Forecast.
 	var ev := TourRules.evaluate_plan(s, db, plan)
 	var t := "[b]FORECAST[/b] (estimates, not money in the bank)\n"

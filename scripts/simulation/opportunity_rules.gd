@@ -111,7 +111,7 @@ static func accept(s: GameState, db: ContentDB, offer_id: String, force: bool = 
 			o["commitment_id"] = rr["tour"]["commitment_id"]
 			Relationships.change(s, str(o["npc"]), {"familiarity": 2})
 		return rr
-	var c := {"kind": "booking", "title": str(o["title"]), "day": int(o["day"]), "block": int(o["block"]), "length": 1,
+	var c := {"kind": "kt_panel" if str(o.get("kind", "")) == "kt_panel" else "booking", "title": str(o["title"]), "day": int(o["day"]), "block": int(o["block"]), "length": 1,
 		"location_id": str(o["location_id"]), "venue_id": str(o["venue_id"]), "slot_seconds": int(o["slot_seconds"]),
 		"pay": int(o["pay"]), "fee": 0, "npc": str(o["npc"]), "offer_id": offer_id, "audience": str(o.get("audience", ""))}
 	var res := Scheduler.add(s, db, c, force)

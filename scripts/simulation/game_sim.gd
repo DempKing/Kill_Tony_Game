@@ -177,6 +177,8 @@ static func actions_for(s: GameState, db: ContentDB, location_id: String) -> Arr
 		if str(c["kind"]) == "kill_tony":
 			var regular := bool(c.get("regular", false))
 			out.append(_act("kt_attend", "Kill Tony: your regular spot" if regular else "Kill Tony: wait for the bucket", 1, "You're on the lineup tonight." if regular else "Tonight's draw. One block.", {"commitment_id": c["id"]}))
+		elif str(c["kind"]) == "kt_panel":
+			out.append(_act("kt_panel", "Take your seat on the Kill Tony panel", 1, "Tonight you judge the bucket.", {"commitment_id": c["id"]}))
 		elif str(c["kind"]) == "promise":
 			var js: Dictionary = c.get("job_shift", {})
 			if not js.is_empty():
@@ -401,6 +403,8 @@ static func run_action(s: GameState, db: ContentDB, a: Dictionary) -> Dictionary
 			if bool(dr["ok"]):
 				dr["open"] = "tour"
 			return dr
+		"kt_panel":
+			return {"ok": true, "open": "kt_panel", "commitment_id": str(p["commitment_id"])}
 		"kt_attend":
 			return {"ok": true, "open": "kill_tony", "commitment_id": str(p["commitment_id"])}
 		"watch":
