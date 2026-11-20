@@ -53,7 +53,8 @@ func _draw() -> void:
 		draw_string(font, Vector2(520, 170) + o, sign_text, HORIZONTAL_ALIGNMENT_CENTER, 560, fs, Color(sign_col, 0.18))
 	draw_string(font, Vector2(520, 170), sign_text, HORIZONTAL_ALIGNMENT_CENTER, 560, fs, sign_col.lightened(0.2))
 	# Stage: riser with a lip and footlights.
-	CharacterArt.vgradient(self, Rect2(260, 560, 1080, 70), floor_c.lightened(0.15), floor_c)
+	Materials.shaded(self, Rect2(260, 560, 1080, 70), "wood_floor", floor_c.lightened(0.55), 0.5, 0.1, 0.35)
+	Materials.shaded(self, Rect2(0, 644, 1600, 256), "dirty_carpet", back.lightened(0.25), 0.5, 0.0, 0.6)
 	draw_rect(Rect2(260, 560, 1080, 5), floor_c.lightened(0.35))
 	draw_rect(Rect2(250, 630, 1100, 14), floor_c.darkened(0.5))
 	for i in range(14):
@@ -84,14 +85,9 @@ func _draw() -> void:
 
 
 func _draw_dive(back: Color, light: Color) -> void:
-	for y in range(80, 560, 40):
-		for x in range(0, 1600, 90):
-			var off := 45 if (y / 40) % 2 == 0 else 0
-			var shade := 0.04 * ((x * 7 + y * 3) % 4)
-			draw_rect(Rect2(x + off, y, 84, 34), back.lightened(shade))
-	CharacterArt.vgradient(self, Rect2(0, 80, 1600, 480), Color(0, 0, 0, 0.0), Color(0, 0, 0, 0.35))
+	Materials.shaded(self, Rect2(0, 80, 1600, 480), "red_brick_03", Color("#d8a890"), 0.6, 0.0, 0.45)
 	# Bar counter, stools, beer signs, string bulbs.
-	CharacterArt.vgradient(self, Rect2(1180, 380, 420, 190), Color("#4a2c18"), Color("#2a1a0e"))
+	Materials.shaded(self, Rect2(1180, 380, 420, 190), "dark_wood", Color("#c89870"), 0.5, 0.05, 0.4)
 	draw_rect(Rect2(1180, 370, 420, 16), Color("#7a5030"))
 	for i in range(6):
 		draw_rect(Rect2(1200 + i * 66, 300, 14, 60), Color(0.4 + 0.1 * (i % 3), 0.25, 0.1, 0.9))
@@ -112,9 +108,9 @@ func _draw_dive(back: Color, light: Color) -> void:
 
 func _draw_lantern(back: Color, light: Color) -> void:
 	# Red velvet curtain with folds, wall sconces.
+	Materials.fill(self, Rect2(240, 40, 1120, 520), "velour_velvet", Color("#c02838"), 0.5)
 	for x in range(240, 1360, 40):
-		var c := Color("#6a1420") if (x / 40) % 2 == 0 else Color("#561018")
-		draw_rect(Rect2(x, 40, 40, 520), c)
+		draw_polygon(PackedVector2Array([Vector2(x, 40), Vector2(x + 40, 40), Vector2(x + 40, 560), Vector2(x, 560)]), PackedColorArray([Color(0, 0, 0, 0.0), Color(0, 0, 0, 0.35), Color(0, 0, 0, 0.35), Color(0, 0, 0, 0.0)]))
 	draw_rect(Rect2(220, 30, 1160, 30), Color("#3a0a10"))
 	for sx in [140, 1460]:
 		draw_rect(Rect2(sx - 10, 260, 20, 40), Color("#8a6a30"))
@@ -124,9 +120,7 @@ func _draw_lantern(back: Color, light: Color) -> void:
 
 func _draw_cellar(back: Color, light: Color) -> void:
 	# Low ceiling, pipes, concrete, pink neon.
-	draw_rect(Rect2(0, 0, 1600, 560), Color("#26262a"))
-	for x in range(0, 1600, 160):
-		draw_rect(Rect2(x, 0, 150, 560), Color("#2c2c30"))
+	Materials.shaded(self, Rect2(0, 0, 1600, 560), "concrete_wall_003", Color("#7a7884"), 0.6, 0.0, 0.5)
 	draw_rect(Rect2(0, 0, 1600, 70), Color("#151518"))
 	for y in [80, 110]:
 		draw_line(Vector2(0, y), Vector2(1600, y), Color("#5a5a60"), 10)
@@ -136,7 +130,7 @@ func _draw_cellar(back: Color, light: Color) -> void:
 
 func _draw_secret(back: Color, light: Color) -> void:
 	# Dark industrial room, beams, zig-zag string lights, "no phones" sign.
-	draw_rect(Rect2(0, 0, 1600, 560), Color("#0c0c14"))
+	Materials.shaded(self, Rect2(0, 0, 1600, 560), "corrugated_iron", Color("#3a3a50"), 0.5, 0.0, 0.5)
 	for x in range(100, 1600, 300):
 		draw_rect(Rect2(x, 0, 24, 560), Color("#1c1c28"))
 	draw_rect(Rect2(0, 60, 1600, 20), Color("#1c1c28"))
@@ -152,9 +146,7 @@ func _draw_secret(back: Color, light: Color) -> void:
 
 func _draw_road_club(back: Color, light: Color) -> void:
 	# Corporate club: logo wall, brick veneer, neon outline.
-	draw_rect(Rect2(0, 0, 1600, 560), Color("#2a1c24"))
-	for x in range(0, 1600, 64):
-		draw_rect(Rect2(x, 0, 60, 560), Color("#32222c"))
+	Materials.shaded(self, Rect2(0, 0, 1600, 560), "factory_brick", Color("#8a6070"), 0.5, 0.0, 0.5)
 	draw_rect(Rect2(490, 100, 620, 80), Color("#160e14"))
 	draw_rect(Rect2(490, 100, 620, 80), Color(light, 0.8), false, 3.0)
 	draw_rect(Rect2(240, 250, 120, 60), Color("#101010"))
@@ -164,7 +156,7 @@ func _draw_road_club(back: Color, light: Color) -> void:
 func _draw_theater(back: Color, light: Color) -> void:
 	# Proscenium arch, gold trim, balconies.
 	draw_rect(Rect2(0, 0, 1600, 560), Color("#1a0c10"))
-	draw_rect(Rect2(160, 30, 1280, 530), Color("#4a0c18"))
+	Materials.shaded(self, Rect2(160, 30, 1280, 530), "velour_velvet", Color("#b02030"), 0.5, 0.0, 0.4)
 	for x in range(180, 1420, 36):
 		draw_rect(Rect2(x, 40, 18, 520), Color("#5a1020"))
 	draw_rect(Rect2(140, 10, 1320, 40), Color("#b08a30"))

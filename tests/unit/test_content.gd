@@ -71,3 +71,32 @@ func test_every_family_is_reachable_in_play() -> void:
 			if str(c["type"]) == "premise" and sources.has(str(c["id"])):
 				ok = true
 		check(ok, "%s premise can be obtained in play" % fam)
+
+
+func test_kill_tony_panel_characters_and_layout() -> void:
+	var d := db()
+	var chars: Dictionary = d.partner.get("characters", {})
+	eq(str(chars.get("partner_host", {}).get("display_name", "")), "Tony Hinchcliffe", "Tony is the host")
+	eq(str(chars.get("partner_redban", {}).get("display_name", "")), "Brian Redban", "Redban is present")
+	eq(d.character_name("partner_host"), "Tony", "on-screen label")
+	eq(d.character_name("partner_redban"), "Redban", "on-screen label")
+	check(not bool(chars["partner_host"].get("approved", true)), "real-person content flagged pending approval")
+	var panel: Dictionary = d.stage_layout.get("panel", {})
+	var guests: Array = panel.get("guest_seats", [])
+	eq(guests.size(), 3, "up to three guest seats besides Tony")
+	var mic_x := float(d.stage_layout["mic"]["pos"][0])
+	var host_x := float(panel["host_seat"][0])
+	for g in guests:
+		check(absf(mic_x - host_x) < absf(mic_x - float(g[0])), "Tony sits nearest the mic")
+	check(d.stage_layout.has("redban_station"), "Redban has his own sound station")
+	var rb_x := float(d.stage_layout["redban_station"]["seat"][0])
+	for g in guests:
+		check(rb_x < float(g[0]), "Redban's station is at the far end of the desk")
+	var cnt: Array = d.partner.get("panel_guest_count", [])
+	check(int(cnt[1]) <= 3 and int(cnt[0]) >= 1, "1-3 guest comedians per night")
+	check((d.partner.get("guest_pool", []) as Array).size() >= 3, "fictional guest pool")
+
+
+func test_polyhaven_textures_present() -> void:
+	for id in ["red_brick_03", "factory_brick", "plastered_wall", "concrete_wall_003", "asphalt_01", "concrete_tiles_02", "gravel_concrete", "wood_floor", "dark_wood", "velour_velvet", "corrugated_iron", "dirty_carpet"]:
+		check(Materials.tex(id) != null, "Poly Haven texture %s loads" % id)

@@ -73,7 +73,27 @@ func _save_phase(phase: String) -> void:
 	SaveManager.autosave()
 
 
+## Tonight's guest panelists (fictional placeholders), chosen once and saved.
+func _ensure_guests() -> void:
+	if not night.has("guests"):
+		var pool: Array = (db.partner.get("guest_pool", []) as Array).duplicate()
+		var rng_count: Array = db.partner.get("panel_guest_count", [1, 3])
+		var r := s.rng("bucket")
+		var n := r.randi_range(int(rng_count[0]), int(rng_count[1]))
+		if str(night.get("mode", "")) == "panel":
+			n = mini(n, 2)  # The player takes one of the three guest seats.
+		var picked: Array = []
+		for i in range(mini(n, pool.size())):
+			var k := r.randi_range(0, pool.size() - 1)
+			picked.append(pool[k])
+			pool.remove_at(k)
+		night["guests"] = picked
+		s.flags["active_kill_tony"] = night
+	art.guests = night["guests"]
+
+
 func _resume() -> void:
+	_ensure_guests()
 	if str(night.get("mode", "")) == "panel":
 		_panel_start()
 		return
@@ -203,6 +223,8 @@ func _on_reacted(res: Dictionary) -> void:
 	var score := float(res.get("score", 0))
 	art.reaction = clampf((score - 40.0) / 40.0, -1.0, 1.0)
 	art.panel_reaction = art.reaction
+	if score >= 65.0:
+		art.redban_cue = 1.0
 	if score >= 80.0:
 		Sfx.play("applause")
 		art.band_cue = 1.0
@@ -248,7 +270,7 @@ func _on_set_finished(summary: Dictionary) -> void:
 	var played_off := " The band played you off." if bool(summary.get("played_off", false)) else ""
 	if review != "":
 		line += "\n\n" + review
-	ui.dialog("The panel", "%s  ·  %d/100.%s\n\n%s" % [summary["tier_label"], int(float(summary["score"])), played_off, line], [{"label": "The host waves you over to talk", "cb": func(): _interview()}])
+	ui.dialog("The panel", "%s  ·  %d/100.%s\n\n%s" % [summary["tier_label"], int(float(summary["score"])), played_off, line], [{"label": "%s waves you over to talk" % db.character_name("partner_host"), "cb": func(): _interview()}])
 
 
 # --- Interview --------------------------------------------------------------
@@ -336,7 +358,7 @@ func _leave() -> void:
 func _panel_start() -> void:
 	art.show_bucket = false
 	art.player_at_mic = false
-	art.player_at_panel_seat = 2
+	art.player_at_panel_seat = 0
 	if not night.has("comics"):
 		night["comics"] = PanelRules.generate(s, db, 3)
 		night["idx"] = 0
@@ -358,7 +380,7 @@ func _panel_step() -> void:
 	if str(night["step"]) == "intro":
 		_frame("panel")
 		caption.text = "Kill Tony · you're on the panel"
-		ui.dialog("Panel guest", GameSim.fmt(s, db, "The host introduces you: \"Our guest tonight came up through this very bucket. Give it up for {stage}!\"\n\nYou take your seat at the desk. Tonight you're the one judging."), [{"label": "Pull the first name", "cb": func():
+		ui.dialog("Panel guest", GameSim.fmt(s, db, str(db.partner.get("lines", {}).get("panel_intro", ""))), [{"label": "Pull the first name", "cb": func():
 			_panel_save("walkup")
 			_panel_step()}])
 		return
@@ -393,7 +415,7 @@ func _panel_step() -> void:
 			for tone in tones:
 				var tn: String = tone
 				opts2.append({"label": str(tones[tone]), "cb": func(): _panel_contribute(c, tn)})
-			ui.dialog("Interview", "The host asks %s about their life. They're %s.\n\nThe host turns to you: \"Anything for them?\"" % [c["name"], str(persona.get("label", "")).to_lower()], opts2)
+			ui.dialog("Interview", "%s asks %s about their life. They're %s.\n\n%s turns to you: \"Anything for them?\"" % [db.character_name("partner_host"), c["name"], str(persona.get("label", "")).to_lower(), db.character_name("partner_host")], opts2)
 		"scout":
 			if PanelRules.can_scout(c):
 				ui.dialog("Talent", "%s has something. You could ask them to open for you on the road." % c["name"], [
@@ -409,6 +431,8 @@ func _panel_react(c: Dictionary, rx: String) -> void:
 	var r := PanelRules.score_reaction(c, rx)
 	night["total"] = float(night["total"]) + float(r["value"])
 	art.panel_reaction = clampf(float(r["value"]) / 6.0, -1.0, 1.0)
+	if float(r["value"]) >= 4.0:
+		art.redban_cue = 1.0
 	_panel_save("interview")
 	ui.dialog("", str(r["text"]), [{"label": "On to the interview", "cb": func(): _panel_step()}])
 

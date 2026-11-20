@@ -18,6 +18,10 @@ var player_at_mic: bool = false
 var player_at_panel_seat: int = -1
 var guest_at_mic: bool = false
 var guest_color := Color("#88aacc")
+## Tonight's guest panelists (fictional): [{name, color, female}]. The player,
+## when a panel guest, takes guest seat 0 (right next to Tony).
+var guests: Array = []
+var redban_cue: float = 0.0
 var show_bucket: bool = true
 var reduced: bool = false
 
@@ -27,6 +31,7 @@ func _process(delta: float) -> void:
 	reaction = move_toward(reaction, 0.0, delta * 0.3)
 	panel_reaction = move_toward(panel_reaction, 0.0, delta * 0.25)
 	band_cue = move_toward(band_cue, 0.0, delta * 0.8)
+	redban_cue = move_toward(redban_cue, 0.0, delta * 0.9)
 	queue_redraw()
 
 
@@ -65,6 +70,7 @@ func _draw() -> void:
 	var bdc := Color(str(layout.get("backdrop", {}).get("color", "#141430")))
 	var trim := Color(str(layout.get("backdrop", {}).get("trim", "#b88cff")))
 	CharacterArt.vgradient(self, bd, bdc.lightened(0.12), bdc.darkened(0.4))
+	Materials.fill(self, bd, "velour_velvet", Color(0.75, 0.6, 1.0, 0.12), 0.5)
 	for i in range(13):
 		var x := bd.position.x + 30 + i * 110
 		var pulse := 0.5 + 0.5 * sin(t * 1.5 + i * 0.6) if not reduced else 0.6
@@ -86,7 +92,7 @@ func _draw() -> void:
 	# Stage floor with a lip and footlights.
 	var sf := _r("stage_floor")
 	var sfc := Color(str(layout.get("stage_floor", {}).get("color", "#2a2440")))
-	CharacterArt.vgradient(self, sf, sfc.lightened(0.15), sfc.darkened(0.2))
+	Materials.shaded(self, sf, "wood_floor", sfc.lightened(0.6), 0.5, 0.08, 0.35)
 	draw_rect(Rect2(sf.position.x, sf.position.y, sf.size.x, 5), sfc.lightened(0.4))
 	draw_rect(Rect2(sf.position.x - 10, sf.end.y, sf.size.x + 20, 16), Color("#0e0c18"))
 	for i in range(24):
@@ -98,7 +104,7 @@ func _draw() -> void:
 	# Bucket on a stand near the mic.
 	var mic_pos := _v(layout.get("mic", {}).get("pos", [800, 500]))
 	if show_bucket:
-		var bp := mic_pos + Vector2(-170, -20)
+		var bp := _v(layout.get("bucket", {}).get("pos", [mic_pos.x - 170, mic_pos.y - 20]))
 		draw_line(bp + Vector2(0, 40), bp + Vector2(0, 100), Color("#6a6a74"), 4)
 		draw_colored_polygon(PackedVector2Array([bp + Vector2(-26, -6), bp + Vector2(26, -6), bp + Vector2(20, 40), bp + Vector2(-20, 40)]), Color("#b8bcc8"))
 		draw_rect(Rect2(bp + Vector2(-28, -10), Vector2(56, 6)), Color("#d8dce8"))
@@ -122,42 +128,118 @@ func _draw() -> void:
 	_draw_audience()
 
 
+func _char(id: String) -> Dictionary:
+	return partner.get("characters", {}).get(id, {})
+
+
+func _partner_look(id: String) -> Dictionary:
+	var lk: Dictionary = _char(id).get("look", {})
+	if lk.is_empty():
+		return CharacterArt.npc_look("#888888", false, id.length())
+	return {"skin": Color(str(lk.get("skin", "#e0b090"))), "hair": Color(str(lk.get("hair", "#2a2420"))), "outfit": Color(str(lk.get("outfit", "#333344"))),
+		"pants": Color(str(lk.get("pants", "#222228"))), "accent": Color(str(lk.get("accent", "#cccccc"))), "hair_style": int(lk.get("hair_style", 0)), "long_hair": false}
+
+
+func _name_tag(pos: Vector2, text: String, col: Color, size: int = 14) -> void:
+	var font := ThemeDB.fallback_font
+	var w := font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, size).x + 14
+	draw_rect(Rect2(pos.x - w * 0.5, pos.y - size - 2, w, size + 8), Color(0, 0, 0, 0.55))
+	draw_string(font, Vector2(pos.x - w * 0.5 + 7, pos.y + 1), text, HORIZONTAL_ALIGNMENT_LEFT, -1, size, col)
+
+
+func _seated(sp: Vector2, look: Dictionary, label: String, col: Color, i: int) -> void:
+	var laugh := 0.0
+	if not reduced and panel_reaction > 0.2:
+		laugh = absf(sin(t * 8.0 + i * 1.7)) * 6.0 * panel_reaction
+	Materials.fill(self, Rect2(sp.x - 26, sp.y - 50, 52, 44), "velour_velvet", Color("#3a2c48"), 0.5)
+	CharacterArt.draw(self, sp + Vector2(0, 20), 1.25, look, {"seated": true, "facing": 1.0, "bob": -laugh, "expression": _expr(panel_reaction)})
+	_name_tag(sp + Vector2(0, -86), label, col)
+
+
 func _draw_panel() -> void:
 	var font := ThemeDB.fallback_font
+	var pl: Dictionary = layout.get("panel", {})
 	var desk := _r("panel", "desk_rect")
-	var seats: Array = layout.get("panel", {}).get("seats", [])
-	var members: Array = layout.get("panel", {}).get("members", [])
-	var chars: Dictionary = partner.get("characters", {})
-	for i in range(seats.size()):
-		var sp := _v(seats[i]) + Vector2(0, 20)
-		var laugh := 0.0
-		if not reduced and panel_reaction > 0.2:
-			laugh = absf(sin(t * 8.0 + i * 1.7)) * 6.0 * panel_reaction
-		var mid: String = str(members[i]) if i < members.size() else ""
-		var col := Color(str(chars.get(mid, {}).get("color", "#d0d0d0")))
-		draw_rect(Rect2(sp.x - 26, sp.y - 70, 52, 50), Color("#1a1626"))
-		if player_at_panel_seat == i:
-			CharacterArt.draw(self, sp, 1.25, _plook(), {"seated": true, "facing": 1.0, "bob": -laugh, "expression": _expr(panel_reaction)})
-			draw_string(font, sp + Vector2(-70, -104), "YOU (panel guest)", HORIZONTAL_ALIGNMENT_CENTER, 140, 14, Color("#ffe27a"))
+	var host_seat := _v(pl.get("host_seat", [655, 395]))
+	var guest_seats: Array = pl.get("guest_seats", [])
+	# Guests: the player (if a panel guest) takes seat 0, fictional guests fill the rest.
+	var occupants: Array = []
+	if player_at_panel_seat >= 0:
+		occupants.append({"player": true})
+	for g in guests:
+		if occupants.size() >= guest_seats.size():
+			break
+		occupants.append(g)
+	for i in range(occupants.size()):
+		var sp := _v(guest_seats[i])
+		var o: Dictionary = occupants[i]
+		if bool(o.get("player", false)):
+			_seated(sp, _plook(), "YOU (panel guest)", Color("#ffe27a"), i)
 		else:
-			var lk := CharacterArt.npc_look(col.to_html(false), i == 2, i * 11 + 4)
-			CharacterArt.draw(self, sp, 1.25, lk, {"seated": true, "facing": 1.0, "bob": -laugh, "expression": _expr(panel_reaction)})
-			draw_string(font, sp + Vector2(-72, -104), str(chars.get(mid, {}).get("display_name", "Panel")), HORIZONTAL_ALIGNMENT_CENTER, 144, 13, col)
-	CharacterArt.vgradient(self, desk, Color("#3a2e4e"), Color("#1e182c"))
+			var col := Color(str(o.get("color", "#d0d0d0")))
+			_seated(sp, CharacterArt.npc_look(col.to_html(false), bool(o.get("female", false)), str(o.get("name", "")).length() * 3 + i), str(o.get("name", "Guest")), col, i)
+	# Tony at the host seat, nearest the mic.
+	var host := _char("partner_host")
+	_seated(host_seat, _partner_look("partner_host"), str(host.get("label", "Host")) + " · host", Color(str(host.get("color", "#e0d0ff"))), 9)
+	# The desk.
+	Materials.shaded(self, desk, "dark_wood", Color("#a08cc0"), 0.6, 0.06, 0.45)
 	draw_rect(Rect2(desk.position.x, desk.position.y, desk.size.x, 6), Color("#6a5a8a"))
 	draw_rect(Rect2(desk.position.x + 10, desk.end.y - 14, desk.size.x - 20, 4), Color("#b88cff"))
 	_glow(Vector2(desk.get_center().x, desk.end.y - 12), desk.size.x * 0.5, Color(0.7, 0.55, 1.0, 0.15))
 	draw_string(font, desk.position + Vector2(14, desk.size.y - 22), "PANEL", HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color("#e0d0ff"))
-	for i in range(seats.size()):
-		var mp := _v(seats[i]) + Vector2(18, 14)
+	var mic_seats: Array = [host_seat]
+	for i in range(occupants.size()):
+		mic_seats.append(_v(guest_seats[i]))
+	for sp in mic_seats:
+		var mp: Vector2 = sp + Vector2(18, 14)
 		draw_line(mp, mp + Vector2(10, -26), Color("#a0a0a8"), 3)
 		draw_circle(mp + Vector2(11, -28), 4, Color("#505058"))
+	# Tony's cue cards and water.
+	draw_rect(Rect2(host_seat.x - 30, desk.position.y - 6, 22, 6), Color("#f0ead8"))
+	draw_rect(Rect2(host_seat.x + 30, desk.position.y - 16, 8, 16), Color(0.7, 0.85, 1.0, 0.7))
+	_draw_redban()
+
+
+## Redban's sound station: soundboard, laptop, his own mic, drop lights.
+func _draw_redban() -> void:
+	var st: Dictionary = layout.get("redban_station", {})
+	if st.is_empty():
+		return
+	var d := _r("redban_station", "desk_rect")
+	var seat := _v(st.get("seat", [140, 412]))
+	var rb := _char("partner_redban")
+	var laugh := 0.0
+	if not reduced and (panel_reaction > 0.2 or redban_cue > 0.2):
+		laugh = absf(sin(t * 7.0)) * 5.0 * maxf(panel_reaction, redban_cue)
+	Materials.fill(self, Rect2(seat.x - 24, seat.y - 48, 48, 42), "velour_velvet", Color("#40303a"), 0.5)
+	CharacterArt.draw(self, seat + Vector2(0, 20), 1.25, _partner_look("partner_redban"), {"seated": true, "facing": 1.0, "bob": -laugh, "expression": "laugh" if redban_cue > 0.3 else _expr(panel_reaction)})
+	_name_tag(seat + Vector2(0, -86), str(rb.get("label", "Redban")) + " · sound", Color(str(rb.get("color", "#ff7a7a"))))
+	Materials.shaded(self, d, "dark_wood", Color("#9a8070"), 0.6, 0.05, 0.5)
+	# Soundboard with faders and drop pads.
+	var board := Rect2(d.position.x + 8, d.position.y - 12, d.size.x - 16, 14)
+	draw_rect(board, Color("#1a1a20"))
+	for k in range(9):
+		var fx := board.position.x + 8 + k * (board.size.x - 16) / 8.0
+		draw_line(Vector2(fx, board.position.y + 3), Vector2(fx, board.end.y - 2), Color("#4a4a54"), 2)
+		draw_rect(Rect2(fx - 3, board.position.y + 3 + (k * 37 % 7), 6, 3), Color("#d8d8e0"))
+	for k in range(4):
+		var lit := redban_cue > 0.2 and (k + int(t * 8.0)) % 2 == 0
+		var pc := Color.from_hsv(k * 0.22, 0.8, 1.0 if lit else 0.45)
+		draw_rect(Rect2(d.position.x + 14 + k * 18, d.position.y + 8, 14, 10), pc)
+		if lit:
+			_glow(Vector2(d.position.x + 21 + k * 18, d.position.y + 13), 22, Color(pc, 0.5))
+	# Laptop glow.
+	draw_colored_polygon(PackedVector2Array([Vector2(d.end.x - 48, d.position.y - 12), Vector2(d.end.x - 16, d.position.y - 12), Vector2(d.end.x - 22, d.position.y - 34), Vector2(d.end.x - 54, d.position.y - 34)]), Color("#9ac0ff"))
+	_glow(Vector2(d.end.x - 36, d.position.y - 24), 40, Color(0.6, 0.75, 1.0, 0.25))
+	var mp := seat + Vector2(20, 12)
+	draw_line(mp, mp + Vector2(12, -24), Color("#a0a0a8"), 3)
+	draw_circle(mp + Vector2(13, -26), 4, Color("#505058"))
 
 
 func _draw_band() -> void:
 	var font := ThemeDB.fallback_font
 	var rr := _r("band", "riser_rect")
-	CharacterArt.vgradient(self, rr, Color("#262040"), Color("#141024"))
+	Materials.shaded(self, rr, "dark_wood", Color("#6a5a90"), 0.5, 0.05, 0.45)
 	draw_rect(Rect2(rr.position.x, rr.position.y, rr.size.x, 5), Color("#4a4470"))
 	draw_string(font, rr.position + Vector2(10, rr.size.y - 12), "BAND", HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color("#aac8ff"))
 	var players: Array = layout.get("band", {}).get("players", [])

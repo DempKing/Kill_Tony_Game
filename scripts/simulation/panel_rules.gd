@@ -75,7 +75,8 @@ static func score_contribution(s: GameState, db: ContentDB, comic: Dictionary, t
 	v += StatsRules.skill(s, "crowd_work") / 20.0
 	v -= tones_used.count(tone) * 4.0
 	v += s.rng("performance").randf_range(-2.0, 2.0)
-	var txt := "Huge laugh from the room. The host points at you." if v >= 7.0 else ("Good laugh. The comic laughs too." if v >= 3.0 else ("It lands flat." if v >= -1.0 else "Groans. The host steers away from you."))
+	var host := db.character_name("partner_host")
+	var txt := ("Huge laugh from the room. %s points at you and Redban hits a drop." % host) if v >= 7.0 else ("Good laugh. The comic laughs too." if v >= 3.0 else ("It lands flat." if v >= -1.0 else "Groans. %s steers away from you." % host))
 	return {"value": v, "text": txt}
 
 
@@ -111,7 +112,7 @@ static func resolve(s: GameState, db: ContentDB, day: int, total: float) -> Arra
 		Relationships.change(s, "partner_host", {"respect": 6, "chemistry": 5})
 		Relationships.change(s, "partner_redban", {"respect": 4})
 		s.reputation += 2.0
-		out.append("The host loved having you. You'll be asked back.")
+		out.append("%s loved having you. You'll be asked back." % db.character_name("partner_host"))
 		s.flags["panel_invite_again"] = true
 	elif total < 0.0:
 		Relationships.change(s, "partner_host", {"respect": -4})

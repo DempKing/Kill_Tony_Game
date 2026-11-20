@@ -192,7 +192,7 @@ static func score_response(db: ContentDB, prompt: Dictionary, response: Dictiona
 	v += float(by_set.get(tone, 0))
 	var repeats := tones_used.count(tone)
 	v -= repeats * db.balf("interview.repeat_tone_penalty", 5.0)
-	var reaction := "The panel laughs." if v >= 8.0 else ("A few chuckles from the panel." if v >= 3.0 else "The panel stares. The host moves on.")
+	var reaction := "The panel laughs." if v >= 8.0 else ("A few chuckles from the panel." if v >= 3.0 else "The panel stares. %s moves on." % db.character_name("partner_host"))
 	if repeats > 0 and v < 3.0:
 		reaction = "They've seen that move from you already tonight."
 	return {"value": v, "tone": tone, "reaction": reaction}
@@ -301,5 +301,5 @@ static func regular_review(s: GameState, db: ContentDB, results: Array) -> Strin
 	if int(s.kt["regular_strikes"]) >= 3:
 		s.flags["kt_regular"] = false
 		s.flags.erase("kt_regular_next_day")
-		return "The host, gently: 'We've heard this one.' After three recycled sets, you're off the regular lineup. The bucket's still there."
-	return "The host: 'Didn't we hear this last time?' Regulars need new material. (Strike %d of 3.)" % int(s.kt["regular_strikes"])
+		return db.character_name("partner_host") + ", gently: 'We've heard this one.' After three recycled sets, you're off the regular lineup. The bucket's still there."
+	return "%s: 'Didn't we hear this last time?' Regulars need new material. (Strike %d of 3.)" % [db.character_name("partner_host"), int(s.kt["regular_strikes"])]

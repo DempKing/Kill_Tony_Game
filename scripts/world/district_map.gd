@@ -137,10 +137,10 @@ func _draw_ground(W: float, H: float) -> void:
 	var rt := float(db.world.get("road_top", 600))
 	var rb := float(db.world.get("road_bottom", 700))
 	# South blocks behind the south-side buildings.
-	CharacterArt.vgradient(self, Rect2(-400, sb, W + 800, H - sb + 400), Color("#2b2f38"), Color("#1a1d24"))
+	Materials.shaded(self, Rect2(-400, sb, W + 800, H - sb + 400), "asphalt_01", Color("#4a4c56"), 0.5, 0.0, 0.4)
 	# Sidewalks with tiles and curbs.
-	CharacterArt.vgradient(self, Rect2(-400, 520, W + 800, rt - 520), Color("#6a6e78"), Color("#585c66"))
-	CharacterArt.vgradient(self, Rect2(-400, rb, W + 800, 780 - rb), Color("#5c606a"), Color("#4c5058"))
+	Materials.shaded(self, Rect2(-400, 520, W + 800, rt - 520), "concrete_tiles_02", Color("#c8ccd6"), 0.35, 0.05, 0.25)
+	Materials.shaded(self, Rect2(-400, rb, W + 800, 780 - rb), "concrete_tiles_02", Color("#b4b8c2"), 0.35, 0.0, 0.3)
 	for x in range(-400, int(W) + 400, 44):
 		draw_line(Vector2(x, 522), Vector2(x, rt - 4), Color(0, 0, 0, 0.12), 1.0)
 		draw_line(Vector2(x + 22, rb + 4), Vector2(x + 22, 778), Color(0, 0, 0, 0.12), 1.0)
@@ -148,7 +148,7 @@ func _draw_ground(W: float, H: float) -> void:
 	draw_rect(Rect2(-400, rt - 5, W + 800, 5), Color("#9a9ea8"))
 	draw_rect(Rect2(-400, rb, W + 800, 5), Color("#9a9ea8"))
 	# Road.
-	CharacterArt.vgradient(self, Rect2(-400, rt, W + 800, rb - rt), Color("#2e3038"), Color("#24262c"))
+	Materials.shaded(self, Rect2(-400, rt, W + 800, rb - rt), "asphalt_01", Color("#7a7c86"), 0.5, 0.0, 0.25)
 	for x in range(-400, int(W) + 400, 120):
 		draw_rect(Rect2(x, (rt + rb) * 0.5 - 3, 64, 6), Color("#d6c25a"))
 	for cx in [1300.0, 1930.0]:
@@ -158,7 +158,7 @@ func _draw_ground(W: float, H: float) -> void:
 		draw_circle(Vector2(mx, rt + 24), 12, Color("#1c1d22"))
 		draw_arc(Vector2(mx, rt + 24), 12, 0, TAU, 16, Color("#46484f"), 2.0)
 	# Side alley and south lot.
-	CharacterArt.vgradient(self, Rect2(1880, 60, 120, 460), Color("#262a32"), Color("#3a3e48"))
+	Materials.shaded(self, Rect2(1880, 60, 120, 460), "asphalt_01", Color("#6a6c76"), 0.5, 0.0, 0.2)
 	draw_rect(Rect2(1220, sb + 40, 140, H - sb), Color("#30343c"))
 	var font := ThemeDB.fallback_font
 	draw_string(font, Vector2(40, rt + 40), "MAIN DRAG", HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1, 1, 1, 0.18))
@@ -225,9 +225,8 @@ func _draw_facade(loc: Dictionary) -> void:
 		draw_rect(Rect2(r.end.x - 70, r.position.y - 46, 34, 46), Color("#6a4a32"))
 		draw_rect(Rect2(r.end.x - 74, r.position.y - 50, 42, 8), Color("#4a3222"))
 	# Body with brick courses.
-	CharacterArt.vgradient(self, r, base.lightened(0.10), base.darkened(0.18))
-	for y in range(int(r.position.y) + 10, int(r.end.y), 12):
-		draw_line(Vector2(r.position.x, y), Vector2(r.end.x, y), Color(0, 0, 0, 0.07), 1.0)
+	var mat: String = {"hostel": "red_brick_03", "lantern": "red_brick_03", "diner": "plastered_wall", "coffee": "plastered_wall", "apartments": "plastered_wall"}.get(id, "red_brick_03")
+	Materials.shaded(self, r, mat, base.lightened(0.55), 0.45 if mat == "red_brick_03" else 0.6, 0.08, 0.3)
 	draw_rect(Rect2(r.position.x, r.position.y, 10, r.size.y), Color(1, 1, 1, 0.05))
 	draw_rect(Rect2(r.end.x - 12, r.position.y, 12, r.size.y), Color(0, 0, 0, 0.18))
 	# Cornice with dentils.
@@ -307,7 +306,7 @@ func _draw_mothership(loc: Dictionary) -> void:
 	var sign_c := Color(str(loc.get("sign_color", "#b88cff")))
 	var night := is_night()
 	var wd := CalendarRules.weekday(state.day)
-	CharacterArt.vgradient(self, r, Color("#262a52"), Color("#12142a"))
+	Materials.shaded(self, r, "concrete_wall_003", Color("#5a60b8"), 0.6, 0.0, 0.55)
 	for x in range(int(r.position.x) + 20, int(r.end.x), 40):
 		draw_rect(Rect2(x, r.position.y + 60, 8, r.size.y - 60), Color(1, 1, 1, 0.05))
 	draw_rect(Rect2(r.position.x - 10, r.position.y - 8, r.size.x + 20, 14), Color("#3a3e6a"))
@@ -365,7 +364,7 @@ func _draw_roof_building(loc: Dictionary) -> void:
 	var night := is_night()
 	# Roof.
 	var roof := Rect2(r.position.x, r.position.y + 62, r.size.x, r.size.y - 62)
-	CharacterArt.vgradient(self, roof, Color("#4a4c54"), Color("#34363c"))
+	Materials.shaded(self, roof, "gravel_concrete", Color("#8a8c96"), 0.5, 0.05, 0.3)
 	draw_rect(roof, Color(0, 0, 0, 0.35), false, 4.0)
 	for i in range(3):
 		var vx := roof.position.x + 30 + i * (roof.size.x - 80) / 2.0
@@ -374,7 +373,7 @@ func _draw_roof_building(loc: Dictionary) -> void:
 	draw_rect(Rect2(roof.position.x + 20, roof.end.y - 40, 60, 24), Color("#2a6a8a", 0.6))
 	# Front facade strip.
 	var f := Rect2(r.position.x, r.position.y, r.size.x, 62)
-	CharacterArt.vgradient(self, f, base.lightened(0.15), base.darkened(0.1))
+	Materials.shaded(self, f, "plastered_wall" if id == "mart" else "factory_brick", base.lightened(0.6), 0.35, 0.05, 0.25)
 	draw_rect(Rect2(f.position.x - 4, f.position.y - 4, f.size.x + 8, 6), base.darkened(0.4))
 	var d := door_of(loc)
 	var name := str(loc["name"]).to_upper()

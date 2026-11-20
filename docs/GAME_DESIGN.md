@@ -357,3 +357,15 @@ The panel score feeds fame, reputation and your relationship with the host.
   opener, and a panel appearance.
 
 Play continues after every milestone.
+
+## The Kill Tony panel
+- **Tony Hinchcliffe** hosts from the seat nearest the mic and pulls names
+  from the bucket.
+- **Up to 3 guest comedians** sit along the desk. They're fictional and drawn
+  from a pool; 1–3 per night, chosen once and saved. When you're a panel
+  guest you take the seat next to Tony.
+- **Brian Redban** runs a sound station at the far end. He fires drops on big
+  laughs and good panel moments, and invites comics to The Secret Show.
+
+Show text refers to Tony and Redban by name. Everything about them lives in
+the partner package, pending approval.

@@ -216,11 +216,13 @@ func component(id: String) -> Dictionary:
 
 
 func character_name(id: String) -> String:
+	## Short on-screen name: NPC full name, or a partner character's label
+	## ("Tony", "Redban") falling back to its display name.
 	if npcs.has(id):
 		return str(npcs[id]["name"])
 	var chars: Dictionary = partner.get("characters", {})
 	if chars.has(id):
-		return str(chars[id].get("display_name", id))
+		return str(chars[id].get("label", chars[id].get("display_name", id)))
 	return id
 
 

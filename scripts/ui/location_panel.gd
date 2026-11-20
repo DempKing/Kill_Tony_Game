@@ -21,8 +21,11 @@ class InteriorArt extends Control:
 		var floor_c := Color(str(it.get("floor", "#222222")))
 		var accent := Color(str(it.get("accent", loc.get("sign_color", "#ffffff"))))
 		var fy := h * 0.68
-		CharacterArt.vgradient(self, Rect2(0, 0, w, fy), wall.lightened(0.08), wall.darkened(0.2))
-		CharacterArt.vgradient(self, Rect2(0, fy, w, h - fy), floor_c.lightened(0.1), floor_c.darkened(0.3))
+		var id0: String = str(loc.get("id", ""))
+		var wall_mat: String = {"rusty_spur": "red_brick_03", "lantern": "red_brick_03", "cellar": "concrete_wall_003", "mothership": "concrete_wall_003", "hostel": "plastered_wall", "apartments": "plastered_wall", "diner": "plastered_wall", "coffee": "plastered_wall", "mart": "plastered_wall"}.get(id0, "plastered_wall")
+		var floor_mat: String = {"mart": "concrete_tiles_02", "cellar": "concrete_tiles_02", "mothership": "dirty_carpet", "lantern": "dirty_carpet"}.get(id0, "wood_floor")
+		Materials.shaded(self, Rect2(0, 0, w, fy), wall_mat, wall.lightened(0.5), 0.5, 0.05, 0.3)
+		Materials.shaded(self, Rect2(0, fy, w, h - fy), floor_mat, floor_c.lightened(0.55), 0.45, 0.0, 0.45)
 		for i in range(12):
 			var x0 := w * i / 11.0
 			draw_line(Vector2(x0, fy), Vector2(w * 0.5 + (x0 - w * 0.5) * 1.8, h), Color(0, 0, 0, 0.12), 1.0)
@@ -32,7 +35,7 @@ class InteriorArt extends Control:
 		var id: String = str(loc.get("id", ""))
 		match id:
 			"rusty_spur", "lantern", "cellar", "mothership":
-				CharacterArt.vgradient(self, Rect2(w * 0.58, fy - 20, w * 0.34, 28), Color("#3a2a1a"), Color("#1a120a"))
+				Materials.shaded(self, Rect2(w * 0.58, fy - 20, w * 0.34, 28), "wood_floor", Color("#a07850"), 0.4, 0.05, 0.4)
 				draw_polygon(PackedVector2Array([Vector2(w * 0.74, 0), Vector2(w * 0.76, 0), Vector2(w * 0.86, fy), Vector2(w * 0.64, fy)]), PackedColorArray([Color(accent, 0.25), Color(accent, 0.25), Color(accent, 0.03), Color(accent, 0.03)]))
 				_glow(Vector2(w * 0.75, fy - 10), 110, Color(accent, 0.3))
 				draw_line(Vector2(w * 0.75, fy - 90), Vector2(w * 0.75, fy - 20), Color(0.75, 0.75, 0.8), 4)
@@ -46,7 +49,7 @@ class InteriorArt extends Control:
 					draw_rect(Rect2(tx, fy - 6, w * 0.12, 10), accent.darkened(0.3))
 					draw_rect(Rect2(tx + w * 0.055, fy + 4, 6, h * 0.14), Color(0.2, 0.2, 0.22))
 					draw_circle(Vector2(tx + 20, fy - 12), 6, Color("#f8f4f0"))
-				CharacterArt.vgradient(self, Rect2(w * 0.62, fy - 70, w * 0.34, 74), accent.darkened(0.1), accent.darkened(0.45))
+				Materials.shaded(self, Rect2(w * 0.62, fy - 70, w * 0.34, 74), "dark_wood", accent.lightened(0.2), 0.4, 0.05, 0.4)
 				for i in range(4):
 					draw_circle(Vector2(w * 0.66 + i * 60, fy - 80), 8, Color(0.9, 0.9, 0.95))
 				for i in range(3):
