@@ -21,7 +21,8 @@ func _build() -> void:
 	# Display.
 	var row := UiKit.hbox(6)
 	row.add_child(UiKit.label("Window:", 18, UiKit.C_TEXT, false))
-	for m in [["windowed", "Windowed"], ["fullscreen", "Fullscreen"], ["exclusive", "Exclusive fullscreen"]]:
+	var modes: Array = [["windowed", "In page"], ["fullscreen", "Fullscreen"]] if OS.has_feature("web") else [["windowed", "Windowed"], ["fullscreen", "Fullscreen"], ["exclusive", "Exclusive fullscreen"]]
+	for m in modes:
 		var mid: String = m[0]
 		row.add_child(UiKit.button(("● " if str(v["window_mode"]) == mid else "○ ") + str(m[1]), func(): _apply_setting("window_mode", mid)))
 	add_child(row)
@@ -31,7 +32,8 @@ func _build() -> void:
 		var r: Vector2i = GameSettings.RESOLUTIONS[i]
 		var idx := i
 		row2.add_child(UiKit.button(("● " if int(v["resolution"]) == i else "○ ") + "%dx%d" % [r.x, r.y], func(): _apply_setting("resolution", idx)))
-	add_child(row2)
+	if not OS.has_feature("web"):
+		add_child(row2)
 	# Audio.
 	for bus in ["master", "Music", "Ambience", "SFX"]:
 		var b: String = bus

@@ -52,7 +52,10 @@ func _build() -> void:
 	_menu.add_child(UiKit.button("New career", func(): Game.goto(Game.SCENE_CREATE)))
 	_menu.add_child(UiKit.button("Load", func(): ui.open(SaveUI.new().setup(ui, false), 760)))
 	_menu.add_child(UiKit.button("Settings", func(): ui.open(SettingsUI.new().setup(ui), 860)))
-	_menu.add_child(UiKit.button("Quit", func(): get_tree().quit()))
+	if not OS.has_feature("web"):
+		_menu.add_child(UiKit.button("Quit", func(): get_tree().quit()))
+	else:
+		_menu.add_child(UiKit.label("Browser version: progress saves automatically in this browser. Click the game once to enable sound.", 15, UiKit.C_DIM))
 	_menu.add_child(UiKit.spacer(20))
 	var note := UiKit.label("Prototype build. All art, audio and characters shown are original placeholders pending partner approval. Platform: %s." % PlatformService.platform_name(), 15, UiKit.C_DIM)
 	_menu.add_child(note)

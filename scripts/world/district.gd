@@ -491,9 +491,10 @@ func open_pause() -> void:
 	v.add_child(UiKit.button("Save and return to title", func():
 		SaveManager.autosave()
 		Game.goto(Game.SCENE_BOOT)))
-	v.add_child(UiKit.button("Save and quit", func():
-		SaveManager.autosave()
-		get_tree().quit()))
+	if not OS.has_feature("web"):
+		v.add_child(UiKit.button("Save and quit", func():
+			SaveManager.autosave()
+			get_tree().quit()))
 	holder[0] = ui.open(v, 520)
 
 

@@ -22,6 +22,24 @@ Tony bucket pull into a career.
 >
 > See [docs/IMPLEMENTATION_STATUS.md](docs/IMPLEMENTATION_STATUS.md).
 
+## Play in the browser
+
+Every push to `main` runs the tests, builds the web version, and publishes it
+to GitHub Pages (`.github/workflows/pages.yml`). It will be at
+`https://dempking.github.io/Kill_Tony_Game/` once the one-time setup below is
+done.
+
+To set it up:
+1. Merge this work into `main`.
+2. Make the repository public. GitHub Pages is free for public repositories;
+   private ones need a paid plan.
+3. In Settings → Pages → Build and deployment → Source, choose "GitHub Actions".
+4. In the Actions tab, run "Deploy web build to GitHub Pages" (or push to `main`).
+
+The browser build saves progress in the browser's storage. It works in
+Chrome, Edge and Firefox. So far it has only been tested in headless Chromium,
+not on real hardware.
+
 ## Engine
 
 - **Godot 4.3 stable** (standard build, not .NET), typed GDScript.

@@ -39,10 +39,25 @@ var theme: Theme
 
 
 func _ready() -> void:
+	_add_symbol_fallback()
 	_ensure_buses()
 	_load()
 	_register_actions()
 	apply()
+
+
+## Browsers have no system font fallback, so symbols like ● ○ → ⚠ would show
+## as boxes in the web build. Bundle DejaVu Sans (permissive license, see
+## assets/fonts/DejaVu-LICENSE.txt) as a fallback behind the default font.
+func _add_symbol_fallback() -> void:
+	var path := "res://assets/fonts/DejaVuSans.ttf"
+	if not ResourceLoader.exists(path):
+		return
+	var dv: Font = load(path)
+	var base: Font = ThemeDB.fallback_font
+	if dv != null and base != null:
+		var fb: Array[Font] = [dv]
+		base.fallbacks = fb
 
 
 func _ensure_buses() -> void:
@@ -125,8 +140,13 @@ func set_value(key: String, v: Variant) -> void:
 
 
 func apply() -> void:
-	# Display (skipped in headless runs).
-	if DisplayServer.get_name() != "headless":
+	# Display (skipped in headless runs; the browser owns the window on web).
+	if OS.has_feature("web"):
+		var fs := str(values["window_mode"]) != "windowed"
+		var cur := DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN
+		if fs != cur:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN if fs else DisplayServer.WINDOW_MODE_WINDOWED)
+	elif DisplayServer.get_name() != "headless":
 		match str(values["window_mode"]):
 			"fullscreen":
 				DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)

@@ -20,7 +20,7 @@ architectural drawing or third-party asset is used.
 | SFX (laughs, applause, stings) | Original procedural placeholders | `scripts/core/sfx.gd` |
 | Music (band loop, street bed) | Original procedural placeholders | `scripts/core/sfx.gd` |
 | Joke text | Original, written for this project | `data/material/components.json` |
-| Font | Godot default fallback font | engine |
+| Font | Godot default font, plus DejaVu Sans as a symbol fallback (Bitstream Vera/DejaVu license, free for commercial use) | engine; `assets/fonts/DejaVuSans.ttf` |
 | Icon | Original placeholder | `icon.svg` |
 
 ## Process for approved assets
