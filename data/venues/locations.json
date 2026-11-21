@@ -1,0 +1,497 @@
+{
+  "_comment": "Fictional, compressed Austin entertainment district. Positions are in district world pixels. This is NOT a reproduction of real street geography.",
+  "world": {
+    "width": 2600,
+    "height": 1200,
+    "street_top": 560,
+    "street_bottom": 740,
+    "road_top": 600,
+    "road_bottom": 700,
+    "player_start": [
+      200,
+      735
+    ]
+  },
+  "locations": [
+    {
+      "id": "transit_stop",
+      "name": "Bus Stop & Rideshare Pickup",
+      "kind": "hotspot",
+      "rect": [
+        110,
+        770,
+        170,
+        60
+      ],
+      "door": [
+        195,
+        755
+      ],
+      "color": "#2d3a4a",
+      "sign_color": "#7fd1ff",
+      "open_blocks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "desc": "Where you got off the bus. Delivery riders wait for orders here.",
+      "start_known": true
+    },
+    {
+      "id": "hostel",
+      "name": "Bunkhouse Hostel",
+      "kind": "building",
+      "rect": [
+        80,
+        300,
+        300,
+        220
+      ],
+      "door": [
+        230,
+        535
+      ],
+      "color": "#5b4636",
+      "sign_color": "#ffb46b",
+      "open_blocks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "desc": "Cheap bunks, a shared kitchen, and a manager who has heard every excuse.",
+      "interior": {
+        "wall": "#6e5a48",
+        "floor": "#3b2f26",
+        "accent": "#ffb46b"
+      },
+      "start_known": true
+    },
+    {
+      "id": "diner",
+      "name": "Big Sky Diner",
+      "kind": "building",
+      "rect": [
+        420,
+        320,
+        280,
+        200
+      ],
+      "door": [
+        560,
+        535
+      ],
+      "color": "#7a2f2f",
+      "sign_color": "#ff6b6b",
+      "open_blocks": [
+        0,
+        1,
+        2
+      ],
+      "desc": "Breakfast all day, brunch all weekend, and a manager who always needs a server.",
+      "interior": {
+        "wall": "#d8c8a8",
+        "floor": "#7a2f2f",
+        "accent": "#ff6b6b"
+      },
+      "start_known": true
+    },
+    {
+      "id": "coffee",
+      "name": "Grounds for Concern",
+      "kind": "building",
+      "rect": [
+        740,
+        340,
+        240,
+        180
+      ],
+      "door": [
+        860,
+        535
+      ],
+      "color": "#3e5a46",
+      "sign_color": "#9cf2b0",
+      "open_blocks": [
+        0,
+        1,
+        2
+      ],
+      "desc": "Laptops, oat milk, and quiet. A good place to write and run into other comics.",
+      "interior": {
+        "wall": "#cfe0c8",
+        "floor": "#4a3a2a",
+        "accent": "#9cf2b0"
+      },
+      "start_known": true
+    },
+    {
+      "id": "mothership",
+      "name": "Comedy Mothership",
+      "kind": "building",
+      "rect": [
+        1040,
+        160,
+        520,
+        360
+      ],
+      "door": [
+        1300,
+        535
+      ],
+      "color": "#1a1c3a",
+      "sign_color": "#b88cff",
+      "open_blocks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "desc": "The landmark. Kill Tony happens here on Monday nights.",
+      "interior": {
+        "wall": "#14142a",
+        "floor": "#24203a",
+        "accent": "#b88cff"
+      },
+      "start_known": true,
+      "landmark": true
+    },
+    {
+      "id": "lantern",
+      "name": "The Lantern Room",
+      "kind": "building",
+      "rect": [
+        1600,
+        320,
+        260,
+        200
+      ],
+      "door": [
+        1730,
+        535
+      ],
+      "color": "#5a4a1c",
+      "sign_color": "#ffe27a",
+      "open_blocks": [
+        1,
+        2,
+        3
+      ],
+      "desc": "A small, serious comedy room. Showcases, features, and touring headliners.",
+      "interior": {
+        "wall": "#2a2418",
+        "floor": "#3a2c18",
+        "accent": "#ffe27a"
+      },
+      "start_known": true
+    },
+    {
+      "id": "apartments",
+      "name": "Oak Street Apartments",
+      "kind": "building",
+      "rect": [
+        2020,
+        260,
+        320,
+        260
+      ],
+      "door": [
+        2180,
+        535
+      ],
+      "color": "#40505a",
+      "sign_color": "#cde8ff",
+      "open_blocks": [
+        0,
+        1,
+        2
+      ],
+      "desc": "Real rooms with real doors. The leasing office wants a deposit.",
+      "interior": {
+        "wall": "#d0d8de",
+        "floor": "#6a5a4a",
+        "accent": "#cde8ff"
+      },
+      "start_known": true
+    },
+    {
+      "id": "mart",
+      "name": "Corner Mart",
+      "kind": "building",
+      "rect": [
+        380,
+        780,
+        240,
+        170
+      ],
+      "door": [
+        500,
+        765
+      ],
+      "color": "#3a4a6a",
+      "sign_color": "#ffffff",
+      "open_blocks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "desc": "Coffee, energy drinks, and a clerk who sees everything.",
+      "interior": {
+        "wall": "#e8e8f0",
+        "floor": "#9aa0b4",
+        "accent": "#3a7aff"
+      },
+      "start_known": true
+    },
+    {
+      "id": "job_board",
+      "name": "Community Notice Board",
+      "kind": "hotspot",
+      "rect": [
+        690,
+        780,
+        90,
+        50
+      ],
+      "door": [
+        735,
+        765
+      ],
+      "color": "#7a5a2a",
+      "sign_color": "#ffd28a",
+      "open_blocks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "desc": "Flyers, tear-off tabs, and job leads.",
+      "start_known": true
+    },
+    {
+      "id": "rusty_spur",
+      "name": "The Rusty Spur",
+      "kind": "building",
+      "rect": [
+        860,
+        780,
+        320,
+        220
+      ],
+      "door": [
+        1020,
+        765
+      ],
+      "color": "#6a3a1a",
+      "sign_color": "#ff9a3a",
+      "open_blocks": [
+        1,
+        2,
+        3
+      ],
+      "desc": "A dive bar with a nightly open mic. Five-dollar bar minimum to get on the list.",
+      "interior": {
+        "wall": "#4a2a16",
+        "floor": "#2a1a10",
+        "accent": "#ff9a3a"
+      },
+      "start_known": true
+    },
+    {
+      "id": "cellar",
+      "name": "The Cellar",
+      "kind": "building",
+      "rect": [
+        1500,
+        780,
+        300,
+        220
+      ],
+      "door": [
+        1650,
+        765
+      ],
+      "color": "#2a2a2a",
+      "sign_color": "#ff4fa3",
+      "open_blocks": [
+        2,
+        3
+      ],
+      "desc": "A basement club with late shows. Always hiring door staff.",
+      "interior": {
+        "wall": "#1a1a1a",
+        "floor": "#2a1a24",
+        "accent": "#ff4fa3"
+      },
+      "start_known": true
+    }
+  ],
+  "observations": [
+    {
+      "id": "scooter_pile",
+      "pos": [
+        1000,
+        548
+      ],
+      "label": "Pile of scooters",
+      "text": "Six electric scooters lie face-down on the sidewalk like they gave up together. You write it down.",
+      "unlock": [
+        "comp_scooter_p"
+      ]
+    },
+    {
+      "id": "bank_thermometer",
+      "pos": [
+        1590,
+        548
+      ],
+      "label": "Bank sign: 104°F",
+      "text": "The bank sign says 104 degrees. It's not even noon. Somebody's dog is wearing boots.",
+      "unlock": [
+        "comp_heat_p"
+      ]
+    },
+    {
+      "id": "app_billboard",
+      "pos": [
+        2400,
+        752
+      ],
+      "label": "Dating app billboard",
+      "text": "A billboard: 'Find someone who gets your weird.' Under it, a guy is arguing with a parking meter.",
+      "unlock": [
+        "comp_dating_p"
+      ]
+    },
+    {
+      "id": "bucket_line",
+      "pos": [
+        1150,
+        548
+      ],
+      "label": "Line outside the Mothership",
+      "text": "Dozens of comics clutch slips of paper, waiting to drop their names in the bucket. Everyone is pretending not to be nervous.",
+      "unlock": [
+        "comp_bucket_p"
+      ],
+      "weekdays": [
+        0
+      ],
+      "blocks": [
+        1,
+        2
+      ]
+    },
+    {
+      "id": "coffee_laptops",
+      "location": "coffee",
+      "label": "Watch the laptop crowd",
+      "text": "Every table has a laptop and a screenplay in progress. One of them is titled AUSTIN: A JOURNEY.",
+      "unlock": [
+        "comp_coffee_p"
+      ]
+    },
+    {
+      "id": "hostel_bunks",
+      "location": "hostel",
+      "label": "Survey the bunk room",
+      "text": "Twelve bunks. One guy in the top bunk has a mini-fridge, a plant, and mail delivered here.",
+      "unlock": [
+        "comp_hostel_p"
+      ]
+    },
+    {
+      "id": "bat_flyer",
+      "pos": [
+        2000,
+        548
+      ],
+      "label": "Bat-watching flyer",
+      "text": "A flyer: 'SUNSET BAT FLIGHT! 1.5 MILLION BATS!' Someone has written underneath: 'more reliable than my ex.'",
+      "unlock": [
+        "comp_bats_p"
+      ]
+    },
+    {
+      "id": "food_truck",
+      "pos": [
+        1660,
+        735
+      ],
+      "label": "Food truck",
+      "text": "A food truck in a converted ambulance sells Korean-barbecue breakfast tacos. The line is twenty deep. The siren is for decoration. Probably.",
+      "unlock": [
+        "comp_foodtruck_p"
+      ]
+    },
+    {
+      "id": "run_club",
+      "pos": [
+        700,
+        548
+      ],
+      "label": "Morning run club",
+      "text": "Forty people in matching neon jog past chanting a motivational slogan. One of them waves at you like you're a recruit.",
+      "unlock": [
+        "comp_fitness_p"
+      ],
+      "blocks": [
+        0
+      ]
+    },
+    {
+      "id": "tourist_boots",
+      "pos": [
+        320,
+        752
+      ],
+      "label": "Tourist in new boots",
+      "text": "A man in brand-new boots, a ten-gallon hat and a belt buckle the size of a plate is asking a stranger where the 'cowboy district' is.",
+      "unlock": [
+        "comp_cowboy_p"
+      ],
+      "weekdays": [
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "id": "coffee_techbros",
+      "location": "coffee",
+      "label": "Eavesdrop on the startup table",
+      "text": "Three men in vests are pitching an app that 'disrupts tacos.' One of them is wearing a cowboy hat with a charging port.",
+      "unlock": [
+        "comp_techbros_p"
+      ]
+    }
+  ],
+  "posters": [
+    {
+      "id": "poster_mothership",
+      "pos": [
+        1480,
+        548
+      ],
+      "label": "Mothership poster"
+    },
+    {
+      "id": "poster_spur",
+      "pos": [
+        1200,
+        752
+      ],
+      "label": "Open mic flyer"
+    },
+    {
+      "id": "poster_lantern",
+      "pos": [
+        1870,
+        548
+      ],
+      "label": "Lantern Room poster"
+    }
+  ]
+}

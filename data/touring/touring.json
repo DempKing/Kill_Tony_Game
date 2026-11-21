@@ -1,0 +1,494 @@
+{
+  "_comment": "Touring markets, venue templates, opener candidates and tuning. Fictional venue names. Draw = base_demand * (base_star + fame*fame_weight + rep*rep_weight + fans*fan_weight) * venue draw_mult * price factor * marketing factor * recency, capped by capacity.",
+  "tuning": {
+    "fame_weight": 0.04,
+    "rep_weight": 0.008,
+    "fan_weight": 0.01,
+    "price_elasticity": 1.2,
+    "price_factor_min": 0.3,
+    "price_factor_max": 1.6,
+    "marketing_per_point": 1000.0,
+    "marketing_max_bonus": 0.4,
+    "recency_days": 21,
+    "recency_penalty": 0.4,
+    "sales_noise": 0.15,
+    "fans_per_good_show": 40,
+    "fans_per_bad_show": -15,
+    "headline_min_jokes": 5,
+    "thin_act_penalty_per_joke": 4.0,
+    "cancel_rep_penalty": 3.0,
+    "delay_chance": 0.12,
+    "delay_cost": 90,
+    "van_stress_per_leg": 4,
+    "motel_rest": 30,
+    "hotel_rest": 55,
+    "planner_min_tier": 4,
+    "theater_min_tier": 6,
+    "max_legs": 5,
+    "prices": [
+      15,
+      20,
+      25,
+      35,
+      50,
+      75
+    ],
+    "marketing_options": [
+      0,
+      150,
+      400,
+      1000,
+      2500
+    ],
+    "base_star": 0.1,
+    "arena_min_tier": 7,
+    "arena_min_jokes": 8,
+    "opener_fee_mult": {
+      "club": 1,
+      "theater": 2,
+      "arena": 5
+    },
+    "production": {
+      "minimal": {
+        "label": "Minimal (a mic and a spotlight)",
+        "cost": 8000,
+        "warmth": -3,
+        "fame_mult": 0.8
+      },
+      "standard": {
+        "label": "Standard (screens, proper sound)",
+        "cost": 25000,
+        "warmth": 0,
+        "fame_mult": 1.0
+      },
+      "spectacle": {
+        "label": "Spectacle (lights, video package, walk-on)",
+        "cost": 70000,
+        "warmth": 4,
+        "fame_mult": 1.4
+      }
+    }
+  },
+  "venue_types": {
+    "club": {
+      "name": "Comedy club",
+      "stage_style": "road_club",
+      "slot_seconds": 0,
+      "cut": 0.45,
+      "audience": "showcase_crowd",
+      "draw_mult": 1.0,
+      "price_ref_mult": 1.0
+    },
+    "theater": {
+      "name": "Theater",
+      "stage_style": "theater",
+      "slot_seconds": 0,
+      "cut": 0.25,
+      "audience": "showcase_crowd",
+      "draw_mult": 3.0,
+      "price_ref_mult": 1.0
+    },
+    "arena": {
+      "name": "Arena",
+      "stage_style": "arena",
+      "cut": 0.15,
+      "draw_mult": 9.0,
+      "price_ref_mult": 2.5,
+      "audience": "arena_crowd"
+    }
+  },
+  "markets": [
+    {
+      "id": "austin",
+      "name": "Austin, TX (home)",
+      "region": "texas",
+      "base_demand": 170,
+      "ref_price": 25,
+      "drive": true,
+      "drive_cost": 0,
+      "flight_cost": 0,
+      "motel": 0,
+      "hotel": 0,
+      "home": true,
+      "venues": {
+        "theater": {
+          "name": "Congress Avenue Palace",
+          "cap": 1800,
+          "rent": 10000,
+          "deposit": 10000
+        },
+        "arena": {
+          "name": "Austin Center Arena",
+          "cap": 15000,
+          "rent": 150000,
+          "deposit": 150000
+        }
+      }
+    },
+    {
+      "id": "houston",
+      "name": "Houston, TX",
+      "region": "texas",
+      "base_demand": 130,
+      "ref_price": 25,
+      "drive": true,
+      "drive_cost": 60,
+      "flight_cost": 180,
+      "motel": 70,
+      "hotel": 160,
+      "venues": {
+        "club": {
+          "name": "The Bayou Laugh House",
+          "cap": 250,
+          "rent": 1000,
+          "deposit": 1000
+        },
+        "theater": {
+          "name": "Gulfway Theater",
+          "cap": 1600,
+          "rent": 9600,
+          "deposit": 9600
+        },
+        "arena": {
+          "name": "Bayou City Arena",
+          "cap": 16000,
+          "rent": 160000,
+          "deposit": 160000
+        }
+      }
+    },
+    {
+      "id": "dallas",
+      "name": "Dallas, TX",
+      "region": "texas",
+      "base_demand": 130,
+      "ref_price": 25,
+      "drive": true,
+      "drive_cost": 70,
+      "flight_cost": 180,
+      "motel": 70,
+      "hotel": 170,
+      "venues": {
+        "club": {
+          "name": "Trinity Comedy Room",
+          "cap": 280,
+          "rent": 1100,
+          "deposit": 1100
+        },
+        "theater": {
+          "name": "Elm Street Majestic",
+          "cap": 1700,
+          "rent": 10400,
+          "deposit": 10400
+        },
+        "arena": {
+          "name": "Trinity River Center",
+          "cap": 18000,
+          "rent": 175000,
+          "deposit": 175000
+        }
+      }
+    },
+    {
+      "id": "san_antonio",
+      "name": "San Antonio, TX",
+      "region": "texas",
+      "base_demand": 90,
+      "ref_price": 20,
+      "drive": true,
+      "drive_cost": 40,
+      "flight_cost": 160,
+      "motel": 60,
+      "hotel": 140,
+      "venues": {
+        "club": {
+          "name": "Riverwalk Comedy Cellar",
+          "cap": 200,
+          "rent": 800,
+          "deposit": 800
+        },
+        "theater": {
+          "name": "Alamo Heights Playhouse",
+          "cap": 1200,
+          "rent": 7200,
+          "deposit": 7200
+        }
+      }
+    },
+    {
+      "id": "denver",
+      "name": "Denver, CO",
+      "region": "west",
+      "base_demand": 120,
+      "ref_price": 28,
+      "drive": false,
+      "drive_cost": 0,
+      "flight_cost": 260,
+      "motel": 90,
+      "hotel": 190,
+      "venues": {
+        "club": {
+          "name": "Mile High Funny Bone",
+          "cap": 260,
+          "rent": 1100,
+          "deposit": 1100
+        },
+        "theater": {
+          "name": "Front Range Theatre",
+          "cap": 1800,
+          "rent": 11200,
+          "deposit": 11200
+        }
+      }
+    },
+    {
+      "id": "nashville",
+      "name": "Nashville, TN",
+      "region": "south",
+      "base_demand": 110,
+      "ref_price": 25,
+      "drive": false,
+      "drive_cost": 0,
+      "flight_cost": 240,
+      "motel": 80,
+      "hotel": 180,
+      "venues": {
+        "club": {
+          "name": "Broadway Joke Joint",
+          "cap": 240,
+          "rent": 1000,
+          "deposit": 1000
+        },
+        "theater": {
+          "name": "Cumberland Hall",
+          "cap": 1500,
+          "rent": 9600,
+          "deposit": 9600
+        }
+      }
+    },
+    {
+      "id": "chicago",
+      "name": "Chicago, IL",
+      "region": "midwest",
+      "base_demand": 170,
+      "ref_price": 30,
+      "drive": false,
+      "drive_cost": 0,
+      "flight_cost": 280,
+      "motel": 100,
+      "hotel": 220,
+      "venues": {
+        "club": {
+          "name": "Lakeshore Laugh Factory Annex",
+          "cap": 300,
+          "rent": 1300,
+          "deposit": 1300
+        },
+        "theater": {
+          "name": "The Wabash Theatre",
+          "cap": 2200,
+          "rent": 14400,
+          "deposit": 14400
+        },
+        "arena": {
+          "name": "Lakefront Arena",
+          "cap": 19000,
+          "rent": 200000,
+          "deposit": 200000
+        }
+      }
+    },
+    {
+      "id": "los_angeles",
+      "name": "Los Angeles, CA",
+      "region": "west",
+      "base_demand": 200,
+      "ref_price": 35,
+      "drive": false,
+      "drive_cost": 0,
+      "flight_cost": 320,
+      "motel": 120,
+      "hotel": 260,
+      "venues": {
+        "club": {
+          "name": "Sunset Strip Comedy Box",
+          "cap": 300,
+          "rent": 1500,
+          "deposit": 1500
+        },
+        "theater": {
+          "name": "Palisade Theatre",
+          "cap": 2400,
+          "rent": 17600,
+          "deposit": 17600
+        },
+        "arena": {
+          "name": "Pacific Forum",
+          "cap": 17500,
+          "rent": 210000,
+          "deposit": 210000
+        }
+      }
+    },
+    {
+      "id": "new_york",
+      "name": "New York, NY",
+      "region": "east",
+      "base_demand": 210,
+      "ref_price": 35,
+      "drive": false,
+      "drive_cost": 0,
+      "flight_cost": 340,
+      "motel": 140,
+      "hotel": 300,
+      "venues": {
+        "club": {
+          "name": "Bleecker Basement",
+          "cap": 220,
+          "rent": 1600,
+          "deposit": 1600
+        },
+        "theater": {
+          "name": "Hudson Hall",
+          "cap": 2500,
+          "rent": 19200,
+          "deposit": 19200
+        },
+        "arena": {
+          "name": "Hudson Garden Arena",
+          "cap": 19500,
+          "rent": 240000,
+          "deposit": 240000
+        }
+      }
+    },
+    {
+      "id": "toronto",
+      "name": "Toronto, ON",
+      "region": "international",
+      "base_demand": 140,
+      "ref_price": 30,
+      "drive": false,
+      "drive_cost": 0,
+      "flight_cost": 520,
+      "motel": 110,
+      "hotel": 230,
+      "min_fame": 20,
+      "venues": {
+        "club": {
+          "name": "Queen West Comedy Hall",
+          "cap": 260,
+          "rent": 1200,
+          "deposit": 1200
+        },
+        "theater": {
+          "name": "Danforth Music Theatre",
+          "cap": 1900,
+          "rent": 12800,
+          "deposit": 12800
+        },
+        "arena": {
+          "name": "Lakeshore Coliseum",
+          "cap": 15000,
+          "rent": 170000,
+          "deposit": 170000
+        }
+      }
+    },
+    {
+      "id": "london",
+      "name": "London, UK",
+      "region": "international",
+      "base_demand": 180,
+      "ref_price": 30,
+      "drive": false,
+      "drive_cost": 0,
+      "flight_cost": 950,
+      "motel": 140,
+      "hotel": 280,
+      "min_fame": 35,
+      "venues": {
+        "club": {
+          "name": "Soho Comedy Store Room",
+          "cap": 250,
+          "rent": 1500,
+          "deposit": 1500
+        },
+        "theater": {
+          "name": "Camden Roundhouse Stage",
+          "cap": 2000,
+          "rent": 16000,
+          "deposit": 16000
+        },
+        "arena": {
+          "name": "Thames Dome",
+          "cap": 18000,
+          "rent": 220000,
+          "deposit": 220000
+        }
+      }
+    }
+  ],
+  "openers": [
+    {
+      "id": "deshawn",
+      "name": "Deshawn Pruitt",
+      "npc": "deshawn",
+      "fee": 75,
+      "reliability": 70,
+      "style": "self_deprecating",
+      "potential": "high",
+      "desc": "Your friend from the Spur. Hungry, getting sharper, needs the reps.",
+      "breakout_shows": 6,
+      "breakout": {
+        "text": "Deshawn just landed his own Kill Tony regular spot. On air, he says: \"None of this happens without {stage} putting me on the road.\"",
+        "effects": {
+          "fame": 3,
+          "rep": 3,
+          "rel": {
+            "deshawn": {
+              "trust": 10,
+              "respect": 10
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "tasha",
+      "name": "Tasha Monroe",
+      "npc": "",
+      "fee": 150,
+      "reliability": 85,
+      "style": "high_energy",
+      "potential": "medium",
+      "desc": "A Houston club regular who warms up any room.",
+      "breakout_shows": 6,
+      "breakout": {
+        "text": "Tasha Monroe sold out her own theater run. She sends you a framed ticket stub: \"First arena I ever saw was yours.\"",
+        "effects": {
+          "rep": 3
+        }
+      }
+    },
+    {
+      "id": "benji",
+      "name": "Benji Ortiz",
+      "npc": "",
+      "fee": 50,
+      "reliability": 55,
+      "style": "absurdist",
+      "potential": "high",
+      "desc": "Brand new and weird. Brilliant some nights, gone others.",
+      "breakout_shows": 6,
+      "breakout": {
+        "text": "Benji Ortiz's weird little special went viral. Interviewers keep asking him about \"the tour that taught me to show up on time.\"",
+        "effects": {
+          "fame": 2,
+          "rep": 2
+        }
+      }
+    }
+  ]
+}

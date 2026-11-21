@@ -1,0 +1,364 @@
+{
+  "_comment": "Career opportunity templates. Evaluated each morning (world RNG). kind 'booking' creates an offer which becomes a commitment when accepted. weekday: target weekday of the booking (next occurrence at least lead_days away). conditions: min_rep, min_fame, min_sets, min_tier, job, flag, rel{npc:{field:min}}. source 'kill_tony' templates are only created by Kill Tony reward resolution.",
+  "opportunities": [
+    {
+      "id": "opp_spur_showcase",
+      "title": "Spur 'Best Of' night (paid in drink tickets)",
+      "kind": "booking",
+      "venue": "spur_open_mic",
+      "audience": "bar_crowd",
+      "weekday": 5,
+      "block": 2,
+      "slot_seconds": 300,
+      "pay": 10,
+      "npc": "dusty",
+      "chance": 0.35,
+      "lead_days": 2,
+      "expires_after_days": 2,
+      "cooldown_days": 7,
+      "conditions": {
+        "min_sets": 3,
+        "rel": {
+          "dusty": {
+            "familiarity": 6
+          }
+        }
+      },
+      "on_complete": {
+        "rep": 2.0
+      }
+    },
+    {
+      "id": "opp_lantern_showcase",
+      "title": "Lantern Room new-talent showcase",
+      "kind": "booking",
+      "venue": "lantern_showcase",
+      "weekday": 3,
+      "block": 2,
+      "slot_seconds": 300,
+      "pay": 25,
+      "npc": "bea",
+      "chance": 0.5,
+      "lead_days": 2,
+      "expires_after_days": 3,
+      "cooldown_days": 7,
+      "conditions": {
+        "min_rep": 10,
+        "min_sets": 4
+      },
+      "on_complete": {
+        "rep": 3.0,
+        "paid": true
+      }
+    },
+    {
+      "id": "opp_lantern_feature",
+      "title": "Lantern Room feature spot (10 min)",
+      "kind": "booking",
+      "venue": "lantern_showcase",
+      "weekday": 5,
+      "block": 2,
+      "slot_seconds": 600,
+      "pay": 75,
+      "npc": "bea",
+      "chance": 0.4,
+      "lead_days": 3,
+      "expires_after_days": 3,
+      "cooldown_days": 10,
+      "conditions": {
+        "min_rep": 28,
+        "rel": {
+          "bea": {
+            "respect": 8
+          }
+        }
+      },
+      "on_complete": {
+        "rep": 4.0,
+        "paid": true
+      }
+    },
+    {
+      "id": "opp_cellar_late",
+      "title": "Cellar late-show guest spot",
+      "kind": "booking",
+      "venue": "cellar_late",
+      "weekday": 4,
+      "block": 3,
+      "slot_seconds": 300,
+      "pay": 40,
+      "npc": "rhonda",
+      "chance": 0.5,
+      "lead_days": 1,
+      "expires_after_days": 2,
+      "cooldown_days": 7,
+      "conditions": {
+        "job": "doorman",
+        "rel": {
+          "rhonda": {
+            "trust": 12
+          }
+        }
+      },
+      "on_complete": {
+        "rep": 2.5,
+        "paid": true
+      }
+    },
+    {
+      "id": "opp_cellar_regular",
+      "title": "Cellar late show (recurring paid spot)",
+      "kind": "booking",
+      "venue": "cellar_late",
+      "weekday": 5,
+      "block": 3,
+      "slot_seconds": 420,
+      "pay": 60,
+      "npc": "rhonda",
+      "chance": 0.4,
+      "lead_days": 1,
+      "expires_after_days": 2,
+      "cooldown_days": 5,
+      "conditions": {
+        "min_rep": 22,
+        "rel": {
+          "rhonda": {
+            "trust": 20
+          }
+        }
+      },
+      "on_complete": {
+        "rep": 2.5,
+        "paid": true
+      }
+    },
+    {
+      "id": "opp_lonnie_opener",
+      "title": "Open for Lonnie Szabo at the Lantern Room",
+      "kind": "booking",
+      "venue": "lantern_showcase",
+      "weekday": 4,
+      "block": 2,
+      "slot_seconds": 600,
+      "pay": 100,
+      "npc": "lonnie",
+      "chance": 0.35,
+      "lead_days": 3,
+      "expires_after_days": 3,
+      "cooldown_days": 14,
+      "conditions": {
+        "min_rep": 38,
+        "rel": {
+          "lonnie": {
+            "familiarity": 10,
+            "respect": 6
+          }
+        }
+      },
+      "on_complete": {
+        "rep": 5.0,
+        "paid": true,
+        "opener": true
+      }
+    },
+    {
+      "id": "opp_deshawn_swap",
+      "title": "Deshawn's bar show (guest set)",
+      "kind": "booking",
+      "venue": "spur_open_mic",
+      "audience": "bar_crowd",
+      "weekday": 6,
+      "block": 2,
+      "slot_seconds": 240,
+      "pay": 0,
+      "npc": "deshawn",
+      "chance": 0.3,
+      "lead_days": 2,
+      "expires_after_days": 2,
+      "cooldown_days": 10,
+      "conditions": {
+        "rel": {
+          "deshawn": {
+            "chemistry": 8
+          }
+        }
+      },
+      "on_complete": {
+        "rep": 1.5,
+        "rel": {
+          "deshawn": {
+            "trust": 4
+          }
+        }
+      }
+    },
+    {
+      "id": "opp_secret_show",
+      "title": "The Secret Show (invitation)",
+      "kind": "booking",
+      "venue": "secret_show",
+      "weekday": 3,
+      "block": 2,
+      "slot_seconds": 300,
+      "pay": 100,
+      "npc": "partner_redban",
+      "source": "kill_tony",
+      "lead_days": 1,
+      "expires_after_days": 2,
+      "conditions": {},
+      "on_complete": {
+        "rep": 5.0,
+        "fame": 2.0,
+        "paid": true
+      }
+    },
+    {
+      "id": "opp_kt_opening",
+      "title": "Open for a Kill Tony panel guest (weekend)",
+      "kind": "booking",
+      "venue": "lantern_showcase",
+      "weekday": 5,
+      "block": 2,
+      "slot_seconds": 600,
+      "pay": 120,
+      "npc": "partner_host",
+      "source": "kill_tony",
+      "lead_days": 3,
+      "expires_after_days": 3,
+      "conditions": {},
+      "on_complete": {
+        "rep": 5.0,
+        "fame": 1.0,
+        "paid": true,
+        "opener": true
+      }
+    },
+    {
+      "id": "opp_secret_rebook",
+      "title": "Return to The Secret Show",
+      "kind": "booking",
+      "venue": "secret_show",
+      "weekday": 3,
+      "block": 2,
+      "slot_seconds": 420,
+      "pay": 150,
+      "npc": "partner_redban",
+      "chance": 0.5,
+      "lead_days": 2,
+      "expires_after_days": 3,
+      "cooldown_days": 14,
+      "conditions": {
+        "flag": "secret_show_done",
+        "min_rep": 30
+      },
+      "on_complete": {
+        "rep": 4.0,
+        "fame": 2.0,
+        "paid": true
+      }
+    },
+    {
+      "id": "road_lonnie_texas",
+      "title": "Road run: open for Lonnie Szabo (Houston + Dallas)",
+      "kind": "road",
+      "cities": [
+        "houston",
+        "dallas"
+      ],
+      "weekday": 4,
+      "pay_per_show": 150,
+      "slot_seconds": 420,
+      "npc": "lonnie",
+      "chance": 0.4,
+      "lead_days": 3,
+      "expires_after_days": 3,
+      "cooldown_days": 14,
+      "conditions": {
+        "min_tier": 4,
+        "rel": {
+          "lonnie": {
+            "respect": 8
+          }
+        }
+      },
+      "on_complete": {
+        "rep": 3.0,
+        "rel": {
+          "lonnie": {
+            "trust": 5
+          }
+        }
+      }
+    },
+    {
+      "id": "road_headliner_west",
+      "title": "Road run: open for a touring headliner (Denver + Los Angeles)",
+      "kind": "road",
+      "cities": [
+        "denver",
+        "los_angeles"
+      ],
+      "weekday": 3,
+      "pay_per_show": 200,
+      "slot_seconds": 420,
+      "npc": "bea",
+      "chance": 0.3,
+      "lead_days": 4,
+      "expires_after_days": 3,
+      "cooldown_days": 14,
+      "conditions": {
+        "min_rep": 42,
+        "min_tier": 4
+      },
+      "on_complete": {
+        "rep": 4.0,
+        "fame": 1.0
+      }
+    },
+    {
+      "id": "road_kt_tour",
+      "title": "Road run: open on a Kill Tony panelist's weekend (Chicago + Nashville)",
+      "kind": "road",
+      "cities": [
+        "chicago",
+        "nashville"
+      ],
+      "weekday": 4,
+      "pay_per_show": 250,
+      "slot_seconds": 420,
+      "npc": "partner_redban",
+      "chance": 0.35,
+      "lead_days": 4,
+      "expires_after_days": 3,
+      "cooldown_days": 21,
+      "conditions": {
+        "min_tier": 4,
+        "flag": "secret_show_done"
+      },
+      "on_complete": {
+        "rep": 4.0,
+        "fame": 2.0
+      }
+    },
+    {
+      "id": "opp_kt_panel",
+      "title": "Sit on the Kill Tony panel",
+      "kind": "kt_panel",
+      "venue": "kill_tony",
+      "weekday": 0,
+      "block": 2,
+      "slot_seconds": 0,
+      "pay": 0,
+      "npc": "partner_redban",
+      "chance": 0.5,
+      "lead_days": 2,
+      "expires_after_days": 3,
+      "cooldown_days": 21,
+      "conditions": {
+        "min_tier": 6,
+        "min_fame": 35
+      },
+      "on_complete": {}
+    }
+  ]
+}

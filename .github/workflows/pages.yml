@@ -1,0 +1,74 @@
+# Builds the browser version of the game and publishes it to GitHub Pages.
+# Runs on every push to main (and can be started by hand from the Actions tab).
+# One-time setup: Settings -> Pages -> Build and deployment -> Source: "GitHub Actions".
+name: Deploy web build to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+env:
+  GODOT_URL: https://github.com/godotengine/godot/releases/download/4.3-stable
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache Godot and web export templates
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: ~/godot
+          key: godot-4.3-stable-web
+
+      - name: Download Godot 4.3 and web export templates
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ~/godot && cd ~/godot
+          curl -sSL -o godot.zip "$GODOT_URL/Godot_v4.3-stable_linux.x86_64.zip"
+          unzip -q godot.zip && rm godot.zip
+          curl -sSL -o templates.tpz "$GODOT_URL/Godot_v4.3-stable_export_templates.tpz"
+          unzip -q templates.tpz "templates/web_*" "templates/version.txt" && rm templates.tpz
+
+      - name: Install export templates
+        run: |
+          mkdir -p ~/.local/share/godot/export_templates/4.3.stable
+          cp ~/godot/templates/* ~/.local/share/godot/export_templates/4.3.stable/
+
+      - name: Import project
+        run: ~/godot/Godot_v4.3-stable_linux.x86_64 --headless --path . --import
+
+      - name: Run tests
+        run: ~/godot/Godot_v4.3-stable_linux.x86_64 --headless --path . -s res://tests/run_tests.gd
+
+      - name: Export web build
+        run: |
+          mkdir -p build/web
+          ~/godot/Godot_v4.3-stable_linux.x86_64 --headless --path . --export-release "Web" build/web/index.html
+          test -f build/web/index.wasm
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/web
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

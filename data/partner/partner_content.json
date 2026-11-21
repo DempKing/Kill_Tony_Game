@@ -1,0 +1,140 @@
+{
+  "_comment": "PARTNER CONTENT PACKAGE. Everything referring to real people, the show's identity, and partner-specific rules lives here so it can be reviewed and replaced as a unit. Nothing in this file is approved yet. Real people are represented by name and role only: figures are generic placeholder looks, NOT likenesses. No logos, recordings, or music are used. Panel guests other than the host and Redban are fictional.",
+  "approval_status": "pending_partner_review",
+  "show": {
+    "name": "Kill Tony",
+    "venue_location": "mothership",
+    "night_weekday": 0,
+    "logo_asset": "",
+    "logo_placeholder_text": "KILL TONY  ·  placeholder signage"
+  },
+  "characters": {
+    "partner_host": {
+      "display_name": "Tony Hinchcliffe",
+      "label": "Tony",
+      "role": "Host of Kill Tony",
+      "approved": false,
+      "color": "#e0d0ff",
+      "look": {
+        "skin": "#e2b892",
+        "hair": "#2b1d14",
+        "outfit": "#1c1c26",
+        "pants": "#15151c",
+        "accent": "#e8e8f0",
+        "hair_style": 0,
+        "_note": "generic placeholder look, not a likeness"
+      }
+    },
+    "partner_redban": {
+      "display_name": "Brian Redban",
+      "label": "Redban",
+      "role": "Kill Tony co-creator and producer; runs sound and drops; invites comics to The Secret Show",
+      "approved": false,
+      "color": "#ff7a7a",
+      "look": {
+        "skin": "#e6c0a0",
+        "hair": "#3a2a20",
+        "outfit": "#3a3e46",
+        "pants": "#22242a",
+        "accent": "#c84040",
+        "hair_style": 4,
+        "_note": "generic placeholder look, not a likeness"
+      }
+    },
+    "band_leader": {
+      "display_name": "House Band (placeholder)",
+      "label": "Band",
+      "role": "Band",
+      "approved": false,
+      "color": "#aac8ff"
+    }
+  },
+  "lines": {
+    "bucket_intro": "Tony reaches into the bucket. Redban cues up a drop. The room gets loud. Names start getting pulled.",
+    "called_up": "Tony squints at the slip. \"{stage}! Get up here!\" The crowd turns to look at you. Somebody yells, \"Look at {him}, {he}'s shaking!\" You have one minute.",
+    "not_called": "Tony pulls the last name of the night. It isn't yours. The show goes on, and you watch every set like homework.",
+    "panel_reactions": {
+      "low": [
+        "The panel exchanges a long look. Redban plays a sad trombone.",
+        "Somebody on the panel is quietly writing nothing down."
+      ],
+      "mid": [
+        "The panel nods. A couple of real laughs in there.",
+        "Tony leans into the mic: 'Okay. Okay. There's something there.'"
+      ],
+      "high": [
+        "The panel is laughing. Tony slaps the desk.",
+        "Big applause. Redban hits an air horn and the band joins in."
+      ]
+    },
+    "redban_invite": "Redban leans into his mic from the sound desk: 'You should come do The Secret Show on Thursday.'",
+    "golden_ticket": "Tony holds up a golden ticket. Redban hits every drop he has. The room explodes.",
+    "joke_book": "Tony hands you a joke book. 'Fill this up.'",
+    "opening_offer": "One of tonight's guest comics catches you backstage: 'I've got a weekend at the Lantern. Want to open?'",
+    "regular_intro": "No bucket for you tonight. Tony reads the lineup: \"...and one of our regulars, {stage}!\" Redban hits your walk-on drop. Remember: the panel expects new material.",
+    "panel_intro": "Tony introduces you: \"Our guest tonight came up through this very bucket. Give it up for {stage}!\" Redban plays you on.\n\nYou take your seat at the desk, right next to Tony. Tonight you're the one judging."
+  },
+  "guest_pool": [
+    {
+      "id": "guest_mara",
+      "name": "Mara Quill",
+      "color": "#ffd27a",
+      "female": true,
+      "style": "storytelling"
+    },
+    {
+      "id": "guest_dex",
+      "name": "Dex Halloran",
+      "color": "#7affd2",
+      "female": false,
+      "style": "absurdist"
+    },
+    {
+      "id": "guest_june",
+      "name": "June Okoro",
+      "color": "#ff9ad2",
+      "female": true,
+      "style": "observational"
+    },
+    {
+      "id": "guest_rocco",
+      "name": "Rocco Vance",
+      "color": "#9ad0ff",
+      "female": false,
+      "style": "high_energy"
+    },
+    {
+      "id": "guest_lena",
+      "name": "Lena Brandt",
+      "color": "#c8ff9a",
+      "female": true,
+      "style": "deadpan"
+    },
+    {
+      "id": "guest_gil",
+      "name": "Gil Tamura",
+      "color": "#ffb07a",
+      "female": false,
+      "style": "self_deprecating"
+    },
+    {
+      "id": "guest_skip",
+      "name": "Skip Delacroix",
+      "color": "#d0a8ff",
+      "female": false,
+      "style": "storytelling"
+    },
+    {
+      "id": "guest_nina",
+      "name": "Nina Ruiz",
+      "color": "#7ad8ff",
+      "female": true,
+      "style": "observational"
+    }
+  ],
+  "_guest_pool_note": "Fictional placeholder guest comedians. Real guest comedians are not modelled yet.",
+  "panel_guest_count": [
+    1,
+    3
+  ]
+}

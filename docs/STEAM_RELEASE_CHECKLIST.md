@@ -1,0 +1,26 @@
+# Steam Release Checklist
+
+Legend: ✅ verified · 🟡 implemented, not verified · ⬜ not started
+
+| Item | Status | Notes |
+|---|---|---|
+| Runs without Steam client/credentials | 🟡 | `NullPlatform` is the only adapter selected |
+| Platform adapter interface | 🟡 | `scripts/platform/platform_adapter.gd` |
+| Steam SDK integration (e.g. GodotSteam) | ⬜ | `SteamPlatform` is a stub and never selected |
+| App ID / depots / builds | ⬜ | |
+| Achievements defined on Steam | ⬜ | Local hooks exist: first_set, first_bomb, bucket_pull, secret_show, first_paid_set |
+| Achievement unlock via Steam | ⬜ | |
+| Steam Cloud (Auto-Cloud on the save folder) | ⬜ | Saves are organized under one folder (`user://saves`) to make this simple |
+| Save migrations | 🟡 | `SaveMigrations` v0→v1; tests written, not run |
+| Malformed-save recovery | 🟡 | `.bak` fallback |
+| Overlay / focus loss safety | 🟡 | No real-time timers affect gameplay decisions; choices are untimed |
+| Controller navigation | 🟡 | Focusable buttons, focus outlines, default ui_* actions |
+| Settings (display/audio/accessibility/remap) | 🟡 | |
+| Windows export preset | 🟡 | Release export builds a single .exe (pack embedded). Not yet launched on Windows; exe icon/metadata needs rcedit |
+| Dev tools excluded from release | 🟡 | Release preset has no `dev` tag; `OS.is_debug_build()` is false in release templates |
+| Approved partner assets | ⬜ | See ASSET_APPROVALS.md |
+| Performance profiling | ⬜ | |
+| Store page, ratings, legal review of partner content | ⬜ | |
+
+Nothing is ✅ yet. The game and its tests have been run in Godot on Linux, but no
+Windows export and no Steam environment have been tested.

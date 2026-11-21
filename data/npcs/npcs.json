@@ -1,0 +1,342 @@
+{
+  "_comment": "Eight recurring FICTIONAL NPCs. Schedules: first matching entry wins; days are weekdays 0=Mon..6=Sun or \"all\". Real/partner figures live in data/partner/ only.",
+  "npcs": [
+    {
+      "id": "mari",
+      "name": "Marisol 'Mari' Vega",
+      "role": "Hostel manager",
+      "color": "#ffb46b",
+      "schedule": [
+        {
+          "days": "all",
+          "blocks": [
+            0,
+            1,
+            2
+          ],
+          "location": "hostel"
+        }
+      ],
+      "lines": {
+        "stranger": [
+          "Bunk's yours. Rent's due weekly. I don't do sob stories, but I do do payment plans."
+        ],
+        "known": [
+          "You're still here! That's more than most comics manage.",
+          "Somebody left a joke book in the kitchen. Not yours, right? Good."
+        ],
+        "close": [
+          "I told my sister about you. She asked when you're on TV. No pressure."
+        ]
+      },
+      "gender": "female"
+    },
+    {
+      "id": "deshawn",
+      "name": "Deshawn Pruitt",
+      "role": "Fellow new comic",
+      "color": "#6bd0ff",
+      "schedule": [
+        {
+          "days": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "blocks": [
+            2,
+            3
+          ],
+          "location": "rusty_spur"
+        },
+        {
+          "days": [
+            0
+          ],
+          "blocks": [
+            1,
+            2
+          ],
+          "location": "mothership"
+        },
+        {
+          "days": "all",
+          "blocks": [
+            1
+          ],
+          "location": "coffee"
+        },
+        {
+          "days": "all",
+          "blocks": [
+            0
+          ],
+          "location": "hostel"
+        }
+      ],
+      "workshop": true,
+      "lines": {
+        "stranger": [
+          "You new? I'm Deshawn. Four months in. Still bombing, but faster now."
+        ],
+        "known": [
+          "You want to workshop something? I'll trade you a tag for a tag.",
+          "I've put my name in that bucket nineteen times. Twentieth is the charm."
+        ],
+        "close": [
+          "When you make it, you better put me on your shows. I'm serious. Half serious."
+        ]
+      },
+      "workshop_gives": "tag",
+      "gender": "male"
+    },
+    {
+      "id": "gus",
+      "name": "Gus Hollander",
+      "role": "Diner manager",
+      "color": "#ff6b6b",
+      "schedule": [
+        {
+          "days": "all",
+          "blocks": [
+            0,
+            1,
+            2
+          ],
+          "location": "diner"
+        }
+      ],
+      "lines": {
+        "stranger": [
+          "Need work? I always need a server. Nobody stays. Comedians especially."
+        ],
+        "known": [
+          "You show up on time. You'd be amazed how rare that is.",
+          "If you're doing comedy, do a bit about my eggs. They're famous."
+        ],
+        "close": [
+          "Take Thursday off if you need it. I've got you covered."
+        ]
+      },
+      "gender": "male"
+    },
+    {
+      "id": "rhonda",
+      "name": "Rhonda Kettle",
+      "role": "Cellar club manager",
+      "color": "#ff4fa3",
+      "schedule": [
+        {
+          "days": "all",
+          "blocks": [
+            2,
+            3
+          ],
+          "location": "cellar"
+        }
+      ],
+      "lines": {
+        "stranger": [
+          "Door staff only back here. Unless you want a job. Then talk."
+        ],
+        "known": [
+          "Reliable door people are rarer than funny comics.",
+          "Keep showing up and I'll find you a late spot."
+        ],
+        "close": [
+          "Late show's yours if you want it. Don't make me regret it."
+        ]
+      },
+      "gender": "female"
+    },
+    {
+      "id": "priya",
+      "name": "Priya Natarajan",
+      "role": "Barista and aspiring writer",
+      "color": "#9cf2b0",
+      "schedule": [
+        {
+          "days": "all",
+          "blocks": [
+            0,
+            1,
+            2
+          ],
+          "location": "coffee"
+        }
+      ],
+      "lines": {
+        "stranger": [
+          "Writing? Corner table has the outlet. Don't tell the screenplay guys."
+        ],
+        "known": [
+          "I read your notebook upside down. Your second joke's better than your first.",
+          "Free refill if you tell me a premise."
+        ],
+        "close": [
+          "I submitted a script to a festival. Your notes helped. Seriously."
+        ]
+      },
+      "workshop": true,
+      "workshop_gives": "punchline",
+      "gender": "female"
+    },
+    {
+      "id": "dusty",
+      "name": "Wade 'Dusty' Ames",
+      "role": "Open-mic host at the Rusty Spur",
+      "color": "#ff9a3a",
+      "schedule": [
+        {
+          "days": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "blocks": [
+            1,
+            2,
+            3
+          ],
+          "location": "rusty_spur"
+        }
+      ],
+      "lines": {
+        "stranger": [
+          "List goes up at seven. Five bucks at the bar gets you on it. Three minutes. When the light goes on, you wrap it up."
+        ],
+        "known": [
+          "Your timing's getting better. Your jokes are... also there.",
+          "Respect the light. I mean it."
+        ],
+        "close": [
+          "I'm putting you up early tonight. Real crowd, not just comics."
+        ]
+      },
+      "gender": "male"
+    },
+    {
+      "id": "bea",
+      "name": "Beatrice 'Bea' Calloway",
+      "role": "Lantern Room booker",
+      "color": "#ffe27a",
+      "schedule": [
+        {
+          "days": [
+            3,
+            4,
+            5,
+            6
+          ],
+          "blocks": [
+            1,
+            2
+          ],
+          "location": "lantern"
+        }
+      ],
+      "lines": {
+        "stranger": [
+          "I book this room. I watch the open mics. I'll find you if you're ready."
+        ],
+        "known": [
+          "I've heard good things. Keep getting up.",
+          "Don't overrun my showcase. I will remember."
+        ],
+        "close": [
+          "I've got a feature spot coming up. You're on my short list."
+        ]
+      },
+      "gender": "female"
+    },
+    {
+      "id": "lonnie",
+      "name": "Lonnie Szabo",
+      "role": "Touring headliner",
+      "color": "#c0a0ff",
+      "schedule": [
+        {
+          "days": [
+            3,
+            4,
+            5
+          ],
+          "blocks": [
+            2,
+            3
+          ],
+          "location": "lantern"
+        },
+        {
+          "days": [
+            6
+          ],
+          "blocks": [
+            3
+          ],
+          "location": "cellar"
+        }
+      ],
+      "lines": {
+        "stranger": [
+          "Headliner. Twenty years on the road. Don't ask me for advice unless you want a lot of it."
+        ],
+        "known": [
+          "Write every day. Even the bad days. Especially the bad days.",
+          "The minute is the hardest thing in comedy. Short setups."
+        ],
+        "close": [
+          "I need an opener for a weekend run eventually. Stay sharp."
+        ]
+      },
+      "gender": "male"
+    }
+  ],
+  "bucket_names": {
+    "first": [
+      "Kyle",
+      "Marcus",
+      "Jen",
+      "Tomas",
+      "Ashley",
+      "Big Ron",
+      "Priscilla",
+      "Dev",
+      "Hector",
+      "Morgan",
+      "Ike",
+      "Tasha",
+      "Benji",
+      "Wes",
+      "Luz",
+      "Carter",
+      "Nadia",
+      "Theo",
+      "Rae",
+      "Gordo"
+    ],
+    "last": [
+      "Pruett",
+      "Okafor",
+      "Delgado",
+      "Barnes",
+      "Whitlock",
+      "Nguyen",
+      "Steele",
+      "Moreau",
+      "Hatch",
+      "Kowalski",
+      "Reyes",
+      "Thorne",
+      "Lindqvist",
+      "Abara",
+      "Fitch"
+    ]
+  }
+}

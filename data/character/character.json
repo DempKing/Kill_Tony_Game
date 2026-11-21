@@ -1,0 +1,228 @@
+{
+  "genders": [
+    {
+      "id": "male",
+      "label": "Male",
+      "subject": "he",
+      "object": "him",
+      "possessive": "his",
+      "noun": "guy"
+    },
+    {
+      "id": "female",
+      "label": "Female",
+      "subject": "she",
+      "object": "her",
+      "possessive": "her",
+      "noun": "woman"
+    }
+  ],
+  "appearance": {
+    "skin": [
+      "#f1d2b6",
+      "#d9a77f",
+      "#b07a52",
+      "#7d4f32",
+      "#4b2e1f"
+    ],
+    "hair": [
+      "#1d1a18",
+      "#5a3a22",
+      "#a8743d",
+      "#d9c07a",
+      "#b8b8b8",
+      "#c2452d"
+    ],
+    "outfit": [
+      "#3a5f8f",
+      "#8f3a4a",
+      "#3f7a52",
+      "#6b4f8f",
+      "#c98a2b",
+      "#2f2f36"
+    ]
+  },
+  "backgrounds": [
+    {
+      "id": "server_vet",
+      "name": "Restaurant Lifer",
+      "desc": "Ten years of doubles taught you to read a table in a glance.",
+      "skills": {
+        "crowd_work": 3.0
+      },
+      "starting_components": [
+        "comp_diner_p"
+      ],
+      "hooks": [
+        "restaurant"
+      ],
+      "job_bonus": {
+        "server": {
+          "tips_mult": 1.1
+        }
+      }
+    },
+    {
+      "id": "tech_dropout",
+      "name": "Laid-off QA Tester",
+      "desc": "You found bugs for a living. Now you find punchlines.",
+      "skills": {
+        "writing": 3.0
+      },
+      "starting_components": [
+        "comp_delivery_p",
+        "comp_techbros_p",
+        "comp_techbros_alt"
+      ],
+      "hooks": [
+        "tech"
+      ],
+      "job_bonus": {}
+    },
+    {
+      "id": "theater_kid",
+      "name": "Community Theater Kid",
+      "desc": "You've played a tree, a teapot, and Lear. You are not afraid of a stage.",
+      "skills": {
+        "stage_presence": 3.0
+      },
+      "starting_components": [
+        "comp_heat_p",
+        "comp_heat_ao"
+      ],
+      "hooks": [
+        "theater"
+      ],
+      "job_bonus": {}
+    },
+    {
+      "id": "small_town",
+      "name": "Small-Town Kid",
+      "desc": "Population 900. Your parents still don't know what an open mic is.",
+      "skills": {
+        "delivery": 2.0
+      },
+      "confidence": 5,
+      "starting_components": [
+        "comp_parents_p",
+        "comp_parents_s"
+      ],
+      "hooks": [
+        "small_town",
+        "family"
+      ],
+      "job_bonus": {}
+    },
+    {
+      "id": "ex_bouncer",
+      "name": "Former Bouncer",
+      "desc": "You've thrown out bigger hecklers than any comic has faced.",
+      "skills": {
+        "crowd_work": 2.0
+      },
+      "starting_components": [
+        "comp_door_p"
+      ],
+      "hooks": [
+        "bouncer"
+      ],
+      "job_bonus": {
+        "doorman": {
+          "reliability_start": 20
+        }
+      }
+    }
+  ],
+  "styles": [
+    {
+      "id": "observational",
+      "name": "Observational",
+      "desc": "Noticing what everyone sees but nobody says."
+    },
+    {
+      "id": "storytelling",
+      "name": "Storytelling",
+      "desc": "Longer bits that build. Rewards patient audiences."
+    },
+    {
+      "id": "deadpan",
+      "name": "Deadpan",
+      "desc": "Flat delivery. Recovers well from silence."
+    },
+    {
+      "id": "self_deprecating",
+      "name": "Self-Deprecating",
+      "desc": "You are the punchline. Recovers well, but reads oddly after a big win."
+    },
+    {
+      "id": "absurdist",
+      "name": "Absurdist",
+      "desc": "Strange turns. Original material lands harder."
+    },
+    {
+      "id": "high_energy",
+      "name": "High-Energy",
+      "desc": "Act-outs and volume. Burns more energy."
+    }
+  ],
+  "books": [
+    {
+      "id": "starter_journal",
+      "name": "Original Joke Journal",
+      "capacity": 3,
+      "desc": "Worn, coffee-stained, sentimental. You'll never throw it away."
+    },
+    {
+      "id": "small_book",
+      "name": "Small Joke Book",
+      "capacity": 5,
+      "desc": "A clean little notebook with room to think."
+    },
+    {
+      "id": "medium_book",
+      "name": "Medium Joke Book",
+      "capacity": 8,
+      "desc": "A proper writer's notebook."
+    },
+    {
+      "id": "large_book",
+      "name": "Large Joke Book",
+      "capacity": 12,
+      "desc": "A thick leather book. People notice it on the table."
+    }
+  ],
+  "housing": [
+    {
+      "id": "bunkhouse",
+      "name": "Bunkhouse Hostel bunk",
+      "location": "hostel",
+      "weekly": 140,
+      "rest": 45,
+      "stress": -6,
+      "deposit": 0,
+      "desc": "Twelve bunks, one window unit, endless strangers."
+    },
+    {
+      "id": "deshawn_couch",
+      "name": "Deshawn's couch",
+      "location": "hostel",
+      "weekly": 0,
+      "rest": 30,
+      "stress": 4,
+      "deposit": 0,
+      "fallback": true,
+      "desc": "A friend's lumpy couch in the hostel common room. Free, but not restful."
+    },
+    {
+      "id": "oak_room",
+      "name": "Oak Street Apartments: basic room",
+      "location": "apartments",
+      "weekly": 215,
+      "rest": 62,
+      "stress": -12,
+      "deposit": 300,
+      "min_tier": 1,
+      "desc": "A door that locks and a window that opens. Luxury."
+    }
+  ]
+}
