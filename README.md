@@ -5,40 +5,31 @@ You arrive in Austin, Texas with $180, a bag, and a journal of bad jokes.
 Work bad jobs, find material, write, bomb, improve, and try to turn a Kill
 Tony bucket pull into a career.
 
-> **Status:** Phase 1 (Austin arrival) and the Phase 2 Kill Tony slice run
-> in Godot 4.3.
-> - The project imports with no script errors.
-> - Phase 4 touring is built.
-> - Phase 5 (arenas, opener mentorship, Kill Tony panel guest) is built. All automated tests pass (917 checks, 0 skipped).
-> - An automated playtest drives the real game from the title screen through
->   an open mic, a full Kill Tony night and a three-city tour, and screenshots
->   each step.
-> - A Windows release export builds.
-> - Art pass done. Everything is still original procedural placeholder art: a
->   shared character renderer, a lit district with day/night, distinct
->   stages, and an animated title screen.
-> - Not yet done: running the export on Windows, and a human playtest with
->   keyboard or controller.
+## [▶ Play in your browser](https://dempking.github.io/Kill_Tony_Game/)
+
+[![Play now](https://img.shields.io/badge/%E2%96%B6%20PLAY%20NOW-in%20your%20browser-b88cff?style=for-the-badge)](https://dempking.github.io/Kill_Tony_Game/)
+
+No install needed: **https://dempking.github.io/Kill_Tony_Game/**. Click the
+page once to enable sound. Progress saves in your browser.
+
+> **Status:** prototype. All six phases run in Godot 4.3: Austin arrival,
+> Kill Tony nights, the living Austin career, touring, arenas and legacy, and
+> a Steam stub.
+> - **3D:** the street, the clubs, tour venues and the Kill Tony stage are 3D.
+>   Art is CC0 from Poly Haven and Quaternius; nothing is partner-approved.
+> - **Tests:** 944 automated checks pass, and a scripted playtest drives the
+>   game from the title screen to an arena show.
+> - **Not yet done:** a human playtest, running the Windows build on Windows,
+>   frame-rate checks on real GPUs, and Steam.
 >
 > See [docs/IMPLEMENTATION_STATUS.md](docs/IMPLEMENTATION_STATUS.md).
 
-## Play in the browser
+## Browser build
 
 Every push to `main` runs the tests, builds the web version, and publishes it
-to GitHub Pages (`.github/workflows/pages.yml`). It will be at
-`https://dempking.github.io/Kill_Tony_Game/` once the one-time setup below is
-done.
-
-To set it up:
-1. Merge this work into `main`.
-2. Make the repository public. GitHub Pages is free for public repositories;
-   private ones need a paid plan.
-3. In Settings → Pages → Build and deployment → Source, choose "GitHub Actions".
-4. In the Actions tab, run "Deploy web build to GitHub Pages" (or push to `main`).
-
-The browser build saves progress in the browser's storage. It works in
-Chrome, Edge and Firefox. So far it has only been tested in headless Chromium,
-not on real hardware.
+to GitHub Pages (`.github/workflows/pages.yml`). Use a desktop browser
+(Chrome, Edge or Firefox) with WebGL 2. It has been tested in headless
+Chromium only, not yet on real hardware.
 
 ## Engine
 
